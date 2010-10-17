@@ -21,8 +21,7 @@ public class Main {
         CmdLineParser.Option actionOption = parser.addStringOption('a', "action");
         CmdLineParser.Option profileOption = parser.addStringOption('p', "profile");
         CmdLineParser.Option keywordsOption = parser.addStringOption('k', "keywords");
-
-
+        
         parser.parse(args);
 
         String actionValue = (String) parser.getOptionValue(actionOption);
@@ -31,8 +30,7 @@ public class Main {
         
 
         if (StringUtils.isEmpty(actionValue) 
-                || StringUtils.isEmpty(profileValue)
-                 || StringUtils.isEmpty(keywordsValue)) {
+                || StringUtils.isEmpty(profileValue)) {
            System.err.println(
                     "Error: missing one of the required parameters \n "
                     + " 1.action or 2.profile  or 3. keywords \n");
@@ -40,16 +38,15 @@ public class Main {
             System.exit(1);
 
         }
-
-        List<String> keywords = getLinesInFile(keywordsValue);
+        
         showMessage();
         
         if (actionValue.equals("test")) {
+            List<String> keywords = getLinesInFile(keywordsValue);
             new SiteManager().run(ProfileManager.getProfile(profileValue), keywords);
-        } else if (actionValue.equals("generate")) {
-            new SiteManager().createSiteFromDB(ProfileManager.getProfile(profileValue), keywords);
-        } else if (actionValue.equals("store")) {
-            new SiteManager().store(ProfileManager.getProfile(profileValue),keywords);
+            
+        }else if (actionValue.equals("store")) {
+            new SiteManager().store(ProfileManager.getProfile(profileValue));
         } else {
             System.err.println(
                     "Error: Unknown action :: " + actionValue
@@ -77,7 +74,6 @@ public class Main {
                 + " where options are \n"
                 + " -k, --keywords \t keywords file \n"
                 + " -a, --action \t select action, one of [test|store|generate] \n"
-                + " \t action: generate \t generate html pages from DB \n"
                 + " \t action: store \t store results in db \n"
                 + " \t action: test \t generate test html pages \n"
                 + " -p, --profile \t profile.xml containg drivers and meta information \n\n") ;

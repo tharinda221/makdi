@@ -3,11 +3,7 @@ package webgloo.makdi.html;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.WordUtils;
 import webgloo.makdi.data.Link;
-import webgloo.makdi.db.DBConnection;
-import webgloo.makdi.db.DBManager;
-import webgloo.makdi.html.HtmlGenerator;
 import webgloo.makdi.util.MyStringUtil;
 
 /**
@@ -16,7 +12,7 @@ import webgloo.makdi.util.MyStringUtil;
  */
 public class MenuManager {
 
-    
+    /*
     private String siteAddress ;
    
 
@@ -45,5 +41,6 @@ public class MenuManager {
         //push all links inside menu template
         return HtmlGenerator.generateVerticalMenuCode(links);
         
-    }
+    }*/
+    
 }
