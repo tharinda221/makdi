@@ -51,6 +51,14 @@ public class RssDriver implements IDriver {
         
     }
 
+    public RssDriver(Transformer transformer,String feedURI, int maxResults) {
+        this.feedURI = feedURI;
+        this.maxResults = maxResults ;
+        this.transformer = transformer;
+        this.isExternal = true ;
+
+    }
+    
     public RssDriver(Transformer transformer,int source) {
         this.feedURI = null ;
         this.source = source ;
@@ -97,14 +105,13 @@ public class RssDriver implements IDriver {
         List<SyndEntry> entries = feed.getEntries();
 
         for (SyndEntry entry : entries) {
+            System.out.println(entry.toString());
             feeds.add(createNews(entry));
 
         }
         //wait betweeb results
         Thread.sleep(REQUEST_DELAY);
-
-
-
+        
         return feeds;
 
     }

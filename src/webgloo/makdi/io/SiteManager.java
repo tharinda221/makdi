@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.WordUtils;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.db.DBConnection;
-import webgloo.makdi.db.DBManager;
 import webgloo.makdi.drivers.IDriver;
 import webgloo.makdi.html.HtmlPage;
-import webgloo.makdi.html.MenuManager;
 import webgloo.makdi.profile.IProfile;
 import webgloo.makdi.util.MyStringUtil;
 import webgloo.makdi.util.MyWriter;
@@ -56,11 +53,17 @@ public class SiteManager {
 
     }
 
-    public void store(IProfile profile,List<String> keywords) throws Exception {
+    public void store(IProfile profile) throws Exception {
 
+        KeywordsManager.loadNewKeywords(profile);
+        
+        /*
         List<IDriver> drivers = profile.getDrivers();
         java.sql.Connection connection = DBConnection.getConnection();
 
+        
+        List<String> keywords = DBManager.loadKeywords(profile);
+        
         //run this profile and store data in DB
         for (String keyword : keywords) {
             MyWriter.toConsole("\n** start process :: " + keyword);
@@ -104,12 +107,15 @@ public class SiteManager {
 
 
             } //loop:drivers
+            
             MyWriter.toConsole("\n** end process :: " + keyword);
         } //loop:keywords
 
-        connection.close();
+        connection.close(); */
+        
     }
 
+    /*
     public void createPageFromDB(
             java.sql.Connection connection,
             String appId,
@@ -178,5 +184,6 @@ public class SiteManager {
         //close DB connection for site
         connection.close();
         MyWriter.toConsole("\n*** created site *** " + profile.getSiteDomain());
-    }
+    } */
+    
 }

@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.html.HtmlGenerator;
 import webgloo.makdi.util.MyStringUtil;
 import webgloo.makdi.util.MyWriter;
 

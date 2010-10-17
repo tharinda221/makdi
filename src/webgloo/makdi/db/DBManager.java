@@ -3,6 +3,7 @@ package webgloo.makdi.db;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
+import webgloo.makdi.profile.IProfile;
 
 /**
  *
@@ -10,6 +11,7 @@ import webgloo.makdi.data.IData;
  */
 public class DBManager {
 
+    /*
     public static List<String> getAllPageIds(
             java.sql.Connection connection,
             String appId) throws Exception {
@@ -60,7 +62,8 @@ public class DBManager {
 
         return sb.toString();
 
-    }
+    } */
+    
 
     public static void storeItems(
             java.sql.Connection connection,
@@ -103,6 +106,16 @@ public class DBManager {
         } //loop:items
         
         pstmt.close();
+
+    }
+
+    public static List<String> loadKeywords(IProfile profile) {
+        
+        List<String> keywords = new ArrayList<String>();
+        
+
+        return keywords ;
+
 
     }
 }

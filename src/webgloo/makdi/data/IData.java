@@ -9,7 +9,8 @@ public interface IData {
 
     String toHtml() throws Exception;
     String getTitle() ;
-    //String getDriver();
+    
+    //@todo move to a common location
     String IMAGE_404_URI = "/art/common/images/image-404.jpg" ;
     
 }
