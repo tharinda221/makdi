@@ -45,7 +45,13 @@ public class SampleProfile implements IProfile {
         drivers.add(new YahooBossDriver(new Transformer("intitle:","+book"),siteNames,2));
         return drivers;
     }
-    
+
+    @Override
+    public IDriver getFrontPageDriver() {
+        //return google news driver
+        return new RssDriver(new Transformer(),1,2);
+    }
+
     @Override
     public String getSiteGuid() {
         return "7dc53df5-703e-49b3-8670-b1c468f47f1f";

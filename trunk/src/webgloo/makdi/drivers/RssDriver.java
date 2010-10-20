@@ -105,7 +105,6 @@ public class RssDriver implements IDriver {
         List<SyndEntry> entries = feed.getEntries();
 
         for (SyndEntry entry : entries) {
-            System.out.println(entry.toString());
             feeds.add(createNews(entry));
 
         }
