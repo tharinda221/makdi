@@ -50,7 +50,7 @@ public class Main {
         } else {
             System.err.println(
                     "Error: Unknown action :: " + actionValue
-                    + "\n Makdi can process test | generate | store");
+                    + "\n Makdi can process test | store");
             System.exit(1);
         }
         

@@ -2,14 +2,32 @@ package webgloo.makdi.db;
 
 import java.util.ArrayList;
 import java.util.List;
-import webgloo.makdi.data.IData;
-import webgloo.makdi.profile.IProfile;
+import webgloo.makdi.data.Keyword;
+
 
 /**
  *
  * @author rajeevj
+ *
  */
+
 public class DBManager {
+
+     public static void storeKeywords(java.sql.Connection connection,List<Keyword> keywords) throws Exception{
+        //store keyword is not there already
+        
+
+
+    }
+
+    public static List<String> loadKeywords(java.sql.Connection connection,String appId) throws Exception{
+        //store keyword is not there already
+        List<String> keywords = new ArrayList<String>();
+        return keywords ;
+        
+    }
+
+    
 
     /*
     public static List<String> getAllPageIds(
@@ -62,7 +80,7 @@ public class DBManager {
 
         return sb.toString();
 
-    } */
+    } 
     
 
     public static void storeItems(
@@ -107,15 +125,7 @@ public class DBManager {
         
         pstmt.close();
 
-    }
+    }*/
 
-    public static List<String> loadKeywords(IProfile profile) {
-        
-        List<String> keywords = new ArrayList<String>();
-        
-
-        return keywords ;
-
-
-    }
+   
 }

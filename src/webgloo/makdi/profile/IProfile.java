@@ -13,5 +13,7 @@ public interface IProfile {
     
     String getSiteDomain();
     String getSiteName();
+
+    IDriver getFrontPageDriver();
     
 }

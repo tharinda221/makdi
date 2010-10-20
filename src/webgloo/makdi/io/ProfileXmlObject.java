@@ -19,11 +19,22 @@ public class ProfileXmlObject implements IProfile{
     private String siteGuid ;
     
     private List<IDriver> drivers ;
+
+    private IDriver frontPageDriver ;
+    
     //default constrcutor
     public ProfileXmlObject() {
         this.drivers = new ArrayList<IDriver>();
     }
+
+    public IDriver getFrontPageDriver() {
+        return this.frontPageDriver;
+    }
     
+    public void  setFrontPageDriver(IDriver fdriver) {
+        this.frontPageDriver = fdriver ;
+    }
+
     public List<IDriver> getDrivers() {
         return drivers;
     }
