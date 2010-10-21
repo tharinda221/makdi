@@ -1,4 +1,4 @@
-package webgloo.makdi.io;
+package webgloo.makdi.processor;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,13 +16,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.Keyword;
+import webgloo.makdi.io.URLReader;
 
 /**
  *
  * @author rajeevj
  *
  */
-public class KeywordsManager {
+public class GoogleHotTrendKeywords {
 
     public static List<Keyword> loadNewKeywords() throws Exception {
         //hard code for now

@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.File;
 import java.io.FileOutputStream;
 import webgloo.makdi.profile.GoogleHotTrendProfile;
-import webgloo.makdi.profile.IProfile;
+import webgloo.makdi.profile.IProfileBean;
 
 /**
  *
@@ -14,7 +14,7 @@ import webgloo.makdi.profile.IProfile;
 public class ObjectXmlBridge {
     
    
-    public String encodeXStreamXml(IProfile profile) throws Exception {
+    public String encodeXStreamXml(IProfileBean profile) throws Exception {
         ProfileXmlObject bean = new ProfileXmlObject();
         bean.setDrivers(profile.getDrivers());
         bean.setSiteDomain(profile.getSiteDomain());

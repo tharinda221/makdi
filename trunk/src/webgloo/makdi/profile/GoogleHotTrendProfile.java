@@ -10,7 +10,7 @@ import webgloo.makdi.drivers.Transformer;
  * @author rajeevj
  */
 
-public class GoogleHotTrendProfile implements IProfile {
+public class GoogleHotTrendProfile implements IProfileBean {
 
     @Override
     public String getSiteDomain() {
@@ -45,4 +45,6 @@ public class GoogleHotTrendProfile implements IProfile {
         return "7dc53df5-703e-49b3-8670-b1c468f47f1f";
 
     }
+        
+
 }

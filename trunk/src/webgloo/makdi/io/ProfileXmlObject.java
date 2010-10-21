@@ -4,7 +4,7 @@ package webgloo.makdi.io;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.IDriver;
-import webgloo.makdi.profile.IProfile;
+import webgloo.makdi.profile.IProfileBean;
 
 
 /**
@@ -12,7 +12,7 @@ import webgloo.makdi.profile.IProfile;
  * @author rajeevj
  */
 
-public class ProfileXmlObject implements IProfile{
+public class ProfileXmlObject implements IProfileBean{
 
     private String siteDomain;
     private String siteName ;
@@ -67,9 +67,7 @@ public class ProfileXmlObject implements IProfile{
     public void setSiteGuid(String siteGuid) {
         this.siteGuid = siteGuid;
     }
-
-
-
+    
     public void addDriver(IDriver driver) {
         this.drivers.add(driver);
     }
