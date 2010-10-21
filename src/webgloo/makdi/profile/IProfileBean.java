@@ -7,13 +7,14 @@ import webgloo.makdi.drivers.IDriver;
  *
  * @author rajeevj
  */
-public interface IProfile {
+public interface IProfileBean {
+
     String getSiteGuid() ;
     List<IDriver> getDrivers();
     
     String getSiteDomain();
     String getSiteName();
-
     IDriver getFrontPageDriver();
+    
     
 }

@@ -10,7 +10,7 @@ import webgloo.makdi.drivers.Transformer;
  * @author rajeevj
  */
 
-public class MovieBookProfile implements IProfile {
+public class MovieBookProfile implements IProfileBean {
 
     @Override
     public String getSiteDomain() {

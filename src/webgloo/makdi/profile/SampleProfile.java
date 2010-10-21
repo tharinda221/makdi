@@ -10,7 +10,7 @@ import webgloo.makdi.drivers.Transformer;
  * @author rajeevj
  */
 
-public class SampleProfile implements IProfile {
+public class SampleProfile implements IProfileBean {
 
     @Override
     public String getSiteDomain() {
@@ -57,4 +57,6 @@ public class SampleProfile implements IProfile {
         return "7dc53df5-703e-49b3-8670-b1c468f47f1f";
 
     }
+    
+     
 }

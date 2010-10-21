@@ -4,7 +4,6 @@ import jargs.gnu.CmdLineParser;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import webgloo.makdi.io.MyFileReader;
-import webgloo.makdi.io.SiteManager;
 import webgloo.makdi.profile.ProfileManager;
 import webgloo.makdi.util.MyWriter;
 
@@ -28,32 +27,23 @@ public class Main {
         String profileValue = (String) parser.getOptionValue(profileOption);
         String keywordsValue = (String) parser.getOptionValue(keywordsOption);
         
+        checkForEmpty("action" , actionValue);
+        checkForEmpty("profile" ,profileValue);
+        showMessage();
+        
+        ProfileManager.process(profileValue);
+        
+        
+    }
 
-        if (StringUtils.isEmpty(actionValue) 
-                || StringUtils.isEmpty(profileValue)) {
-           System.err.println(
-                    "Error: missing one of the required parameters \n "
-                    + " 1.action or 2.profile  or 3. keywords \n");
+    private static void checkForEmpty(String key, String value) {
+        if (StringUtils.isEmpty(value)) {
+           System.err.println("Error: missing  required parameter " + key);
             printUsage();
             System.exit(1);
 
         }
-        
-        showMessage();
-        
-        if (actionValue.equals("test")) {
-            List<String> keywords = getLinesInFile(keywordsValue);
-            new SiteManager().run(ProfileManager.getProfile(profileValue), keywords);
-            
-        }else if (actionValue.equals("store")) {
-            new SiteManager().store(ProfileManager.getProfile(profileValue));
-        } else {
-            System.err.println(
-                    "Error: Unknown action :: " + actionValue
-                    + "\n Makdi can process test | store");
-            System.exit(1);
-        }
-        
+
     }
     
     private static List<String> getLinesInFile(String fileName) throws Exception {

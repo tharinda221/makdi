@@ -27,6 +27,20 @@ public class DBManager {
         
     }
 
+    public static void storePageContent(String orgId,
+            String pageName,
+            String title,
+            String summary ,
+            String content){
+
+            //1. create a new page called gloo_page
+            //2. store content in newly created page
+            //3. store summary in gloo_posts table
+            //4. Mark keyword as processed
+            
+
+        
+    }
     
 
     /*
