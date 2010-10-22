@@ -8,6 +8,26 @@ package webgloo.makdi.data;
 public class Keyword {
     private String token ;
     private String date ;
+    private String createdOn;
+    private String seoKey ;
+
+    public String getSeoKey() {
+        return seoKey;
+    }
+
+    public void setSeoKey(String seoKey) {
+        this.seoKey = seoKey;
+    }
+
+    
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
     
     public String getDate() {
         return date;

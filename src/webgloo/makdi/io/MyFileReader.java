@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import webgloo.makdi.util.MyStringUtil;
+import webgloo.makdi.util.MyUtils;
 
 /**
  *
@@ -43,7 +43,7 @@ public class MyFileReader {
 
             word = word.trim();
             if (!StringUtils.isBlank(word)) {
-                word = MyStringUtil.squeeze(word);
+                word = MyUtils.squeeze(word);
                 list.add(word);
 
             }

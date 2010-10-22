@@ -1,0 +1,29 @@
+<profile>
+  <siteDomain>sample.indigloo.net</siteDomain>
+  <siteName>sample.indigloo.net - all profiles</siteName>
+  <siteGuid>1019</siteGuid>
+  <drivers>
+    <webgloo.makdi.drivers.RssDriver>
+      <maxResults>2</maxResults>
+      <source>1</source>
+      <transformer/>
+      <isExternal>false</isExternal>
+    </webgloo.makdi.drivers.RssDriver>
+    <webgloo.makdi.drivers.YoutubeDriver>
+      <maxResults>1</maxResults>
+      <transformer>
+        <suffix>trailer</suffix>
+      </transformer>
+    </webgloo.makdi.drivers.YoutubeDriver>
+    <webgloo.makdi.drivers.YahooAnswerDriver>
+      <maxResults>4</maxResults>
+      <transformer/>
+    </webgloo.makdi.drivers.YahooAnswerDriver>
+  </drivers>
+  <frontPageDriver class="webgloo.makdi.drivers.RssDriver">
+    <maxResults>2</maxResults>
+    <source>1</source>
+    <transformer/>
+    <isExternal>false</isExternal>
+  </frontPageDriver>
+</profile>

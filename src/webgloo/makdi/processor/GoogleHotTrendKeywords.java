@@ -58,8 +58,9 @@ public class GoogleHotTrendKeywords {
             link = link.substring(pos1+3);
             int pos2 = link.indexOf("&date=");
             Keyword keyword = new Keyword();
-
-            keyword.setToken(link.substring(0, pos2));
+            String token = link.substring(0, pos2);
+            //Google hot trend keywords are url encoded
+            keyword.setToken(java.net.URLDecoder.decode(token, "UTF-8"));
             keyword.setDate(link.substring(pos2+6, pos2+16));
             keywords.add(keyword);
         }

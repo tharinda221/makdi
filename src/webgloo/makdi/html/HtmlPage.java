@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.util.MyStringUtil;
+import webgloo.makdi.util.MyUtils;
 import webgloo.makdi.util.MyWriter;
 
 /**
@@ -44,7 +44,7 @@ public class HtmlPage {
         
          //get first letter from tag
         String letter = pageId.charAt(0) + "";
-        String pageName = MyStringUtil.convertPageIdToName(pageId);
+        String pageName = MyUtils.convertPageIdToName(pageId);
         
 
         String sitePath = executionPath

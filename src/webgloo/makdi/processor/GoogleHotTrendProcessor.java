@@ -5,7 +5,7 @@ import org.apache.commons.lang.WordUtils;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Keyword;
 import webgloo.makdi.db.DBConnection;
-import webgloo.makdi.db.DBManager;
+import webgloo.makdi.db.AutoPostManager;
 import webgloo.makdi.drivers.IDriver;
 import webgloo.makdi.profile.IProfileBean;
 import webgloo.makdi.util.MyWriter;
@@ -16,21 +16,27 @@ import webgloo.makdi.util.MyWriter;
  */
 public class GoogleHotTrendProcessor {
 
+    //@todo check lock - if lock in place then dont process
     public static void invoke(IProfileBean profileBean) throws Exception {
-        //first refresh the keywords
-        List<Keyword> newKeywords = GoogleHotTrendKeywords.loadNewKeywords();
+
         java.sql.Connection connection = DBConnection.getConnection();
-        //plug in logic to remove duplicate keywords 
+        //fetch keywords for this hour
+        List<Keyword> newKeywords = GoogleHotTrendKeywords.loadNewKeywords();
+        AutoPostManager.storeKeywords(connection, profileBean.getSiteGuid(), newKeywords);
+
+        //Now load back unprocessed keys
+        List<Keyword> unprocessedKeywords = AutoPostManager.loadKeywords(connection, profileBean.getSiteGuid());
+                
         List<IDriver> drivers = profileBean.getDrivers();
 
-        for (Keyword keyword : newKeywords) {
-
-            MyWriter.toConsole("\n** start process :: " + keyword);
+        for (Keyword keyword : unprocessedKeywords) {
+            MyWriter.toConsole("\n** start process :: " + keyword.getToken());
             String token = WordUtils.capitalizeFully(keyword.getToken());
             //String pageId = MyStringUtil.convertPageNameToId(keyword);
             StringBuilder content = new StringBuilder();
             StringBuilder summary = new StringBuilder();
-
+            String title = null ;
+            
             int count = 0;
 
             //get content
@@ -46,24 +52,25 @@ public class GoogleHotTrendProcessor {
             List<IData> items = profileBean.getFrontPageDriver().run(token);
             for (IData item : items) {
                 summary.append(item.toHtml());
+                title = item.getTitle();
                 count++;
             }
 
             //store summary and  content
             if (count > 0) {
                 //store content for this keyword
-                DBManager.storePageContent(connection,
+                AutoPostManager.storePostContent(connection,
                         profileBean.getSiteGuid(),
-                        token,
-                        " automated ocontent for " + token,
+                        keyword,
+                        title,
                         summary.toString(),
                         content.toString());
 
             }
-
-            MyWriter.toConsole("\n** summary :: " + summary.toString());
-            MyWriter.toConsole("\n** end process :: " + keyword);
-
+            
+            MyWriter.toConsole("\n** end process :: " + keyword.getToken());
+            //sleep for 1s
+            Thread.sleep(1000);
         } //loop: keywords
 
         connection.close();
