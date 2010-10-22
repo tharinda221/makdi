@@ -4,7 +4,7 @@ package webgloo.makdi.html;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.Link;
-import webgloo.makdi.util.MyStringUtil;
+import webgloo.makdi.util.MyUtils;
 
 /**
  *
@@ -31,7 +31,7 @@ public class MenuManager {
         for(String pageId : pageIds) {
             String nameOnDisk = pageId ;
             String letter = "" +pageId.charAt(0);
-            String pageName = MyStringUtil.convertPageIdToName(pageId);
+            String pageName = MyUtils.convertPageIdToName(pageId);
             String addressOfPage = this.siteAddress + "/" + letter + "/" + nameOnDisk + ".html" ;
             Link link = new Link (pageName,addressOfPage);
             links.add(link);

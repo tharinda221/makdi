@@ -1,12 +1,14 @@
 package webgloo.makdi.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import org.apache.commons.lang.WordUtils;
 
 /**
  *
  * @author rajeevj
  */
-public class MyStringUtil {
+public class MyUtils {
 
     public static String squeeze(String s) {
         char[] a = s.toCharArray();
@@ -80,16 +82,26 @@ public class MyStringUtil {
 
     public static String convertPageNameToId(String pageName) {
         //convert  pageName into pageId
-        return squeezeAndReplaceAndLower(pageName,'-');
-        
+        return squeezeAndReplaceAndLower(pageName, '-');
+
     }
 
-    
-    /*
-    public static void main(String[] args) {
-    String s = MyStringUtil.squeezeAndReplace(" abc      def xys y s y s", '-');
-    System.out.println("["+s+"]");
+    public static String getUUID() {
+        java.util.UUID uuid = java.util.UUID.randomUUID();
+        return uuid.toString();
+    }
 
-    }*/
+    public static String now() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(cal.getTime());
+
+    }
+
+    public static void main(String[] args) {
+        String s = MyUtils.now();
+        System.out.println("[" + s + "]");
+
+    }
 }
 

@@ -14,19 +14,19 @@ public class GoogleHotTrendProfile implements IProfileBean {
 
     @Override
     public String getSiteDomain() {
-        return "sample.indigloo.net" ;
+        return null ;
     }
 
     @Override
     public String getSiteName() {
-        return "sample.indigloo.net - all profiles";
+        return null;
     }
     
     @Override
     public List<IDriver> getDrivers() {
         //Decide on what drivers to load
         List<IDriver> drivers = new ArrayList<IDriver>();
-        drivers.add(new GoogleSearchControlDriver(new Transformer()));
+        
         //Google news is 1 
         drivers.add(new RssDriver(new Transformer(),1,2));
         drivers.add(new YoutubeDriver(new Transformer(null, "trailer"), 1));
@@ -42,7 +42,7 @@ public class GoogleHotTrendProfile implements IProfileBean {
 
     @Override
     public String getSiteGuid() {
-        return "7dc53df5-703e-49b3-8670-b1c468f47f1f";
+        return null;
 
     }
         
