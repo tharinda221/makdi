@@ -4,9 +4,11 @@ import java.util.List;
 import org.apache.commons.lang.WordUtils;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Keyword;
+import webgloo.makdi.data.News;
 import webgloo.makdi.db.DBConnection;
 import webgloo.makdi.db.AutoPostManager;
 import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.html.HtmlGenerator;
 import webgloo.makdi.profile.IProfileBean;
 import webgloo.makdi.util.MyWriter;
 
@@ -32,7 +34,7 @@ public class GoogleHotTrendProcessor {
         for (Keyword keyword : unprocessedKeywords) {
             MyWriter.toConsole("\n** start process :: " + keyword.getToken());
             String token = WordUtils.capitalizeFully(keyword.getToken());
-            //String pageId = MyStringUtil.convertPageNameToId(keyword);
+            
             StringBuilder content = new StringBuilder();
             StringBuilder summary = new StringBuilder();
             String title = null ;
@@ -51,7 +53,7 @@ public class GoogleHotTrendProcessor {
             //get summary
             List<IData> items = profileBean.getFrontPageDriver().run(token);
             for (IData item : items) {
-                summary.append(item.toHtml());
+                summary.append(HtmlGenerator.generateAutoPostNews((News)item));
                 title = item.getTitle();
                 count++;
             }
