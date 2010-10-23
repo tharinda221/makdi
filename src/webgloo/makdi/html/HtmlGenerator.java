@@ -113,6 +113,15 @@ public class HtmlGenerator {
         st.setAttribute("link", news.getLink());
         return st.toString();
 
+    }
+
+    public static String generateAutoPostNews(News news) {
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/autopost-news");
+        st.setAttribute("title", news.getTitle());
+        st.setAttribute("description", news.getDescription());
+        
+        return st.toString();
 
     }
 

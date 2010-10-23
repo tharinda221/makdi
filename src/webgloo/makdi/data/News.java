@@ -9,8 +9,6 @@ import webgloo.makdi.html.HtmlGenerator;
  */
 public class News implements IData{
 
-
-
     private String title ;
     private String newsId ;
     private String source ;

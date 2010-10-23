@@ -21,6 +21,9 @@ public class AutoPostManager {
         //mySQL timestamps are in form 2010-10-22 21:14:45
         for (Keyword keyword : keywords) {
             String createdOn = keyword.getDate() + " " + MyUtils.now();
+            //wait 1 second before pushing in new keyword
+            // This will esnure that keywords are spaced right
+            Thread.sleep(1000);
             addGlooAutoPostKeyword(connection, orgId, keyword.getToken(), createdOn);
 
         }
@@ -58,7 +61,7 @@ public class AutoPostManager {
 
         String SQL =
                 " select token,seo_key,created_on from gloo_auto_keyword where org_id = "
-                + orgId + " and is_processed = 0  order by created_on DESC";
+                + orgId + " and is_processed = 0 ";
 
         java.sql.Statement stmt = connection.createStatement();
         java.sql.ResultSet rs = stmt.executeQuery(SQL);
