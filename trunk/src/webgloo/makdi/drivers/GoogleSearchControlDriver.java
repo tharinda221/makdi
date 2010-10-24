@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.GoogleSearchControl;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.util.MyWriter;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -14,7 +14,6 @@ import webgloo.makdi.util.MyWriter;
 public class GoogleSearchControlDriver implements IDriver {
 
     
-    public final static int REQUEST_DELAY = 1000 ;
     private Transformer transformer ;
 
     public GoogleSearchControlDriver(Transformer transformer) {
@@ -26,19 +25,26 @@ public class GoogleSearchControlDriver implements IDriver {
        return IDriver.GOOGLE_AJAX_CONTROL_DRIVER ;
     }
 
+
+    @Override
+    public long getDelay() {
+        return 1000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
-
+        MyTrace.entry("GoogleSearchControlDriver", "run()");
         tag = this.transformer.transform(tag);
         //Urlencode the tag
         //tag = java.net.URLEncoder.encode(tag, "UTF-8");
 
         List<IData> items = new ArrayList<IData>();
 
-        MyWriter.toConsole("creating google search control :: keyword :: " + tag);
+        MyTrace.info("Google Cse :: keyword :: " + tag);
         items.add(new GoogleSearchControl(tag));
-        //wait between results
-        Thread.sleep(REQUEST_DELAY);
+        
+        MyTrace.exit("GoogleSearchControlDriver", "run()");
+
         return items;
 
     }

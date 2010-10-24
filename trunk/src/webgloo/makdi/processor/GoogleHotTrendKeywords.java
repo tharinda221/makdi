@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.Keyword;
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -26,6 +27,8 @@ import webgloo.makdi.io.URLReader;
 public class GoogleHotTrendKeywords {
 
     public static List<Keyword> loadNewKeywords() throws Exception {
+
+        MyTrace.entry("GoogleHotTrendKeywords", "loadNewKeywords()");
         //hard code for now
         String address = "http://www.google.com/trends/hottrends/atom/hourly";
         String response = URLReader.read(address);
@@ -65,6 +68,8 @@ public class GoogleHotTrendKeywords {
             keywords.add(keyword);
         }
 
+        MyTrace.exit("GoogleHotTrendKeywords", "loadNewKeywords()");
+        
         return keywords ;
 
     }

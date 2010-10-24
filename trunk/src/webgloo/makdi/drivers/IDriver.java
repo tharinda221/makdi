@@ -11,6 +11,7 @@ public interface IDriver {
     
     List<IData> run(String tag) throws Exception;
     String getName() ;
+    long getDelay();
 
     //list all the known drivers in our system
     String GOOGLE_BASE_DRIVER  = "GOOGLE_BASE_DRIVER";

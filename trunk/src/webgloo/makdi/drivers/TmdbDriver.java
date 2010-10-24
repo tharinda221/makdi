@@ -16,8 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Movie;
-import webgloo.makdi.util.MyWriter;
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -29,7 +29,7 @@ public class TmdbDriver implements IDriver {
 
     public static final String TMDB_SEARCH_URI = "http://api.themoviedb.org/2.1/Movie.search/en/xml/{APIKEY}/{TOKEN}";
     public static final String TMDB_API_KEY = "e74d3bcf14aa8637d0c489701efa4ab0";
-    public final static int REQUEST_DELAY = 3000;
+
     private Transformer transformer;
 
     public TmdbDriver(Transformer transformer) {
@@ -41,8 +41,16 @@ public class TmdbDriver implements IDriver {
         return IDriver.TMDB_DRIVER;
     }
 
+
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
+
+        MyTrace.entry("TmdbDriver", "run()");
 
         tag = this.transformer.transform(tag);
         //Urlencode the tag
@@ -52,7 +60,7 @@ public class TmdbDriver implements IDriver {
         String address = TMDB_SEARCH_URI.replace("{TOKEN}", tag);
         address = address.replace("{APIKEY}", TMDB_API_KEY);
         String response = URLReader.read(address);
-        MyWriter.toConsole(" sending request to :: " + address);
+        MyTrace.info(" sending request to :: " + address);
         Movie movie = tryGetMovie(response);
 
         if (movie != null) {
@@ -60,8 +68,9 @@ public class TmdbDriver implements IDriver {
             //MyWriter.toConsole(movie.toString());
         }
 
-        //wait between results
-        Thread.sleep(REQUEST_DELAY);
+        
+        MyTrace.exit("TmdbDriver", "run()");
+
         return items;
 
 

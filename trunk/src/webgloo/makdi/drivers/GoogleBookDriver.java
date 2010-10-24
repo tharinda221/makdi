@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.Book;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.util.MyWriter;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -21,8 +21,7 @@ import webgloo.makdi.util.MyWriter;
  */
 public class GoogleBookDriver implements IDriver {
 
-    //default 3 sec delay between requests
-    public static final long REQUEST_DELAY = 30000;
+    
     public static final int MAX_RESULTS = 5;
     public static final String FEED_URL = "http://www.google.com/books/feeds/volumes";
 
@@ -45,9 +44,17 @@ public class GoogleBookDriver implements IDriver {
         return IDriver.GOOGLE_BOOK_DRIVER ;
     }
 
+
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
-        
+
+        MyTrace.entry("GoogleBookDriver", "run()");
+
         tag = this.transformer.transform(tag);
         tag = java.net.URLEncoder.encode(tag, "UTF-8");
 
@@ -59,7 +66,7 @@ public class GoogleBookDriver implements IDriver {
         query.setFullTextQuery(tag);
         query.setMinViewability(VolumeQuery.MinViewability.NONE);
         //query.setMinViewability(VolumeQuery.MinViewability.PARTIAL);
-        MyWriter.toConsole("Sending request to: " + query.getUrl());
+        MyTrace.info("Sending request to: " + query.getUrl());
         VolumeFeed volumeFeed = service.query(query, VolumeFeed.class);
 
         List<VolumeEntry> entries = volumeFeed.getEntries();
@@ -68,8 +75,9 @@ public class GoogleBookDriver implements IDriver {
         if (entries.size() > 0) {
             items.add(createBook(entries.get(0)));
         }
-        //delay between two requests?
-        Thread.sleep(REQUEST_DELAY);
+        
+        MyTrace.exit("GoogleBookDriver", "run()");
+        
         return items;
 
     }

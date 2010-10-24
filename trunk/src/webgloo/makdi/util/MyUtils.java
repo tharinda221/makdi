@@ -3,6 +3,7 @@ package webgloo.makdi.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import org.apache.commons.lang.WordUtils;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -11,6 +12,8 @@ import org.apache.commons.lang.WordUtils;
 public class MyUtils {
 
     public static String squeeze(String s) {
+        MyTrace.entry("MyUtils", "squeeze()");
+
         char[] a = s.toCharArray();
         int N = 1;
         for (int i = 1; i < a.length; i++) {
@@ -24,10 +27,16 @@ public class MyUtils {
                 N++;
             }
         }
+
+        MyTrace.exit("MyUtils", "squeeze()");
+
         return new String(a, 0, N);
     }
 
     public static String squeezeAndReplace(String s, char c) {
+
+        MyTrace.entry("MyUtils", "squeezeAndReplace()");
+
         s = s.trim();
         char[] a = s.toCharArray();
         int N = 1;
@@ -48,6 +57,9 @@ public class MyUtils {
 
             }
         }
+
+        MyTrace.exit("MyUtils", "squeezeAndReplace()");
+
         return new String(a, 0, N);
     }
 
