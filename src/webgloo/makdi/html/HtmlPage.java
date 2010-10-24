@@ -6,8 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 import webgloo.makdi.data.IData;
+import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.util.MyUtils;
-import webgloo.makdi.util.MyWriter;
 
 /**
  *
@@ -23,13 +23,14 @@ public class HtmlPage {
             String pageId,
             List<IData> items) throws Exception{
 
+        MyTrace.entry("HtmlPage", "createPage(items)");
         StringBuilder sb = new StringBuilder();
         for(IData item: items) {
             sb.append(item.toHtml());
 
         }
         HtmlPage.createPage(siteName, siteDomain, menuHtml, pageId, sb.toString());
-        
+        MyTrace.exit("HtmlPage", "createPage(items)");
     }
 
     public static void createPage(
@@ -39,7 +40,7 @@ public class HtmlPage {
             String pageId,
             String pageContent) throws Exception{
 
-
+        MyTrace.entry("HtmlPage", "createPage(content)");
         String executionPath = System.getProperty("user.dir");
         
          //get first letter from tag
@@ -58,7 +59,7 @@ public class HtmlPage {
         File siteDirectory = new File(sitePath);
         if (!siteDirectory.exists()) {
             siteDirectory.mkdirs();
-            MyWriter.toConsole("created new site directory :: " + siteDirectory);
+            MyTrace.info("created new site directory :: " + siteDirectory);
         }
 
         String nameOnDisk = pageId;
@@ -70,8 +71,9 @@ public class HtmlPage {
         BufferedWriter out = new BufferedWriter(fstream);
         out.write(content);
         out.close();
-        MyWriter.toConsole("\n *** Wrote file => " + outf.getAbsolutePath() + "\n\n ");
 
+        MyTrace.info("\n *** Wrote file => " + outf.getAbsolutePath() + "\n\n ");
+        MyTrace.exit("HtmlPage", "createPage(content)");
     }
     
 }

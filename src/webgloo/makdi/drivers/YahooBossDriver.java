@@ -16,8 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Post;
-import webgloo.makdi.util.MyWriter;
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -31,7 +31,7 @@ public class YahooBossDriver implements IDriver {
     public final static String BOSS_ARGUMENT = "\"{token}\"{site}?appid={applicationId}&count={count}&format=xml";
     //BOSS is no limits API right now
     // but again lets play it safe!
-    public final static int REQUEST_DELAY = 2000;
+
     public final static int MAX_RESULTS = 10;
     private int maxResults;
     private String[] siteNames = null;
@@ -53,9 +53,16 @@ public class YahooBossDriver implements IDriver {
     public String getName() {
         return IDriver.YAHOO_BOSS_DRIVER;
     }
-
+    
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+    
     @Override
     public List<IData> run(String tag) throws Exception {
+        MyTrace.entry("YahooBossDriver", "run()");
+
         if(this.siteNames == null ) {
             throw new Exception("No site names have been supplied to Yahoo BOSS");
         }
@@ -71,17 +78,19 @@ public class YahooBossDriver implements IDriver {
             }
         }
 
+        MyTrace.exit("YahooBossDriver", "run()");
         return items;
 
     }
 
     public List<IData> getPosts(String siteName,String tag) throws Exception {
 
+        MyTrace.entry("YahooBossDriver", "run()");
         List<IData> items = new ArrayList<IData>();
 
         //create address
         String address = createAddress(siteName,tag);
-        MyWriter.toConsole("sending request to :: " + address);
+        MyTrace.info("sending request to :: " + address);
         
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
@@ -118,10 +127,7 @@ public class YahooBossDriver implements IDriver {
         }
 
         is.close();
-
-        //wait between runs
-        Thread.sleep(REQUEST_DELAY);
-
+        MyTrace.exit("YahooBossDriver", "run()");
         return items;
     }
 

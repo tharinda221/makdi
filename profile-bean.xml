@@ -1,22 +1,24 @@
 <profile>
-  <siteDomain>sample.indigloo.net</siteDomain>
-  <siteName>sample.indigloo.net - all profiles</siteName>
-  <siteGuid>1019</siteGuid>
+  <siteDomain>www.abcd.com</siteDomain>
+  <siteName>ABCD site</siteName>
+  <siteGuid>1169</siteGuid>
   <drivers>
     <webgloo.makdi.drivers.RssDriver>
-      <maxResults>2</maxResults>
+      <maxResults>4</maxResults>
       <source>1</source>
       <transformer/>
       <isExternal>false</isExternal>
     </webgloo.makdi.drivers.RssDriver>
+    <webgloo.makdi.drivers.TwitterDriver>
+      <maxResults>10</maxResults>
+      <transformer/>
+    </webgloo.makdi.drivers.TwitterDriver>
     <webgloo.makdi.drivers.YoutubeDriver>
-      <maxResults>1</maxResults>
-      <transformer>
-        <suffix>trailer</suffix>
-      </transformer>
+      <maxResults>3</maxResults>
+      <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
     <webgloo.makdi.drivers.YahooAnswerDriver>
-      <maxResults>4</maxResults>
+      <maxResults>5</maxResults>
       <transformer/>
     </webgloo.makdi.drivers.YahooAnswerDriver>
   </drivers>

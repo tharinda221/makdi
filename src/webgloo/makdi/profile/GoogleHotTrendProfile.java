@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.*;
 import webgloo.makdi.drivers.Transformer;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -14,23 +15,28 @@ public class GoogleHotTrendProfile implements IProfileBean {
 
     @Override
     public String getSiteDomain() {
-        return null ;
+        return "www.abcd.com" ;
     }
 
     @Override
     public String getSiteName() {
-        return null;
+        return "ABCD site";
     }
     
     @Override
     public List<IDriver> getDrivers() {
+        MyTrace.entry("GoogleHotTrendProfile", "getDrivers()");
         //Decide on what drivers to load
         List<IDriver> drivers = new ArrayList<IDriver>();
         
         //Google news is 1 
-        drivers.add(new RssDriver(new Transformer(),1,2));
-        drivers.add(new YoutubeDriver(new Transformer(null, "trailer"), 1));
+        drivers.add(new RssDriver(new Transformer(),1,4));
+        drivers.add(new TwitterDriver(new Transformer(),10));
+        drivers.add(new YoutubeDriver(new Transformer(),4));
         drivers.add(new YahooAnswerDriver(new Transformer(),4));
+        
+        MyTrace.exit("GoogleHotTrendProfile", "getDrivers()");
+        
         return drivers;
     }
 
@@ -42,7 +48,7 @@ public class GoogleHotTrendProfile implements IProfileBean {
 
     @Override
     public String getSiteGuid() {
-        return null;
+        return "1019";
 
     }
         

@@ -8,7 +8,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.VanillaList;
-import webgloo.makdi.util.MyWriter;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -18,8 +18,7 @@ import webgloo.makdi.util.MyWriter;
 public class TwitterDriver implements IDriver {
 
     public final static int MAX_RESULTS = 20;
-    //default rate limit for twitter API is 150/hour only!
-    public final static int REQUEST_DELAY = 30000;
+    
     private int maxResults;
     private Transformer transformer;
 
@@ -38,9 +37,17 @@ public class TwitterDriver implements IDriver {
         return IDriver.TWITTER_DRIVER;
     }
 
+
+    @Override
+    public long getDelay() {
+        //only 150 requests /hour allowed
+        return 20000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
-        
+        MyTrace.entry("TwitterDriver", "run()");
+
         tag = this.transformer.transform(tag);
         //Urlencode the tag
         //tag = java.net.URLEncoder.encode(tag, "UTF-8");
@@ -50,30 +57,42 @@ public class TwitterDriver implements IDriver {
         //wrap in quotes
         Query q = new Query("\"" + tag + "\"");
         q.setRpp(this.maxResults);
-        MyWriter.toConsole("sending twitter request :: " + q.getQuery());
-        List<Tweet> tweets = client.search(q).getTweets();
+        MyTrace.info("sending twitter request :: " + q.getQuery());
+
+        List<Tweet> tweets = new ArrayList<Tweet>();
+        boolean doWait = false;
+
+        try {
+            tweets = client.search(q).getTweets();
+            doWait = true;
+        } catch (Exception ex) {
+            MyTrace.error("Error in twitter client ..");
+            doWait = false;
+
+        }
+
 
         VanillaList list = new VanillaList("Tweets");
-       
+
         //collect data from all feeds and populate one list
         for (Tweet tweet : tweets) {
             //create a string item
             String data = tweet.getText();
             if (tweet.getLocation() != null) {
                 data = data + " (" + tweet.getLocation() + ") ";
-                
+
             }
-            
+
             //System.out.println(data);
             list.add(data);
 
         }
-        
+
         //Add list to return items
         List<IData> items = new ArrayList<IData>();
         items.add(list);
-        //wait between results
-        Thread.sleep(REQUEST_DELAY);
+        
+        MyTrace.exit("TwitterDriver", "run()");
         return items;
 
     }
@@ -85,7 +104,7 @@ public class TwitterDriver implements IDriver {
         String tag = "despicable me";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
-            MyWriter.toConsole(item.toHtml());
+            MyTrace.info(item.toHtml());
         }
 
     }

@@ -16,8 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.Answer;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.util.MyWriter;
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -29,7 +29,7 @@ public class YahooAnswerDriver implements IDriver {
     public final static int MAX_RESULTS = 10;
     public final static String YAHOO_YQL_URI = "http://query.yahooapis.com/v1/public/yql?q=";
     public final static String YAHOO_ANSWER_YQL = "select * from answers.search(0,{endIndex}) where query=\"{token}\" and search_in=\"question\" ";
-    public final static int REQUEST_DELAY = 3000;
+
 
     private int maxResults;
     private Transformer transformer ;
@@ -48,9 +48,16 @@ public class YahooAnswerDriver implements IDriver {
     public String getName() {
         return IDriver.YAHOO_ANSWER_DRIVER;
     }
-
+    
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+    
     @Override
     public List<IData> run(String tag) throws Exception {
+        MyTrace.entry("YahooAnswerDriver", "run()");
+
         tag = this.transformer.transform(tag);
         
         String query = YAHOO_ANSWER_YQL.replace("{token}", tag);
@@ -61,14 +68,14 @@ public class YahooAnswerDriver implements IDriver {
         String address = YAHOO_YQL_URI + query;
 
         //fetch response
-        MyWriter.toConsole("sending request to :: " + address);
+        MyTrace.info("sending request to :: " + address);
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
         
         List<IData> items = new ArrayList<IData>();
         items = parseResponse(response);
-        //wait between results
-        Thread.sleep(REQUEST_DELAY);
+        
+        MyTrace.exit("YahooAnswerDriver", "run()");
         return items;
 
     }

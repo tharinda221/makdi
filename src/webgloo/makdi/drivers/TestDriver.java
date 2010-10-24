@@ -14,8 +14,7 @@ public class TestDriver implements IDriver {
 
    
     public final static int MAX_RESULTS = 10;
-    public final static int REQUEST_DELAY = 1000 ;
-    
+
     private int maxResults ;
     
     public TestDriver() {
@@ -32,6 +31,13 @@ public class TestDriver implements IDriver {
         return "TEST_DRIVER";
     }
 
+
+    @Override
+    public long getDelay() {
+        return 1000 ;
+    }
+
+
     @Override
     public List<IData> run(String tag) throws Exception {
 
@@ -42,8 +48,7 @@ public class TestDriver implements IDriver {
             TestData t = new TestData("Test :: " + i);
             items.add(t);
         }
-        //wait betweeb results
-        Thread.sleep(REQUEST_DELAY);
+        
         return items;
 
     }

@@ -3,6 +3,7 @@ package webgloo.makdi.db;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.Keyword;
+import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.util.MyUtils;
 
 /**
@@ -17,6 +18,8 @@ public class AutoPostManager {
             String orgId,
             List<Keyword> keywords) throws Exception {
 
+         //Add entry and exit tracing for public methods
+         MyTrace.entry("AutoPostManager", "storeKeywords()");
         //store keyword if not there already
         //mySQL timestamps are in form 2010-10-22 21:14:45
         for (Keyword keyword : keywords) {
@@ -27,6 +30,8 @@ public class AutoPostManager {
             addGlooAutoPostKeyword(connection, orgId, keyword.getToken(), createdOn);
 
         }
+        
+        MyTrace.exit("AutoPostManager", "storeKeywords()");
 
     }
 
@@ -56,6 +61,7 @@ public class AutoPostManager {
             java.sql.Connection connection,
             String orgId) throws Exception {
 
+        MyTrace.entry("AutoPostManager", "loadKeywords()");
         //store keyword is not there already
         List<Keyword> keywords = new ArrayList<Keyword>();
 
@@ -79,6 +85,8 @@ public class AutoPostManager {
         stmt.close();
         rs.close();
 
+        MyTrace.exit("AutoPostManager", "loadKeywords()");
+        
         return keywords;
 
     }
@@ -89,6 +97,8 @@ public class AutoPostManager {
             String title,
             String summary,
             String content) throws Exception {
+
+        MyTrace.entry("AutoPostManager", "storePostContent()");
 
         //1. create a new page called gloo_page
         String pageIdentKey = MyUtils.getUUID();
@@ -103,7 +113,8 @@ public class AutoPostManager {
         // get right date string
 
         addGlooAutoPost(connection, orgId, pageName, title, summary, createdOn);
-               
+           
+        MyTrace.exit("AutoPostManager", "storePostContent()");
 
     }
 

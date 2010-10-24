@@ -9,8 +9,8 @@ import webgloo.makdi.data.Post;
 import webgloo.makdi.util.HtmlToText;
 
 
-import webgloo.makdi.util.MyWriter;
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -20,7 +20,7 @@ import webgloo.makdi.io.URLReader;
 public class WikipediaDriver implements IDriver {
 
     public static final String WIKIPEDIA_PRINT_URI = "http://en.wikipedia.org/w/index.php?printable=yes&title=";
-    public static final int REQUEST_DELAY = 2000 ;
+    
     
     private Transformer transformer ;
 
@@ -33,9 +33,15 @@ public class WikipediaDriver implements IDriver {
         return IDriver.WIKIPEDIA_DRIVER;
     }
 
+
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
-
+        MyTrace.entry("WikipediaDriver", "run()");
         //Transformer is for YAHOO BOSS driver
         //YAHOO BOSS will do its own encoding 
         YahooBossDriver boss = new YahooBossDriver(this.transformer,new String[]{"wikipedia.org"},4);
@@ -61,7 +67,7 @@ public class WikipediaDriver implements IDriver {
             String address =  WikipediaDriver.WIKIPEDIA_PRINT_URI + token;
             
             //Now fetch content from printUrl
-            MyWriter.toConsole("sending request to :: " + address);
+            MyTrace.info("sending request to :: " + address);
 
             String htmlResponse = URLReader.read(address);
             StringReader reader = new StringReader(htmlResponse);
@@ -86,8 +92,8 @@ public class WikipediaDriver implements IDriver {
             
         }
         
-        Thread.sleep(REQUEST_DELAY);
-        
+        MyTrace.exit("WikipediaDriver", "run()");
+
         return items;
 
     }

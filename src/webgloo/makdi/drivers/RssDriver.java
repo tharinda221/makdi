@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.News;
-import webgloo.makdi.util.MyWriter;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -28,7 +28,7 @@ public class RssDriver implements IDriver {
     public static final int GOOGLE_BASE = 2;
 
     public static final int MAX_RESULTS = 10;
-    public final static int REQUEST_DELAY = 3000 ;
+
 
     private String feedURI;
     private int maxResults;
@@ -78,8 +78,15 @@ public class RssDriver implements IDriver {
         return IDriver.RSS_DRIVER ;
     }
 
+
+    @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+
     @Override
     public List<IData> run(String tag) throws Exception {
+        MyTrace.entry("RssDriver", "run()");
 
         tag = this.transformer.transform(tag);
         
@@ -94,7 +101,7 @@ public class RssDriver implements IDriver {
         
         //For every tag and every source fetch required feeds
         List<IData> feeds = new ArrayList<IData>();
-        MyWriter.toConsole("using feed source :: " + feedSource);
+        MyTrace.info("using feed source :: " + feedSource);
 
         URL feedUrl = new URL(feedSource);
         URLConnection uc = feedUrl.openConnection();
@@ -108,9 +115,9 @@ public class RssDriver implements IDriver {
             feeds.add(createNews(entry));
 
         }
-        //wait betweeb results
-        Thread.sleep(REQUEST_DELAY);
         
+        MyTrace.exit("RssDriver", "run()");
+         
         return feeds;
 
     }

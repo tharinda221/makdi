@@ -15,9 +15,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.EbayItem;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.util.MyWriter;
 
 import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -34,7 +34,7 @@ public class EbayDriver implements IDriver{
     public static final String SERVICE_VERSION = "1.0.0";
     public static final String OPERATION_NAME = "findItemsByKeywords";
     public static final String GLOBAL_ID = "EBAY-US";
-    public final static int REQUEST_DELAY = 3000;
+    
     public final static int MAX_RESULTS = 10;
 
     private int maxResults;
@@ -52,27 +52,32 @@ public class EbayDriver implements IDriver{
     }
 
     @Override
+    public long getDelay() {
+        return 3000 ;
+    }
+
+    @Override
     public String getName() {
         return IDriver.EBAY_DRIVER;
     }
 
     @Override
     public List<IData> run(String tag)  throws Exception {
+        MyTrace.entry("EbayDriver", "run()");
+
         tag = this.transformer.transform(tag);
         tag = java.net.URLEncoder.encode(tag, "UTF-8");
 
         String address = createAddress(tag);
-        
-        MyWriter.toConsole("sending request to :: " + address);
+        MyTrace.info("sending request to :: " + address);
 
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
         //process xml dump returned from EBAY
         List<IData> items = processResponse(response);
         
-        //Honor rate limits - wait between results
-        Thread.sleep(REQUEST_DELAY);
-
+        MyTrace.exit("EbayDriver", "run()");
+        
         return items;
 
     }
@@ -108,7 +113,7 @@ public class EbayDriver implements IDriver{
         XPathExpression itemExpression = xpath.compile("//findItemsByKeywordsResponse/searchResult/item");
 
         String ackToken = (String) ackExpression.evaluate(doc, XPathConstants.STRING);
-        MyWriter.toConsole("ACK from ebay API :: " + ackToken);
+        MyTrace.info("ACK from ebay API :: " + ackToken);
 
         if (!ackToken.equals("Success")) {
             throw new Exception(" service returned an error");
