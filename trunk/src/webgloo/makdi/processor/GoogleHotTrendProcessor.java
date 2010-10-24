@@ -20,12 +20,16 @@ public class GoogleHotTrendProcessor {
 
     //@todo check lock - if lock in place then dont process
     public static void invoke(IProfileBean profileBean) throws Exception {
+        
         MyTrace.entry("GoogleHotTrendProcessor", "invoke(profile bean)");
         java.sql.Connection connection = DBConnection.getConnection();
         //fetch keywords for this hour
         List<Keyword> newKeywords = GoogleHotTrendKeywords.loadNewKeywords();
         AutoPostManager.storeKeywords(connection, profileBean.getSiteGuid(), newKeywords);
+        Thread.sleep(1000);
+        connection.close();
 
+        connection = DBConnection.getConnection();
         //Now load back unprocessed keys
         List<Keyword> unprocessedKeywords = AutoPostManager.loadKeywords(connection, profileBean.getSiteGuid());
 
@@ -33,6 +37,7 @@ public class GoogleHotTrendProcessor {
 
         for (Keyword keyword : unprocessedKeywords) {
             MyTrace.info("\n munch keyword :: " + keyword.getToken());
+            
             String token = WordUtils.capitalizeFully(keyword.getToken());
 
             StringBuilder content = new StringBuilder();

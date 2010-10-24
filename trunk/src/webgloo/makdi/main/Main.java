@@ -62,7 +62,7 @@ public class Main {
     }
 
     private static void showMessage() {
-        System.out.println("\n\n starting Makdi API spider @ " + MyUtils.now());
+        System.out.println("\n\n>> starting Makdi API spider @ " + MyUtils.now());
         System.out.println("copyright - indigloo.com \n ");
         MyTrace.info("started makdi spider @" + MyUtils.now());
     }
