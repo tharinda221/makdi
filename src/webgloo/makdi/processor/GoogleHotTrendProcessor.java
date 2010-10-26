@@ -26,18 +26,20 @@ public class GoogleHotTrendProcessor {
         //fetch keywords for this hour
         List<Keyword> newKeywords = GoogleHotTrendKeywords.loadNewKeywords();
         AutoPostManager.storeKeywords(connection, profileBean.getSiteGuid(), newKeywords);
-        Thread.sleep(1000);
         connection.close();
+        Thread.sleep(1000);
 
         connection = DBConnection.getConnection();
         //Now load back unprocessed keys
         List<Keyword> unprocessedKeywords = AutoPostManager.loadKeywords(connection, profileBean.getSiteGuid());
-
+        MyTrace.info("Total keywords to process = " +unprocessedKeywords.size() );
         List<IDriver> drivers = profileBean.getDrivers();
+        connection.close();
 
         for (Keyword keyword : unprocessedKeywords) {
-            MyTrace.info("\n munch keyword :: " + keyword.getToken());
-            
+            MyTrace.info("\n process keyword :: " + keyword.getToken());
+            connection = DBConnection.getConnection();
+
             String token = WordUtils.capitalizeFully(keyword.getToken());
 
             StringBuilder content = new StringBuilder();
@@ -88,11 +90,12 @@ public class GoogleHotTrendProcessor {
             }
 
             MyTrace.info("\n processed keyword :: " + keyword.getToken());
+            connection.close();
             //sleep for 1s
             Thread.sleep(1000);
         } //loop: keywords
 
-        connection.close();
+       
         MyTrace.exit("GoogleHotTrendProcessor", "invoke(profile bean)");
     }
 }

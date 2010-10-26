@@ -40,7 +40,7 @@ public class GoogleSearchControlDriver implements IDriver {
 
         List<IData> items = new ArrayList<IData>();
 
-        MyTrace.info("Google Cse :: keyword :: " + tag);
+        MyTrace.debug("Google Cse :: keyword :: " + tag);
         items.add(new GoogleSearchControl(tag));
         
         MyTrace.exit("GoogleSearchControlDriver", "run()");

@@ -67,7 +67,7 @@ public class WikipediaDriver implements IDriver {
             String address =  WikipediaDriver.WIKIPEDIA_PRINT_URI + token;
             
             //Now fetch content from printUrl
-            MyTrace.info("sending request to :: " + address);
+            MyTrace.debug("sending request to :: " + address);
 
             String htmlResponse = URLReader.read(address);
             StringReader reader = new StringReader(htmlResponse);

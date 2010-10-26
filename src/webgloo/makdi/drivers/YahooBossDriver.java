@@ -90,7 +90,7 @@ public class YahooBossDriver implements IDriver {
 
         //create address
         String address = createAddress(siteName,tag);
-        MyTrace.info("sending request to :: " + address);
+        MyTrace.debug("sending request to :: " + address);
         
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
