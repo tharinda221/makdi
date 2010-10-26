@@ -107,6 +107,14 @@ public class MyUtils {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(cal.getTime());
+        
+    }
+
+     public static String now(int delay) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, delay);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(cal.getTime());
 
     }
 

@@ -57,7 +57,7 @@ public class TwitterDriver implements IDriver {
         //wrap in quotes
         Query q = new Query("\"" + tag + "\"");
         q.setRpp(this.maxResults);
-        MyTrace.info("sending twitter request :: " + q.getQuery());
+        MyTrace.debug("sending twitter request :: " + q.getQuery());
 
         List<Tweet> tweets = new ArrayList<Tweet>();
         boolean doWait = false;
@@ -104,7 +104,7 @@ public class TwitterDriver implements IDriver {
         String tag = "despicable me";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
-            MyTrace.info(item.toHtml());
+            MyTrace.debug(item.toHtml());
         }
 
     }

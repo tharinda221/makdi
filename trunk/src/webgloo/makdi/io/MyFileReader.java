@@ -14,6 +14,7 @@ import webgloo.makdi.util.MyUtils;
  */
 public class MyFileReader {
 
+        
     private BufferedReader bufferin = null;
 
     public MyFileReader(String fileName) throws Exception {

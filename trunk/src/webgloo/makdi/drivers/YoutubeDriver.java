@@ -68,7 +68,7 @@ public class YoutubeDriver implements IDriver {
 
         //Fetch videos for each tag
 
-        MyTrace.info("sending request to :: " + query.getUrl());
+        MyTrace.debug("sending request to :: " + query.getUrl());
         //include restricted content in the search results
         query.setFullTextQuery(tag);
         VideoFeed videoFeed = service.query(query, VideoFeed.class);
@@ -115,7 +115,7 @@ public class YoutubeDriver implements IDriver {
         String tag = "inception";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
-            MyTrace.info(item.toHtml());
+            MyTrace.debug(item.toHtml());
         }
 
     }

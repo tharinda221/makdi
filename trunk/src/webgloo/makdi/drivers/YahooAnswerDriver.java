@@ -68,7 +68,7 @@ public class YahooAnswerDriver implements IDriver {
         String address = YAHOO_YQL_URI + query;
 
         //fetch response
-        MyTrace.info("sending request to :: " + address);
+        MyTrace.debug("sending request to :: " + address);
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
         

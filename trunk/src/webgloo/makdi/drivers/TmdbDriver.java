@@ -60,7 +60,7 @@ public class TmdbDriver implements IDriver {
         String address = TMDB_SEARCH_URI.replace("{TOKEN}", tag);
         address = address.replace("{APIKEY}", TMDB_API_KEY);
         String response = URLReader.read(address);
-        MyTrace.info(" sending request to :: " + address);
+        MyTrace.debug(" sending request to :: " + address);
         Movie movie = tryGetMovie(response);
 
         if (movie != null) {

@@ -36,7 +36,7 @@ public class Main {
             ProfileManager.process(profileValue);
 
         } catch (Exception ex) {
-            System.out.println("Error during processing : check logs for details");
+            MyTrace.error("Error during processing : check logs for details");
             MyTrace.error("Unexpected error ", ex);
         }
         
@@ -62,8 +62,8 @@ public class Main {
     }
 
     private static void showMessage() {
-        System.out.println("\n\n>> starting Makdi API spider @ " + MyUtils.now());
-        System.out.println("copyright - indigloo.com \n ");
+        MyTrace.info("\n\n>> starting Makdi API spider @ " + MyUtils.now());
+        MyTrace.info("copyright - indigloo.com \n ");
         MyTrace.info("started makdi spider @" + MyUtils.now());
     }
 

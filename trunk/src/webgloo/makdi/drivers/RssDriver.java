@@ -101,7 +101,7 @@ public class RssDriver implements IDriver {
         
         //For every tag and every source fetch required feeds
         List<IData> feeds = new ArrayList<IData>();
-        MyTrace.info("using feed source :: " + feedSource);
+        MyTrace.debug("using feed source :: " + feedSource);
 
         URL feedUrl = new URL(feedSource);
         URLConnection uc = feedUrl.openConnection();

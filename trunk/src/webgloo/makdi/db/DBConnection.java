@@ -15,7 +15,7 @@ public class DBConnection {
         MyTrace.entry("DBConnection", "getConnection()");
         Class.forName("com.mysql.jdbc.Driver");
         String url =  "jdbc:mysql://localhost:3306/webgloodb";
-        Connection connection =  DriverManager.getConnection(url,"root", "root");
+        Connection connection =  DriverManager.getConnection(url,"gloo", "osje8L");
         MyTrace.exit("DBConnection", "getConnection()");
         return connection;
     }

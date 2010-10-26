@@ -43,7 +43,7 @@ public class GoogleCseDriver implements IDriver {
         //tag = java.net.URLEncoder.encode(tag, "UTF-8");
         
         List<IData> items = new ArrayList<IData>();
-        MyTrace.info("creating google search control :: keyword :: " + tag);
+        MyTrace.debug("creating google search control :: keyword :: " + tag);
         items.add(new GoogleCse(this.searchId));
         
         MyTrace.exit("GoogleCseDriver", "run()");

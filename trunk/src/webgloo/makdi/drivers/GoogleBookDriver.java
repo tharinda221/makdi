@@ -66,7 +66,7 @@ public class GoogleBookDriver implements IDriver {
         query.setFullTextQuery(tag);
         query.setMinViewability(VolumeQuery.MinViewability.NONE);
         //query.setMinViewability(VolumeQuery.MinViewability.PARTIAL);
-        MyTrace.info("Sending request to: " + query.getUrl());
+        MyTrace.debug("Sending request to: " + query.getUrl());
         VolumeFeed volumeFeed = service.query(query, VolumeFeed.class);
 
         List<VolumeEntry> entries = volumeFeed.getEntries();

@@ -69,7 +69,7 @@ public class EbayDriver implements IDriver{
         tag = java.net.URLEncoder.encode(tag, "UTF-8");
 
         String address = createAddress(tag);
-        MyTrace.info("sending request to :: " + address);
+        MyTrace.debug("sending request to :: " + address);
 
         String response = URLReader.read(address);
         //MyWriter.toConsole("response :: " + response);
@@ -113,7 +113,7 @@ public class EbayDriver implements IDriver{
         XPathExpression itemExpression = xpath.compile("//findItemsByKeywordsResponse/searchResult/item");
 
         String ackToken = (String) ackExpression.evaluate(doc, XPathConstants.STRING);
-        MyTrace.info("ACK from ebay API :: " + ackToken);
+        MyTrace.debug("ACK from ebay API :: " + ackToken);
 
         if (!ackToken.equals("Success")) {
             throw new Exception(" service returned an error");
