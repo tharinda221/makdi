@@ -217,5 +217,26 @@ public class AutoPostManager {
 
     }
 
+     public static void updateKeyword(java.sql.Connection connection,
+            String orgId,
+            Keyword keyword) throws Exception {
+
+        String pageSeoKey = MyUtils.convertPageNameToId(keyword.getToken());
+
+
+        String GLOO_AUTO_KEYWORD_UPADTE_SQL =
+                "update gloo_auto_keyword set is_processed = 1 where org_id = ? and seo_key = ? ";
+               
+        java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_AUTO_KEYWORD_UPADTE_SQL);
+        pstmt.setString(1, orgId);
+        pstmt.setString(2, pageSeoKey);
+        
+
+        pstmt.executeUpdate();
+        pstmt.close();
+
+    }
+
+     
     
 }
