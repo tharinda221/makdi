@@ -3,7 +3,8 @@ package webgloo.makdi.profile;
 import webgloo.makdi.io.ProfileXmlObject;
 import webgloo.makdi.io.ObjectXmlBridge;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.processor.GoogleHotTrendProcessor;
+import webgloo.makdi.processor.ArcadeGamesProcessor;
+import webgloo.makdi.processor.GoogleHotTrendsProcessor;
 import webgloo.makdi.util.MyUtils;
 
 /**
@@ -33,9 +34,14 @@ public class ProfileManager {
     }
     
     private static void process(IContentProfile profileBean) throws Exception {
+        //@todo - move to a processor factory
+        
         if(profileBean.getName().equals(IContentProfile.GOOGLE_HOT_TRENDS)){
-            new GoogleHotTrendProcessor().invoke(profileBean);
-        } else {
+            new GoogleHotTrendsProcessor().invoke(profileBean);
+        } else if(profileBean.getName().equals(IContentProfile.ARCADE_GAMES)){
+            new ArcadeGamesProcessor().invoke(profileBean);
+            
+        }else {
             throw new Exception(profileBean.getName() + " processor not found ");
         }
         

@@ -12,10 +12,10 @@ import webgloo.makdi.profile.IContentProfile;
  *
  * @author rajeevj
  */
-public class GoogleHotTrendProcessor extends AutoPostProcessor{
+public class GoogleHotTrendsProcessor extends AutoPostProcessor{
 
 
-    public GoogleHotTrendProcessor() {
+    public GoogleHotTrendsProcessor() {
 
     }
 

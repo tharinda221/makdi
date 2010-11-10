@@ -18,6 +18,7 @@ public class AutoPostManager {
             String orgId,
             List<Keyword> keywords) throws Exception {
 
+         
          //Add entry and exit tracing for public methods
          MyTrace.entry("AutoPostManager", "storeKeywords()");
         //store keyword if not there already
@@ -94,9 +95,9 @@ public class AutoPostManager {
     public static void storePostContent(java.sql.Connection connection,
             String orgId,
             Keyword keyword,
-            String title,
-            String summary,
-            String content) throws Exception {
+            StringBuilder title,
+            StringBuilder summary,
+            StringBuilder content) throws Exception {
 
         MyTrace.entry("AutoPostManager", "storePostContent()");
 
@@ -121,8 +122,8 @@ public class AutoPostManager {
     private static void addGlooAutoPost(java.sql.Connection connection,
             String orgId,
             String pageName,
-            String title,
-            String summary,
+            StringBuilder title,
+            StringBuilder summary,
             String createdOn) throws Exception {
 
         
@@ -137,8 +138,8 @@ public class AutoPostManager {
         pstmt.setString(2, identKey);
         pstmt.setString(3, MyUtils.convertPageNameToId(pageName));
 
-        pstmt.setString(4, title);
-        pstmt.setString(5, summary);
+        pstmt.setString(4, title.toString());
+        pstmt.setString(5, summary.toString());
         pstmt.setString(6, createdOn);
 
         pstmt.executeUpdate();
@@ -149,8 +150,8 @@ public class AutoPostManager {
     private static void addGlooPageContent(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
-            String title,
-            String content) throws Exception {
+            StringBuilder title,
+            StringBuilder content) throws Exception {
 
         String identKey = MyUtils.getUUID();
         String typeOfWidget = "AUTO_POST";
@@ -171,9 +172,9 @@ public class AutoPostManager {
         pstmt.setString(3, pageIdentKey);
         pstmt.setString(4, typeOfWidget);
 
-        pstmt.setString(5, title);
+        pstmt.setString(5, title.toString());
         pstmt.setString(6, widgetXml);
-        pstmt.setString(7, content);
+        pstmt.setString(7, content.toString());
 
         pstmt.setInt(8, blockNumber);
         pstmt.setInt(9, typeofBlock);

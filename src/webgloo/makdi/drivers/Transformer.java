@@ -47,16 +47,5 @@ public class Transformer {
     public void setSuffix(String suffix) {
         this.suffix = suffix;
     }
-
-    /*
-    public boolean isWrapInQuotes() {
-        return wrapInQuotes;
-    }
-
-    public void setWrapInQuotes(boolean wrapInQuotes) {
-        this.wrapInQuotes = wrapInQuotes;
-    }
-    */
-    
     
 }
