@@ -12,6 +12,7 @@ public interface IContentProfile {
     String ACTION_STORE = "STORE";
 
     String GOOGLE_HOT_TRENDS = "GOOGLE_HOT_TRENDS";
+    String ARCADE_GAMES = "ARCADE_GAMES";
     
     String getSiteGuid() ;
     List<IDriver> getDrivers();

@@ -5,7 +5,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import java.io.File;
 import java.io.FileOutputStream;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.profile.GoogleHotTrendProfile;
+import webgloo.makdi.profile.ArcadeGamesProfile;
 import webgloo.makdi.profile.IContentProfile;
 
 /**
@@ -64,7 +64,7 @@ public class ObjectXmlBridge {
     public static void main(String[] args) throws Exception {
 
         ObjectXmlBridge objxml = new ObjectXmlBridge();
-        String xml = objxml.encodeXStreamXml(new GoogleHotTrendProfile());
+        String xml = objxml.encodeXStreamXml(new ArcadeGamesProfile());
         System.out.println(xml);
                 
     }
