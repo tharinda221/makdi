@@ -4,7 +4,7 @@ package webgloo.makdi.io;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.IDriver;
-import webgloo.makdi.profile.IProfileBean;
+import webgloo.makdi.profile.IContentProfile;
 
 
 /**
@@ -12,27 +12,56 @@ import webgloo.makdi.profile.IProfileBean;
  * @author rajeevj
  */
 
-public class ProfileXmlObject implements IProfileBean{
+public class ProfileXmlObject implements IContentProfile{
+
 
     private String siteDomain;
     private String siteName ;
     private String siteGuid ;
     
     private List<IDriver> drivers ;
+    private List<IDriver> frontPageDrivers ;
 
-    private IDriver frontPageDriver ;
+    private String action ;
+    private List<String> keywords ;
+    private String name ;
     
     //default constrcutor
     public ProfileXmlObject() {
         this.drivers = new ArrayList<IDriver>();
-    }
-
-    public IDriver getFrontPageDriver() {
-        return this.frontPageDriver;
+        this.frontPageDrivers = new ArrayList<IDriver>();
     }
     
-    public void  setFrontPageDriver(IDriver fdriver) {
-        this.frontPageDriver = fdriver ;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+    
+    public List<IDriver> getFrontPageDrivers() {
+        return this.frontPageDrivers;
+    }
+    
+    public void  setFrontPageDrivers(List<IDriver> fdrivers) {
+        this.frontPageDrivers = fdrivers ;
     }
 
     public List<IDriver> getDrivers() {
@@ -71,6 +100,5 @@ public class ProfileXmlObject implements IProfileBean{
     public void addDriver(IDriver driver) {
         this.drivers.add(driver);
     }
-
-
+    
 }

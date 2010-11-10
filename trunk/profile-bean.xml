@@ -1,7 +1,7 @@
 <profile>
   <siteDomain>www.abcd.com</siteDomain>
   <siteName>ABCD site</siteName>
-  <siteGuid>1169</siteGuid>
+  <siteGuid>1019</siteGuid>
   <drivers>
     <webgloo.makdi.drivers.RssDriver>
       <maxResults>4</maxResults>
@@ -9,23 +9,27 @@
       <transformer/>
       <isExternal>false</isExternal>
     </webgloo.makdi.drivers.RssDriver>
-    <webgloo.makdi.drivers.TwitterDriver>
-      <maxResults>10</maxResults>
-      <transformer/>
-    </webgloo.makdi.drivers.TwitterDriver>
     <webgloo.makdi.drivers.YoutubeDriver>
-      <maxResults>3</maxResults>
+      <maxResults>4</maxResults>
       <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
     <webgloo.makdi.drivers.YahooAnswerDriver>
-      <maxResults>5</maxResults>
+      <maxResults>4</maxResults>
       <transformer/>
     </webgloo.makdi.drivers.YahooAnswerDriver>
   </drivers>
-  <frontPageDriver class="webgloo.makdi.drivers.RssDriver">
-    <maxResults>2</maxResults>
-    <source>1</source>
-    <transformer/>
-    <isExternal>false</isExternal>
-  </frontPageDriver>
+  <frontPageDrivers>
+    <webgloo.makdi.drivers.RssDriver>
+      <maxResults>2</maxResults>
+      <source>1</source>
+      <transformer/>
+      <isExternal>false</isExternal>
+    </webgloo.makdi.drivers.RssDriver>
+  </frontPageDrivers>
+  <action>TEST</action>
+  <keywords>
+    <string>PacMan Arcade game </string>
+    <string>Donkey Kong arcade game</string>
+  </keywords>
+  <name>GOOGLE_HOT_TRENDS</name>
 </profile>

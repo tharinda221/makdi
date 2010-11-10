@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.profile.GoogleHotTrendProfile;
-import webgloo.makdi.profile.IProfileBean;
+import webgloo.makdi.profile.IContentProfile;
 
 /**
  *
@@ -15,7 +15,7 @@ import webgloo.makdi.profile.IProfileBean;
 public class ObjectXmlBridge {
     
    
-    public String encodeXStreamXml(IProfileBean profile) throws Exception {
+    public String encodeXStreamXml(IContentProfile profile) throws Exception {
         MyTrace.entry("ObjectXmlBridge", "encodeXStreamXml(profile)");
 
         ProfileXmlObject bean = new ProfileXmlObject();
@@ -23,8 +23,12 @@ public class ObjectXmlBridge {
         bean.setSiteDomain(profile.getSiteDomain());
         bean.setSiteName(profile.getSiteName());
         bean.setSiteGuid(profile.getSiteGuid());
-        bean.setFrontPageDriver(profile.getFrontPageDriver());
-        
+        bean.setFrontPageDrivers(profile.getFrontPageDrivers());
+
+        bean.setAction(profile.getAction());
+        bean.setName(profile.getName());
+        bean.setKeywords(profile.getKeywords());
+
         XStream xstream = new XStream(new DomDriver());
         xstream.alias("profile", ProfileXmlObject.class);
         String xml = xstream.toXML(bean);
