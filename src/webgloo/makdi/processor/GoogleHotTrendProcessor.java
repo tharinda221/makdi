@@ -1,101 +1,50 @@
 package webgloo.makdi.processor;
 
 import java.util.List;
-import org.apache.commons.lang.WordUtils;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Keyword;
 import webgloo.makdi.data.News;
-import webgloo.makdi.db.DBConnection;
-import webgloo.makdi.db.AutoPostManager;
 import webgloo.makdi.drivers.IDriver;
 import webgloo.makdi.html.HtmlGenerator;
-import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.profile.IProfileBean;
+import webgloo.makdi.profile.IContentProfile;
 
 /**
  *
  * @author rajeevj
  */
-public class GoogleHotTrendProcessor {
-
-    //@todo check lock - if lock in place then dont process
-    public static void invoke(IProfileBean profileBean) throws Exception {
-
-        MyTrace.entry("GoogleHotTrendProcessor", "invoke(profile bean)");
-        java.sql.Connection connection = DBConnection.getConnection();
-        //fetch keywords for this hour
-        List<Keyword> newKeywords = GoogleHotTrendKeywords.loadNewKeywords();
-        AutoPostManager.storeKeywords(connection, profileBean.getSiteGuid(), newKeywords);
-
-        Thread.sleep(1000);
-
-        //Now load back unprocessed keys
-        List<Keyword> unprocessedKeywords = AutoPostManager.loadKeywords(connection, profileBean.getSiteGuid());
-        MyTrace.info("Total keywords to process = " + unprocessedKeywords.size());
-        List<IDriver> drivers = profileBean.getDrivers();
+public class GoogleHotTrendProcessor extends AutoPostProcessor{
 
 
-        for (Keyword keyword : unprocessedKeywords) {
-            MyTrace.info("\n process keyword :: " + keyword.getToken());
+    public GoogleHotTrendProcessor() {
 
-            String token = WordUtils.capitalizeFully(keyword.getToken());
-            StringBuilder content = new StringBuilder();
-            StringBuilder summary = new StringBuilder();
-            String title = null;
-
-            int count = 0;
-            //get summary
-            List<IData> summaryItems = profileBean.getFrontPageDriver().run(token);
-            for (IData sumamryItem : summaryItems) {
-                summary.append(HtmlGenerator.generateAutoPostNews((News) sumamryItem));
-                title = sumamryItem.getTitle();
-                count++;
-            }
-
-            if (count <= 0) {
-                MyTrace.info("\n No summary for :: " + keyword.getToken());
-                AutoPostManager.updateKeyword(connection,  profileBean.getSiteGuid(),keyword);
-                
-            } else {
-
-                //get content only if we have summary
-                for (IDriver driver : drivers) {
-                    try {
-                        List<IData> items = driver.run(token);
-                        for (IData item : items) {
-                            content.append(item.toHtml());
-                        }
-                        //driver processed right
-                        //wait for appropriate time
-                        Thread.sleep(driver.getDelay());
-
-
-                    } catch (Exception ex) {
-                        //some error from driver
-                        MyTrace.error("Error in driver :: " + driver.getName());
-                        MyTrace.error(ex.getMessage());
-                    }
-
-                } //loop
-
-                AutoPostManager.storePostContent(connection,
-                        profileBean.getSiteGuid(),
-                        keyword,
-                        title,
-                        summary.toString(),
-                        content.toString());
-
-                MyTrace.info("\n stored info for keyword :: " + keyword.getToken());
-
-            }
-
-            MyTrace.info("\n processed keyword :: " + keyword.getToken());
-            //sleep for 1s
-            Thread.sleep(10000);
-        } //loop: keywords
-
-        connection.close();
-
-        MyTrace.exit("GoogleHotTrendProcessor", "invoke(profile bean)");
     }
+
+    //methods specific to google hot trends keywords
+    public List<Keyword> loadNewKeywords() throws Exception {
+        return GoogleHotTrendKeywords.loadNewKeywords();
+    }
+    
+    public  boolean getPageSummary(
+            IContentProfile profileBean,
+            String token,
+            StringBuilder title,
+            StringBuilder summary) throws Exception {
+
+        boolean flag = false ;
+        //get summary using front page drivers
+        // for google hot trends we have only one front page driver
+        IDriver frontPageDriver = profileBean.getFrontPageDrivers().get(0);
+        List<IData> items = frontPageDriver.run(token);
+
+        for (IData item : items) {
+            summary.append(HtmlGenerator.generateAutoPostNews((News) item));
+            title.append(item.getTitle());
+
+        }
+        
+        flag = items.size() > 0 ? true : false ;
+        return flag ;
+    }
+
+    
 }

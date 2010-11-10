@@ -25,7 +25,6 @@ public class HtmlGenerator {
 
     public static String generatePageCode(
             String siteName,
-            String menuHtml,
             String pageName,
             String pageContent) throws Exception {
 
@@ -36,8 +35,7 @@ public class HtmlGenerator {
         st.setAttribute("pageContent", pageContent);
         st.setAttribute("pageName", pageName);
         st.setAttribute("siteName", siteName);
-        st.setAttribute("menuHtml", menuHtml);
-
+        
         MyTrace.exit("HtmlGenerator", "generatePageCode()");
         return st.toString();
     }

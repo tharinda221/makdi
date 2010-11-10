@@ -18,21 +18,13 @@ public class Main {
     public static void main(String[] args) {
 
         CmdLineParser parser = new CmdLineParser();
-        CmdLineParser.Option actionOption = parser.addStringOption('a', "action");
         CmdLineParser.Option profileOption = parser.addStringOption('p', "profile");
-        CmdLineParser.Option keywordsOption = parser.addStringOption('k', "keywords");
-
+      
         try {
             parser.parse(args);
-
-            String actionValue = (String) parser.getOptionValue(actionOption);
             String profileValue = (String) parser.getOptionValue(profileOption);
-            String keywordsValue = (String) parser.getOptionValue(keywordsOption);
-
-            checkForEmpty("action", actionValue);
             checkForEmpty("profile", profileValue);
             showMessage();
-
             ProfileManager.process(profileValue);
 
         } catch (Exception ex) {
@@ -54,13 +46,6 @@ public class Main {
 
     }
 
-    private static List<String> getLinesInFile(String fileName) throws Exception {
-        MyFileReader myreader = new MyFileReader(fileName);
-        List<String> words = myreader.getAllLines();
-        return words;
-
-    }
-
     private static void showMessage() {
         MyTrace.info("\n\n>> starting Makdi API spider @ " + MyUtils.now());
         MyTrace.info("copyright - indigloo.com \n ");
@@ -71,10 +56,6 @@ public class Main {
         MyTrace.error(
                 "\nUsage: java -jar makdi.jar [options] ... \n"
                 + " where options are \n"
-                + " -k, --keywords \t keywords file \n"
-                + " -a, --action \t select action, one of [test|store|generate] \n"
-                + " \t action: store \t store results in db \n"
-                + " \t action: test \t generate test html pages \n"
                 + " -p, --profile \t profile.xml containg drivers and meta information \n\n");
 
 

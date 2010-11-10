@@ -10,7 +10,19 @@ import webgloo.makdi.drivers.Transformer;
  * @author rajeevj
  */
 
-public class SampleProfile implements IProfileBean {
+public class SampleProfile implements IContentProfile {
+
+    public String getName() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public String getAction() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<String> getKeywords() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public String getSiteDomain() {
@@ -46,10 +58,13 @@ public class SampleProfile implements IProfileBean {
         return drivers;
     }
 
-    @Override
-    public IDriver getFrontPageDriver() {
+   @Override
+    public List<IDriver> getFrontPageDrivers() {
+        List<IDriver> drivers = new ArrayList<IDriver>();
         //return google news driver
-        return new RssDriver(new Transformer(),1,2);
+        IDriver driver1 =   new RssDriver(new Transformer(),1,2);
+        drivers.add(driver1);
+        return drivers;
     }
 
     @Override

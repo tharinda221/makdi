@@ -5,29 +5,13 @@
 
 <head><title> $siteName$ - $pageName$  </title>
 
-<meta name="keywords" content="$pageName$,movie based on books" />
-
 <link rel="stylesheet" href="http://www.moviebook.info/art/common/yui/reset-fonts-grids.css" type="text/css">
-<link rel="stylesheet" href="http://www.moviebook.info/art/black/main.css" type="text/css">
-<link rel="stylesheet" href="http://www.moviebook.info/art/black/menu/vertical.css" type="text/css">
+<link rel="stylesheet" href="http://www.moviebook.info/art/minimal/main.css" type="text/css">
+<link rel="stylesheet" href="http://www.moviebook.info/art/minimal/menu/vertical.css" type="text/css">
 
     <!--[if lt IE 8]>
         <style type="text/css">  .widget .photo img { width:100% ; max-width: 100% ; }   </style>
     <![endif]-->
-
-   <script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-17886288-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 
     </head>
 
@@ -57,7 +41,7 @@
         </div>
     </div> <!-- yui-main -->
 	<div class="yui-b">
-        $menuHtml$
+         Menus
     </div>
 
 </div> <!-- yui-bd -->

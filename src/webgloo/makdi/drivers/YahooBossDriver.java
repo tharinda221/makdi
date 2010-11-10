@@ -93,8 +93,7 @@ public class YahooBossDriver implements IDriver {
         MyTrace.debug("sending request to :: " + address);
         
         String response = URLReader.read(address);
-        //MyWriter.toConsole("response :: " + response);
-        //parse response now
+        
         XPath xpath = XPathFactory.newInstance().newXPath();
         InputStream is = new ByteArrayInputStream(response.getBytes("UTF-8"));
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();

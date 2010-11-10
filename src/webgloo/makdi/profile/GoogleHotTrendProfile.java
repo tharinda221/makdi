@@ -11,7 +11,23 @@ import webgloo.makdi.logging.MyTrace;
  * @author rajeevj
  */
 
-public class GoogleHotTrendProfile implements IProfileBean {
+public class GoogleHotTrendProfile implements IContentProfile {
+
+    public String getName() {
+        return IContentProfile.GOOGLE_HOT_TRENDS;
+    }
+    
+    public String getAction() {
+        return IContentProfile.ACTION_TEST ;
+    }
+    
+    public List<String> getKeywords() {
+        List<String> keywords = new ArrayList<String>();
+        keywords.add("keyword1");
+        keywords.add("keyword2");
+        
+        return keywords ;
+    }
 
     @Override
     public String getSiteDomain() {
@@ -41,9 +57,12 @@ public class GoogleHotTrendProfile implements IProfileBean {
     }
 
     @Override
-    public IDriver getFrontPageDriver() {
+    public List<IDriver> getFrontPageDrivers() {
+        List<IDriver> drivers = new ArrayList<IDriver>();
         //return google news driver
-        return new RssDriver(new Transformer(),1,2);
+        IDriver driver1 =  new RssDriver(new Transformer(),1,2);
+        drivers.add(driver1);
+        return drivers;
     }
 
     @Override
@@ -51,6 +70,5 @@ public class GoogleHotTrendProfile implements IProfileBean {
         return "1019";
 
     }
-        
-
+    
 }
