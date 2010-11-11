@@ -1,10 +1,5 @@
-
-<div class="widget">
-        
         <div class="video">
-
-                <h2> $title$ </h2>
-                <div class="{alignment}">
+            <div class="$alignment$">
 
                    <object width="320" height="240">
                     <param name="movie" value="http://www.youtube.com/v/$videoId$&amp;hl=en_US&amp;fs=1?rel=0&amp;border=1"></param>
@@ -25,5 +20,5 @@
 
         </div>
 
- </div>
+
 

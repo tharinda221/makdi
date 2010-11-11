@@ -49,7 +49,6 @@ public class ArcadeGamesProfile implements IContentProfile {
         //Decide on what drivers to load
         List<IDriver> drivers = new ArrayList<IDriver>();
         
-        
         drivers.add(new WikipediaDriver(new Transformer(null, " arcade game")));
         drivers.add(new YoutubeDriver(new Transformer(null, " arcade game"),2));
         drivers.add(new YahooAnswerDriver(new Transformer(null, " arcade game"),6));
