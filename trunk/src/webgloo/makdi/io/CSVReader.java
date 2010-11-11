@@ -44,9 +44,9 @@ public class CSVReader extends MyFileReader{
     }
     
     public static void main(String[] args) throws Exception{
-        CSVReader reader = new CSVReader("keywords-6.csv");
+        CSVReader reader = new CSVReader("keywords.csv");
         
-        String orgId = "1178" ;
+        String orgId = "1170" ;
         int count = 1 ;
         int modulo ;
         

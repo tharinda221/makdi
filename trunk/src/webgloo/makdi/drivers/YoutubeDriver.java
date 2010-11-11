@@ -94,7 +94,7 @@ public class YoutubeDriver implements IDriver {
         }
 
         if (entry.getHtmlLink() != null) {
-            video.setUrl(entry.getHtmlLink().getHref());
+            video.setLink(entry.getHtmlLink().getHref());
         }
 
         String videoId = entry.getId();
@@ -111,7 +111,7 @@ public class YoutubeDriver implements IDriver {
 
     public static void main(String[] args) throws Exception {
 
-        YoutubeDriver driver = new YoutubeDriver(new Transformer(null, "trailer"), 2);
+        YoutubeDriver driver = new YoutubeDriver(new Transformer(), 2);
         String tag = "inception";
         List<IData> items = driver.run(tag);
         for (IData item : items) {

@@ -14,8 +14,24 @@ public class Video implements IData{
     private String source ;
     private String description ;
     private String link ;
-    
+    private String alignment ;
 
+    public static String ALIGN_CENTER = "aligncenter";
+    public static String ALIGN_LEFT = "alignleft";
+    public static String ALIGN_RIGHT = "alignright";
+
+    public Video() {
+        this.alignment = Video.ALIGN_CENTER;
+    }
+    
+    public String getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -41,11 +57,11 @@ public class Video implements IData{
         this.title = title;
     }
 
-    public String getUrl() {
+    public String getLink() {
         return link;
     }
 
-    public void setUrl(String url) {
+    public void setLink(String url) {
         this.link = url;
     }
 

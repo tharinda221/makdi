@@ -116,9 +116,27 @@ public class HtmlGenerator {
         st.setAttribute("title", video.getTitle());
         st.setAttribute("videoId", video.getVideoId());
         st.setAttribute("description", video.getDescription());
+        //set video alignment
+        //alignleft, alignright or aligncenter
+        st.setAttribute("alignment",video.getAlignment());
         MyTrace.exit("HtmlGenerator", "generateYoutubeCode()");
         return st.toString();
 
+    }
+
+    public static String generateArcadeVideoCode(Video video) {
+         MyTrace.entry("HtmlGenerator", "generateArcadeVideoCode()");
+        // Look for templates in CLASSPATH as resources
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/video-post");
+        st.setAttribute("title", video.getTitle());
+        st.setAttribute("videoId", video.getVideoId());
+        st.setAttribute("description", video.getDescription());
+        //set video alignment
+        //alignleft, alignright or aligncenter
+        st.setAttribute("alignment",video.getAlignment());
+        MyTrace.exit("HtmlGenerator", "generateArcadeVideoCode()");
+        return st.toString();
     }
 
     public static String generateNewsCode(News news) {

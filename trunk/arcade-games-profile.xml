@@ -1,7 +1,7 @@
 <profile>
   <siteDomain>www.abcd.com</siteDomain>
   <siteName>ABCD site</siteName>
-  <siteGuid>1019</siteGuid>
+  <siteGuid>1170</siteGuid>
   <drivers>
     <webgloo.makdi.drivers.WikipediaDriver>
       <transformer>
@@ -52,7 +52,7 @@
       <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
   </frontPageDrivers>
-  <action>TEST</action>
+  <action>STORE</action>
   <keywords>
     <string>pacman</string>
     <string>contra</string>
