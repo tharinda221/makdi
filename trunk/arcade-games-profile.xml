@@ -14,26 +14,14 @@
         <suffix> arcade game</suffix>
       </transformer>
     </webgloo.makdi.drivers.YoutubeDriver>
+   
     <webgloo.makdi.drivers.YahooAnswerDriver>
       <maxResults>6</maxResults>
       <transformer>
         <suffix> arcade game</suffix>
       </transformer>
     </webgloo.makdi.drivers.YahooAnswerDriver>
-    <webgloo.makdi.drivers.RssDriver>
-      <maxResults>4</maxResults>
-      <source>1</source>
-      <transformer>
-        <suffix> arcade game</suffix>
-      </transformer>
-      <isExternal>false</isExternal>
-    </webgloo.makdi.drivers.RssDriver>
-    <webgloo.makdi.drivers.EbayDriver>
-      <maxResults>4</maxResults>
-      <transformer>
-        <suffix> arcade game</suffix>
-      </transformer>
-    </webgloo.makdi.drivers.EbayDriver>
+
     <webgloo.makdi.drivers.GoogleBaseDriver>
       <maxResults>4</maxResults>
       <transformer>
@@ -41,6 +29,7 @@
       </transformer>
     </webgloo.makdi.drivers.GoogleBaseDriver>
   </drivers>
+
   <frontPageDrivers>
     <webgloo.makdi.drivers.WikipediaDriver>
       <transformer>

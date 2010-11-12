@@ -4,7 +4,7 @@
         <div class="video">
 
                 <h2> $title$ </h2>
-                <div class="{alignment}">
+                <div class="aligncenter">
 
                    <object width="320" height="240">
                     <param name="movie" value="http://www.youtube.com/v/$videoId$&amp;hl=en_US&amp;fs=1?rel=0&amp;border=1"></param>
@@ -20,7 +20,7 @@
                     </object>
 
                 </div>
-                <div class="regular" style="margin:10px;"> $description$ </div>
+                <div class="regular" style="margin:10px;">  </div>
                 <br style="clear:both"/>
 
         </div>

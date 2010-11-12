@@ -86,7 +86,7 @@ public class WikipediaDriver implements IDriver {
             
             //create a new post
             Post wikipost = new Post();
-            wikipost.setTitle(tag + " (on wikipedia) ");
+            wikipost.setTitle(tag);
             wikipost.setDescription(paragraph);
             wikipost.setLink(originalUrl);
             items.add(wikipost);

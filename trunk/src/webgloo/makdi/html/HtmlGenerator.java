@@ -2,6 +2,7 @@ package webgloo.makdi.html;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import webgloo.makdi.data.AmazonWidget;
 import webgloo.makdi.data.Answer;
 import webgloo.makdi.data.Book;
 import webgloo.makdi.data.GoogleCse;
@@ -60,6 +61,17 @@ public class HtmlGenerator {
         StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/googlecse");
         st.setAttribute("searchId", cse.getSearchId());
         MyTrace.exit("HtmlGenerator", "generateGoogleCseCode()");
+
+        return st.toString();
+    }
+
+    public static String generateAmazonWidgetCode(AmazonWidget data) {
+        MyTrace.entry("HtmlGenerator", "generateAmazonWidgetCode()");
+        // Look for templates in CLASSPATH as resources
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/amazon-widget");
+        st.setAttribute("amazonId", data.getAmazonId());
+        MyTrace.exit("HtmlGenerator", "generateAmazonWidgetCode()");
 
         return st.toString();
     }
@@ -128,7 +140,7 @@ public class HtmlGenerator {
          MyTrace.entry("HtmlGenerator", "generateArcadeVideoCode()");
         // Look for templates in CLASSPATH as resources
         StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/video-post");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/youtube-post");
         st.setAttribute("title", video.getTitle());
         st.setAttribute("videoId", video.getVideoId());
         st.setAttribute("description", video.getDescription());

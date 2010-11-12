@@ -51,13 +51,12 @@ public class ArcadeGamesProfile implements IContentProfile {
         
         drivers.add(new WikipediaDriver(new Transformer(null, " arcade game")));
         drivers.add(new YoutubeDriver(new Transformer(null, " arcade game"),2));
+        //drivers.add(new AmazonWidgetDriver("mudroom-20"));
         drivers.add(new YahooAnswerDriver(new Transformer(null, " arcade game"),6));
-        //Google news is 1 
-        drivers.add(new RssDriver(new Transformer(null, " arcade game"),1,4));
-        drivers.add(new EbayDriver(new Transformer(null, " arcade game"),4));
+        //Google news is 1
+        //drivers.add(new RssDriver(new Transformer(null, " arcade game"),1,4));
+        //drivers.add(new EbayDriver(new Transformer(null, " arcade game"),4));
         drivers.add(new GoogleBaseDriver(new Transformer(null, " arcade game"),4));
-        
-        
         MyTrace.exit("ArcadeGameProfile", "getDrivers()");
         
         return drivers;
