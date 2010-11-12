@@ -31,7 +31,7 @@ public class GoogleCseDriver implements IDriver {
 
     @Override
     public long getDelay() {
-        return 1000 ;
+        return  1 ;
     }
     
     @Override

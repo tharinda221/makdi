@@ -27,4 +27,6 @@ public interface IDriver {
     String YAHOO_ANSWER_DRIVER="YAHOO_ANSWER_DRIVER";
     String TMDB_DRIVER = "TMDB_DRIVER" ;
     
+    String AMAZON_WIDGET_DRIVER = "AMAZON_WIDGET_DRIVER" ;
+    
 }

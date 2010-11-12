@@ -41,14 +41,14 @@ public class ArcadeGamesProcessor extends AutoPostProcessor{
             IDriver wikiDriver = profileBean.getFrontPageDrivers().get(0);
             IDriver youtubeDriver = profileBean.getFrontPageDrivers().get(1);
 
-            String description = "";
+            String content = "";
                         
             //found wikipedia entry
             for (IData item : wikiDriver.run(token)) {
                 Post post = (Post) item;
                 //use wikipedia description and title
                 title.append(item.getTitle());
-                description = post.getDescription();
+                content = post.getDescription();
                 flag = true ;
                 break ;
             }
@@ -60,19 +60,24 @@ public class ArcadeGamesProcessor extends AutoPostProcessor{
                     //use video title and description
                     // use alignment center
                     title.append(item.getTitle());
+                    content = HtmlGenerator.generateArcadeVideoCode(video);
                     flag = true ;
                 } else {
-                    //Use wikipedia title and 
+                    //Use wikipedia title and description
                     video.setTitle(title.toString());
-                    video.setDescription(description);
+                    video.setDescription(content);
                     video.setAlignment(Video.ALIGN_LEFT);
+                    //generate new content
+                    content = HtmlGenerator.generateArcadeVideoCode(video);
                 }
                 
-                summary.append(HtmlGenerator.generateArcadeVideoCode(video));
+               
                 break;
 
             }
-            
+
+            //right content has been set
+            summary.append(content);
             
         }
         
