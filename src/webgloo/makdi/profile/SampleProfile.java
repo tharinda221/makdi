@@ -54,7 +54,11 @@ public class SampleProfile implements IContentProfile {
         drivers.add(new YahooAnswerDriver(new Transformer("movie",null),2));
         drivers.add(new YahooAnswerDriver(new Transformer("intitle:","+book"),2));
         String[] siteNames = new String[] {"rottentomatoes.com","flickr.com" } ;
-        drivers.add(new YahooBossDriver(new Transformer("intitle:","+book"),siteNames,2));
+        drivers.add(new YahooBossDriver(
+                new Transformer("intitle:","+book"),
+                siteNames,
+                0,
+                2));
         return drivers;
     }
 
