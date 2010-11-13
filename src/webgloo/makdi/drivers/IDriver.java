@@ -28,5 +28,7 @@ public interface IDriver {
     String TMDB_DRIVER = "TMDB_DRIVER" ;
     
     String AMAZON_WIDGET_DRIVER = "AMAZON_WIDGET_DRIVER" ;
+    String ARCADE_GAME_CODE_DRIVER = "ARCADE_GAME_CODE_DRIVER" ;
+    
     
 }

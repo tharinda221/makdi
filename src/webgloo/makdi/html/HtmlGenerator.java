@@ -4,6 +4,7 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import webgloo.makdi.data.AmazonWidget;
 import webgloo.makdi.data.Answer;
+import webgloo.makdi.data.ArcadeGameCode;
 import webgloo.makdi.data.Book;
 import webgloo.makdi.data.GoogleCse;
 import webgloo.makdi.data.GoogleSearchControl;
@@ -72,6 +73,18 @@ public class HtmlGenerator {
         StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/amazon-widget");
         st.setAttribute("amazonId", data.getAmazonId());
         MyTrace.exit("HtmlGenerator", "generateAmazonWidgetCode()");
+
+        return st.toString();
+    }
+
+    public static String  generateArcadeGameCode(ArcadeGameCode data) {
+         MyTrace.entry("HtmlGenerator", "generateArcadeGameCode()");
+        // Look for templates in CLASSPATH as resources
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/arcade-game-code");
+        st.setAttribute("embedCode", data.getCode());
+        st.setAttribute("title", data.getTitle());
+        MyTrace.exit("HtmlGenerator", "generateArcadeGameCode()");
 
         return st.toString();
     }

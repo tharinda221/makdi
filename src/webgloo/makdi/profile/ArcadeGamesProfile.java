@@ -5,6 +5,7 @@ import java.util.List;
 import webgloo.makdi.drivers.*;
 import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.misc.ArcadeGameCodeDriver;
 
 /**
  *
@@ -49,14 +50,10 @@ public class ArcadeGamesProfile implements IContentProfile {
         //Decide on what drivers to load
         List<IDriver> drivers = new ArrayList<IDriver>();
         
-        drivers.add(new WikipediaDriver(new Transformer(null, " arcade game")));
-        drivers.add(new YoutubeDriver(new Transformer(null, " arcade game"),2));
-        //drivers.add(new AmazonWidgetDriver("mudroom-20"));
-        drivers.add(new YahooAnswerDriver(new Transformer(null, " arcade game"),6));
-        //Google news is 1
-        //drivers.add(new RssDriver(new Transformer(null, " arcade game"),1,4));
-        //drivers.add(new EbayDriver(new Transformer(null, " arcade game"),4));
-        drivers.add(new GoogleBaseDriver(new Transformer(null, " arcade game"),4));
+        drivers.add(new WikipediaDriver(new Transformer(null, "game")));
+        drivers.add(new YoutubeDriver(new Transformer(null, "game"),1));
+        drivers.add(new ArcadeGameCodeDriver());
+        drivers.add(new YahooAnswerDriver(new Transformer(null, " game"),6));
         MyTrace.exit("ArcadeGameProfile", "getDrivers()");
         
         return drivers;
@@ -65,7 +62,7 @@ public class ArcadeGamesProfile implements IContentProfile {
     @Override
     public List<IDriver> getFrontPageDrivers() {
         List<IDriver> drivers = new ArrayList<IDriver>();
-        Transformer transformer = new Transformer(null, " arcade game");
+        Transformer transformer = new Transformer(null, "game");
         drivers.add(new WikipediaDriver(transformer));
         drivers.add(new YoutubeDriver(new Transformer(),1));
         return drivers;
