@@ -1,5 +1,6 @@
 package webgloo.makdi.drivers;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
@@ -7,6 +8,7 @@ import webgloo.makdi.data.Post;
 
 import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.util.HtmlToText;
 
 /**
  *
@@ -35,14 +37,14 @@ public class WikipediaDriver implements IDriver {
     @Override
     public List<IData> run(String tag) throws Exception {
         MyTrace.entry("WikipediaDriver", "run()");
-        
+
         //Transformer is for YAHOO BOSS driver
         //YAHOO BOSS will do its own encoding 
         YahooBossDriver boss = new YahooBossDriver(this.transformer, new String[]{"wikipedia.org"}, 2);
         List<IData> results = boss.run(tag);
         
         Post result = null;
-        
+
         if (results.size() > 0) {
             result = (Post) results.get(0);
 
@@ -54,7 +56,7 @@ public class WikipediaDriver implements IDriver {
         if (result != null) {
             //get the original URL
             String originalUrl = result.getLink();
-
+            
             //create printable url from original Url
             String token = getWikipediaToken(originalUrl);
             token = java.net.URLEncoder.encode(token, "UTF-8");
@@ -67,22 +69,23 @@ public class WikipediaDriver implements IDriver {
             //try to extract the first paragraph from wikipedia entry
             // this is strange but so far this is the only effective method
             // i.e. look for first paragraph!!
-            
+
             int pos1 = htmlResponse.indexOf("<p>");
             int pos2 = htmlResponse.indexOf("</p>", pos1);
-            
-            String paragraph = htmlResponse.substring(pos1+3, pos2);
+
+            String paragraph = htmlResponse.substring(pos1 + 3, pos2);
             
             /*
-            StringReader reader = new StringReader(htmlResponse);
-            HtmlToText parser = new HtmlToText();
-            parser.parse(reader);
-            reader.close();
-            String response = parser.getText();
-            //Below method is not very efficient at stripping
-            //String response = com.google.gdata.util.common.html.HtmlToText.htmlToPlainText(htmlResponse);
+            if (paragraph.length() <= 25) {
+                StringReader reader = new StringReader(htmlResponse);
+                HtmlToText parser = new HtmlToText();
+                parser.parse(reader);
+                reader.close();
+                paragraph = parser.getText();
+                //Below method is not very efficient at stripping
+                //String response = com.google.gdata.util.common.html.HtmlToText.htmlToPlainText(htmlResponse);
 
-            */
+            }*/
             
             //create a new post
             Post wikipost = new Post();
@@ -90,7 +93,7 @@ public class WikipediaDriver implements IDriver {
             wikipost.setDescription(paragraph);
             wikipost.setLink(originalUrl);
             items.add(wikipost);
-            
+
         }
 
         MyTrace.exit("WikipediaDriver", "run()");
@@ -111,8 +114,8 @@ public class WikipediaDriver implements IDriver {
     }
 
     public static void main(String[] args) throws Exception {
-        WikipediaDriver driver = new WikipediaDriver(new Transformer());
-        String tag = "Donkey Kong arcade game";
+        WikipediaDriver driver = new WikipediaDriver(new Transformer(null, "arcade game"));
+        String tag = "Balloon Bomber";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
             System.out.println(item.toHtml());

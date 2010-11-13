@@ -84,14 +84,14 @@ public class YahooBossDriver implements IDriver {
     }
 
     public List<IData> getPosts(String siteName,String tag) throws Exception {
-
+        
         MyTrace.entry("YahooBossDriver", "run()");
         List<IData> items = new ArrayList<IData>();
 
         //create address
         String address = createAddress(siteName,tag);
         MyTrace.debug("sending request to :: " + address);
-        
+                 
         String response = URLReader.read(address);
         
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -146,4 +146,24 @@ public class YahooBossDriver implements IDriver {
         return address;
 
     }
+
+     public static void main(String[] args) throws Exception {
+
+        String[] siteNames = new String[] {"www.classicgamesarcade.com"} ;
+        
+        YahooBossDriver driver = new YahooBossDriver(new Transformer(null, null),siteNames,254);
+        String tag = " ";
+        List<IData> items = driver.run(tag);
+        for (IData item : items) {
+            Post post = (Post) item ;
+            String link = post.getLink();
+            int pos1 = link.lastIndexOf('/');
+            int pos2 = link.indexOf(".html", pos1);
+            if(pos1 != -1 && pos2 != -1 )
+                System.out.println(link.substring(pos1+1,pos2));
+            
+        }
+
+    }
+
 }

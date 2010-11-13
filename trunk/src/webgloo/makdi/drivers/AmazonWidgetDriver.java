@@ -37,7 +37,7 @@ public class AmazonWidgetDriver implements IDriver {
         //contextual widget - just ignore the tag
         
         List<IData> items = new ArrayList<IData>();
-        MyTrace.debug("creating google search control :: keyword :: " + tag);
+        MyTrace.debug("creating amazon widget :: keyword :: " + tag);
         items.add(new AmazonWidget(this.amazonId));
         MyTrace.exit("AmazonWidgetDriver", "run()");
         

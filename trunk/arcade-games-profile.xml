@@ -5,35 +5,33 @@
   <drivers>
     <webgloo.makdi.drivers.WikipediaDriver>
       <transformer>
-        <suffix> arcade game</suffix>
+        <suffix>game</suffix>
       </transformer>
     </webgloo.makdi.drivers.WikipediaDriver>
+
+    <webgloo.makdi.misc.ArcadeGameCodeDriver/>
+
     <webgloo.makdi.drivers.YoutubeDriver>
-      <maxResults>2</maxResults>
+      <maxResults>1</maxResults>
       <transformer>
-        <suffix> arcade game</suffix>
+        <suffix>game</suffix>
       </transformer>
     </webgloo.makdi.drivers.YoutubeDriver>
-   
+
+
     <webgloo.makdi.drivers.YahooAnswerDriver>
       <maxResults>6</maxResults>
       <transformer>
-        <suffix> arcade game</suffix>
+        <suffix>game</suffix>
       </transformer>
     </webgloo.makdi.drivers.YahooAnswerDriver>
 
-    <webgloo.makdi.drivers.GoogleBaseDriver>
-      <maxResults>4</maxResults>
-      <transformer>
-        <suffix> arcade game</suffix>
-      </transformer>
-    </webgloo.makdi.drivers.GoogleBaseDriver>
   </drivers>
 
   <frontPageDrivers>
     <webgloo.makdi.drivers.WikipediaDriver>
       <transformer>
-        <suffix> arcade game</suffix>
+        <suffix>game</suffix>
       </transformer>
     </webgloo.makdi.drivers.WikipediaDriver>
     <webgloo.makdi.drivers.YoutubeDriver>
@@ -41,10 +39,13 @@
       <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
   </frontPageDrivers>
-  <action>STORE</action>
+  <action>TEST</action>
   <keywords>
-    <string>pacman</string>
-    <string>contra</string>
+    
+   <string>Galaga</string>
+   <string>super mario brothers</string>
+    <string>Minesweeper</string>
+    <string>Frogger</string>
   </keywords>
   <name>ARCADE_GAMES</name>
 </profile>
