@@ -28,24 +28,35 @@ public class YahooBossDriver implements IDriver {
 
     public final static String BOSS_APPLICATION_ID = "dDGV1CbV34FpBSGBFMZXtX4x1I5GYdcJskAxZzjND3O3ZeYN4j4CPzfSROgc";
     public final static String BOSS_WEB_URI = "http://boss.yahooapis.com/ysearch/web/v1/";
-    public final static String BOSS_ARGUMENT = "\"{token}\"{site}?appid={applicationId}&count={count}&format=xml";
+    public final static String BOSS_ARGUMENT = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&format=xml";
     //BOSS is no limits API right now
     // but again lets play it safe!
 
+    //Max result size is 50
     public final static int MAX_RESULTS = 10;
     private int maxResults;
+    private int start ;
+    
     private String[] siteNames = null;
     private Transformer transformer ;
     
     public YahooBossDriver(Transformer transformer ,String[] siteNames) {
         this.transformer = transformer;
         this.maxResults = MAX_RESULTS;
+        this.start = 0;
         this.siteNames = siteNames;
+
     }
         
-    public YahooBossDriver(Transformer transformer,String[] siteNames, int maxResults) {
+    public YahooBossDriver(
+            Transformer transformer,
+            String[] siteNames,
+            int start,
+            int maxResults) {
+        
         this.transformer = transformer ;
         this.maxResults = maxResults;
+        this.start = start ;
         this.siteNames = siteNames;
     }
 
@@ -141,6 +152,7 @@ public class YahooBossDriver implements IDriver {
         int count = (this.maxResults <= 0) ? MAX_RESULTS : this.maxResults;
         args = args.replace("{site}", site);
         args = args.replace("{count}", "" + count);
+        args = args.replace("{start}", "" + this.start);
 
         String address = YahooBossDriver.BOSS_WEB_URI + args;
         return address;
@@ -151,7 +163,11 @@ public class YahooBossDriver implements IDriver {
 
         String[] siteNames = new String[] {"www.classicgamesarcade.com"} ;
         
-        YahooBossDriver driver = new YahooBossDriver(new Transformer(null, null),siteNames,254);
+        YahooBossDriver driver = new YahooBossDriver(
+                new Transformer(null, null),
+                siteNames,
+                110,
+                10);
         String tag = " ";
         List<IData> items = driver.run(tag);
         for (IData item : items) {

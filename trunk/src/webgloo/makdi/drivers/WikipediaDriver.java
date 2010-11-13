@@ -40,7 +40,11 @@ public class WikipediaDriver implements IDriver {
 
         //Transformer is for YAHOO BOSS driver
         //YAHOO BOSS will do its own encoding 
-        YahooBossDriver boss = new YahooBossDriver(this.transformer, new String[]{"wikipedia.org"}, 2);
+        YahooBossDriver boss = new YahooBossDriver(
+                this.transformer,
+                new String[]{"wikipedia.org"},
+                0,
+                2);
         List<IData> results = boss.run(tag);
         
         Post result = null;

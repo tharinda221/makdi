@@ -27,7 +27,11 @@ public class ArcadeGameCodeDriver implements IDriver{
 
     public List<IData> run(String tag) throws Exception {
         String[] siteNames = new String[] {"classicgamesarcade.com"} ;
-        IDriver bossDriver = new YahooBossDriver(new Transformer(null,null),siteNames,1);
+        IDriver bossDriver = new YahooBossDriver(
+                new Transformer(null,null),
+                siteNames,
+                0,
+                1);
         List<IData> hits = bossDriver.run(tag);
         
         Post result ;
