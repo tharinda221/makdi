@@ -5,7 +5,6 @@ import java.util.List;
 import webgloo.makdi.drivers.*;
 import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.misc.ArcadeGameCodeDriver;
 
 /**
  *
@@ -52,7 +51,7 @@ public class ArcadeGamesProfile implements IContentProfile {
         
         drivers.add(new WikipediaDriver(new Transformer(null, "game")));
         drivers.add(new YoutubeDriver(new Transformer(null, "game"),1));
-        drivers.add(new ArcadeGameCodeDriver());
+        drivers.add(new OnlineGameCodeDriver());
         drivers.add(new YahooAnswerDriver(new Transformer(null, " game"),6));
         MyTrace.exit("ArcadeGameProfile", "getDrivers()");
         
