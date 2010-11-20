@@ -13,6 +13,7 @@ public interface IContentProfile {
 
     String GOOGLE_HOT_TRENDS = "GOOGLE_HOT_TRENDS";
     String ARCADE_GAMES = "ARCADE_GAMES";
+    String SMALL_SITE = "SMALL_SITE";
     
     String getSiteGuid() ;
     List<IDriver> getDrivers();

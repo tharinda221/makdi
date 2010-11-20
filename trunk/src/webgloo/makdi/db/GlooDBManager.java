@@ -11,32 +11,9 @@ import webgloo.makdi.util.MyUtils;
  * @author rajeevj
  *
  */
-public class AutoPostManager {
+public class GlooDBManager {
 
-    public static void storeKeywords(
-            java.sql.Connection connection,
-            String orgId,
-            List<Keyword> keywords) throws Exception {
-
-         
-         //Add entry and exit tracing for public methods
-         MyTrace.entry("AutoPostManager", "storeKeywords()");
-        //store keyword if not there already
-        //mySQL timestamps are in form 2010-10-22 21:14:45
-        for (Keyword keyword : keywords) {
-            String createdOn = keyword.getDate() + " " + MyUtils.now();
-            //wait 1 second before pushing in new keyword
-            // This will esnure that keywords are spaced right
-            Thread.sleep(1000);
-            addGlooAutoPostKeyword(connection, orgId, keyword.getToken(), createdOn);
-
-        }
-        
-        MyTrace.exit("AutoPostManager", "storeKeywords()");
-
-    }
-
-    private static void addGlooAutoPostKeyword(java.sql.Connection connection,
+    public static void addAutoPostKeyword(java.sql.Connection connection,
             String orgId,
             String token,
             String createdOn) throws Exception {
@@ -58,7 +35,7 @@ public class AutoPostManager {
 
     }
 
-    public static List<Keyword> loadKeywords(
+    public static List<Keyword> getUnprocessedAutoKeywords(
             java.sql.Connection connection,
             String orgId) throws Exception {
 
@@ -87,46 +64,19 @@ public class AutoPostManager {
         rs.close();
 
         MyTrace.exit("AutoPostManager", "loadKeywords()");
-        
+
         return keywords;
 
     }
 
-    public static void storePostContent(java.sql.Connection connection,
-            String orgId,
-            Keyword keyword,
-            StringBuilder title,
-            StringBuilder summary,
-            StringBuilder content) throws Exception {
-
-        MyTrace.entry("AutoPostManager", "storePostContent()");
-
-        //1. create a new page called gloo_page
-        String pageIdentKey = MyUtils.getUUID();
-        String pageName = keyword.getToken();
-        //mySQL timestamps are in form 2010-10-22 21:14:45
-        String createdOn = keyword.getCreatedOn();
-        
-        createGlooPage(connection, orgId, pageIdentKey, pageName);
-        //2. store content in newly created page
-        addGlooPageContent(connection, orgId, pageIdentKey, title, content);
-        //3. store summary in gloo_auto_post table
-        // get right date string
-
-        addGlooAutoPost(connection, orgId, pageName, title, summary, createdOn);
-           
-        MyTrace.exit("AutoPostManager", "storePostContent()");
-
-    }
-
-    private static void addGlooAutoPost(java.sql.Connection connection,
+    public static void addAutoPost(java.sql.Connection connection,
             String orgId,
             String pageName,
             StringBuilder title,
             StringBuilder summary,
             String createdOn) throws Exception {
 
-        
+
         String GLOO_AUTO_POST_INSERT_SQL =
                 "INSERT  INTO gloo_auto_post(org_id,ident_key,seo_key,title,content,created_on,updated_on)"
                 + " VALUES(?,?,?,?,?,?,now()) ";
@@ -147,15 +97,16 @@ public class AutoPostManager {
 
     }
 
-    private static void addGlooPageContent(java.sql.Connection connection,
+    public static void addPageContent(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
+            String typeOfWidget,
+            String widgetXml,
             StringBuilder title,
-            StringBuilder content) throws Exception {
+            StringBuilder widgetHtml) throws Exception {
 
         String identKey = MyUtils.getUUID();
-        String typeOfWidget = "AUTO_POST";
-        String widgetXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <widget> <type>AUTO_POST</type></widget>";
+       
         //Magic block of Type II
         int typeofBlock = 2;
         int blockNumber = 100;
@@ -174,7 +125,7 @@ public class AutoPostManager {
 
         pstmt.setString(5, title.toString());
         pstmt.setString(6, widgetXml);
-        pstmt.setString(7, content.toString());
+        pstmt.setString(7, widgetHtml.toString());
 
         pstmt.setInt(8, blockNumber);
         pstmt.setInt(9, typeofBlock);
@@ -184,12 +135,22 @@ public class AutoPostManager {
 
     }
 
-    private static void createGlooPage(java.sql.Connection connection,
+    /**
+     *
+     * @param pageName - human readable page name like "The mystery continues"
+     * @throws Exception
+     */
+    
+    public static void addPage(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
             String pageName) throws Exception {
 
         String seoKey = MyUtils.convertPageNameToId(pageName);
+        //page name should also be cured
+        pageName = MyUtils.removeNonAlphaNumeric(pageName);
+        pageName = MyUtils.squeeze(pageName);
+        
         //delete existing page on this SEO key
         // page delete - should cascade content delete via triggers
 
@@ -201,7 +162,7 @@ public class AutoPostManager {
         java.sql.Statement stmt = connection.createStatement();
         stmt.executeUpdate(GLOO_PAGE_DELETE_SQL);
         stmt.close();
-        
+
         String GLOO_PAGE_INSERT_SQL =
                 "INSERT  INTO gloo_page(org_id,ident_key,seo_key,page_name,created_on,updated_on)"
                 + " VALUES(?,?,?,?,now(),now()) ";
@@ -218,7 +179,7 @@ public class AutoPostManager {
 
     }
 
-     public static void updateKeyword(java.sql.Connection connection,
+    public static void updateAutoKeyword(java.sql.Connection connection,
             String orgId,
             Keyword keyword) throws Exception {
 
@@ -227,17 +188,14 @@ public class AutoPostManager {
 
         String GLOO_AUTO_KEYWORD_UPADTE_SQL =
                 "update gloo_auto_keyword set is_processed = 1 where org_id = ? and seo_key = ? ";
-               
+
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_AUTO_KEYWORD_UPADTE_SQL);
         pstmt.setString(1, orgId);
         pstmt.setString(2, pageSeoKey);
-        
+
 
         pstmt.executeUpdate();
         pstmt.close();
 
     }
-
-     
-    
 }

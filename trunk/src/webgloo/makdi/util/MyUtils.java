@@ -13,7 +13,7 @@ public class MyUtils {
 
     public static String squeeze(String s) {
         MyTrace.entry("MyUtils", "squeeze()");
-
+        s = s.trim();
         char[] a = s.toCharArray();
         int N = 1;
         for (int i = 1; i < a.length; i++) {
@@ -32,42 +32,7 @@ public class MyUtils {
 
         return new String(a, 0, N);
     }
-
-    public static String squeezeAndReplace(String s, char c) {
-
-        MyTrace.entry("MyUtils", "squeezeAndReplace()");
-
-        s = s.trim();
-        char[] a = s.toCharArray();
-        int N = 1;
-        int S = -1;
-        for (int i = 1; i < a.length; i++) {
-            //Add next char is non-space or last one was
-            // non-space
-            a[N] = a[i];
-            if (a[N] != ' ') {
-                N++;
-            } else if (a[N - 1] != ' ' && (N - 1 != S)) {
-                //a[N] is space
-                //ready to gather the next char
-                //we made a substitution at N
-                a[N] = c;
-                S = N;
-                N++;
-
-            }
-        }
-
-        MyTrace.exit("MyUtils", "squeezeAndReplace()");
-
-        return new String(a, 0, N);
-    }
-
-    public static String squeezeAndReplaceAndLower(String s, char c) {
-        String result = squeezeAndReplace(s, c);
-        return result.toLowerCase();
-    }
-
+    
     public static String getFirstLetterAndLower(String tag) {
         char[] letters = new char[1];
         letters[0] = tag.charAt(0);
@@ -93,11 +58,23 @@ public class MyUtils {
     }
 
     public static String convertPageNameToId(String pageName) {
-        //convert  pageName into pageId
-        return squeezeAndReplaceAndLower(pageName, '-');
+        //replace incoming dashes with space
+        pageName = removeNonAlphaNumeric(pageName);
+        //squeeze spaces
+        pageName = squeeze(pageName);
+        //convert single spaces to dashes
+        pageName = pageName.replace(" ", "-");
+        return pageName.toLowerCase();
 
     }
 
+    public static String removeNonAlphaNumeric(String s) {
+        s = s.replaceAll("[^a-zA-Z0-9]", " ");
+        return s ;
+
+    }
+
+    
     public static String getUUID() {
         java.util.UUID uuid = java.util.UUID.randomUUID();
         return uuid.toString();
@@ -119,9 +96,10 @@ public class MyUtils {
     }
 
     public static void main(String[] args) {
-        String s = MyUtils.now();
-        System.out.println("[" + s + "]");
-
+        String s = "   Meditation Chairs: -  The Benefits Of Having One   ";
+        System.out.println(MyUtils.removeNonAlphaNumeric(s));
+        System.out.println(MyUtils.convertPageNameToId(s));
+        
     }
 }
 

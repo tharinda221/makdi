@@ -1,9 +1,7 @@
 package webgloo.makdi.main;
 
 import jargs.gnu.CmdLineParser;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import webgloo.makdi.io.MyFileReader;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.profile.ProfileManager;
 import webgloo.makdi.util.MyUtils;

@@ -43,10 +43,10 @@ public class RssDriver implements IDriver {
      * 
      */
 
-    public RssDriver(Transformer transformer,String feedURI) {
+    public RssDriver(String feedURI,int maxResults) {
         this.feedURI = feedURI;
         this.maxResults = MAX_RESULTS ;
-        this.transformer = transformer;
+        this.transformer = new Transformer();
         this.isExternal = true ;
         
     }
@@ -59,11 +59,11 @@ public class RssDriver implements IDriver {
 
     }
     
-    public RssDriver(Transformer transformer,int source) {
+    public RssDriver(int source,int maxResults) {
         this.feedURI = null ;
         this.source = source ;
-        this.maxResults = MAX_RESULTS ;
-        this.transformer = transformer;
+        this.maxResults = maxResults ;
+        this.transformer = new Transformer();
     }
     
     public RssDriver(Transformer transformer,int source , int maxResults) {

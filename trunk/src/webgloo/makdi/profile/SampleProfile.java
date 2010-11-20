@@ -44,12 +44,12 @@ public class SampleProfile implements IContentProfile {
         drivers.add(new GoogleBookDriver(new Transformer(null,"+book"), 2));
         drivers.add(new GoogleCseDriver(new Transformer(), "008055205579233425318:vepvl6ivmpu"));
         drivers.add(new GoogleSearchControlDriver(new Transformer()));
-        drivers.add(new RssDriver(new Transformer(),"http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml"));
+        drivers.add(new RssDriver("http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",10));
         //Google news is 1 
-        drivers.add(new RssDriver(new Transformer(),1,5));
+        drivers.add(new RssDriver(1,5));
         drivers.add(new TmdbDriver(new Transformer()));
         drivers.add(new TwitterDriver(new Transformer("watched", null), 8));
-        drivers.add(new WikipediaDriver(new Transformer()));
+        drivers.add(new WikipediaDriver());
         drivers.add(new YoutubeDriver(new Transformer(null, "trailer"), 1));
         drivers.add(new YahooAnswerDriver(new Transformer("movie",null),2));
         drivers.add(new YahooAnswerDriver(new Transformer("intitle:","+book"),2));
