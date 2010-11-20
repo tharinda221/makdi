@@ -1,6 +1,5 @@
 package webgloo.makdi.drivers;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
@@ -8,7 +7,6 @@ import webgloo.makdi.data.Post;
 
 import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.util.HtmlToText;
 
 /**
  *
@@ -20,8 +18,13 @@ public class WikipediaDriver implements IDriver {
     public static final String WIKIPEDIA_PRINT_URI = "http://en.wikipedia.org/w/index.php?printable=yes&title=";
     private Transformer transformer;
 
+
     public WikipediaDriver(Transformer transformer) {
         this.transformer = transformer;
+    }
+
+    public WikipediaDriver() {
+        this.transformer = new Transformer();
     }
 
     @Override

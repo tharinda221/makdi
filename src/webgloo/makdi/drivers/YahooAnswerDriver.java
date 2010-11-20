@@ -34,9 +34,9 @@ public class YahooAnswerDriver implements IDriver {
     private int maxResults;
     private Transformer transformer ;
 
-    public YahooAnswerDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer ;
+    public YahooAnswerDriver(int maxResults) {
+        this.maxResults = maxResults;
+        this.transformer = new Transformer() ;
     }
 
     public YahooAnswerDriver(Transformer transformer, int maxResults) {

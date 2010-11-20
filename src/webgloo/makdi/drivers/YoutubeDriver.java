@@ -27,13 +27,12 @@ public class YoutubeDriver implements IDriver {
     
     private int maxResults;
     private Transformer transformer;
-    
-    public YoutubeDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer;
 
+    public YoutubeDriver(int maxResults) {
+        this.maxResults = maxResults;
+        this.transformer = new Transformer();
     }
-
+    
     public YoutubeDriver(Transformer transformer, int maxResults) {
         this.maxResults = maxResults;
         this.transformer = transformer;

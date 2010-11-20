@@ -22,9 +22,9 @@ public class TwitterDriver implements IDriver {
     private int maxResults;
     private Transformer transformer;
 
-    public TwitterDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer;
+    public TwitterDriver(int maxResults) {
+        this.maxResults = maxResults;
+        this.transformer = new Transformer();
     }
 
     public TwitterDriver(Transformer transformer, int maxResults) {

@@ -40,9 +40,9 @@ public class YahooBossDriver implements IDriver {
     private String[] siteNames = null;
     private Transformer transformer ;
     
-    public YahooBossDriver(Transformer transformer ,String[] siteNames) {
-        this.transformer = transformer;
-        this.maxResults = MAX_RESULTS;
+    public YahooBossDriver(String[] siteNames, int maxResults) {
+        this.transformer = new Transformer();
+        this.maxResults = maxResults;
         this.start = 0;
         this.siteNames = siteNames;
 
@@ -164,7 +164,7 @@ public class YahooBossDriver implements IDriver {
         String[] siteNames = new String[] {"www.classicgamesarcade.com"} ;
         
         YahooBossDriver driver = new YahooBossDriver(
-                new Transformer(null, null),
+                new Transformer(),
                 siteNames,
                 110,
                 10);
