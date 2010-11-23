@@ -2,16 +2,14 @@ package webgloo.makdi.html;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
-import webgloo.makdi.data.AmazonWidget;
 import webgloo.makdi.data.Answer;
-import webgloo.makdi.data.ArcadeGameCode;
 import webgloo.makdi.data.Book;
 import webgloo.makdi.data.GoogleCse;
 import webgloo.makdi.data.GoogleSearchControl;
 import webgloo.makdi.data.VanillaList;
-import webgloo.makdi.data.Movie;
 import webgloo.makdi.data.News;
 import webgloo.makdi.data.Photo;
+import webgloo.makdi.data.Photo2;
 import webgloo.makdi.data.Video;
 import webgloo.makdi.data.Post;
 import webgloo.makdi.logging.MyTrace;
@@ -65,30 +63,7 @@ public class HtmlGenerator {
 
         return st.toString();
     }
-
-    public static String generateAmazonWidgetCode(AmazonWidget data) {
-        MyTrace.entry("HtmlGenerator", "generateAmazonWidgetCode()");
-        // Look for templates in CLASSPATH as resources
-        StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/amazon-widget");
-        st.setAttribute("amazonId", data.getAmazonId());
-        MyTrace.exit("HtmlGenerator", "generateAmazonWidgetCode()");
-
-        return st.toString();
-    }
-
-    public static String  generateArcadeGameCode(ArcadeGameCode data) {
-         MyTrace.entry("HtmlGenerator", "generateArcadeGameCode()");
-        // Look for templates in CLASSPATH as resources
-        StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/arcade-game-code");
-        st.setAttribute("embedCode", data.getCode());
-        st.setAttribute("title", data.getTitle());
-        MyTrace.exit("HtmlGenerator", "generateArcadeGameCode()");
-
-        return st.toString();
-    }
-
+    
     public static String generatePostCode(Post post) {
         MyTrace.entry("HtmlGenerator", "generatePostCode()");
         // Look for templates in CLASSPATH as resources
@@ -149,21 +124,6 @@ public class HtmlGenerator {
 
     }
 
-    public static String generateArcadeVideoCode(Video video) {
-         MyTrace.entry("HtmlGenerator", "generateArcadeVideoCode()");
-        // Look for templates in CLASSPATH as resources
-        StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/youtube-post");
-        st.setAttribute("title", video.getTitle());
-        st.setAttribute("videoId", video.getVideoId());
-        st.setAttribute("description", video.getDescription());
-        //set video alignment
-        //alignleft, alignright or aligncenter
-        st.setAttribute("alignment",video.getAlignment());
-        MyTrace.exit("HtmlGenerator", "generateArcadeVideoCode()");
-        return st.toString();
-    }
-
     public static String generateNewsCode(News news) {
         MyTrace.entry("HtmlGenerator", "generateNewsCode()");
         StringTemplateGroup group = new StringTemplateGroup("mygroup");
@@ -175,7 +135,7 @@ public class HtmlGenerator {
         return st.toString();
 
     }
-
+    
     public static String generateAutoPostNews(News news) {
         MyTrace.entry("HtmlGenerator", "generateAutoPostNews()");
         StringTemplateGroup group = new StringTemplateGroup("mygroup");
@@ -201,12 +161,12 @@ public class HtmlGenerator {
 
     }
 
-    public static String generateMovieCode(Movie movie) {
-        MyTrace.entry("HtmlGenerator", "generateMovieCode()");
+    public static String generatePhoto2Code(Photo2 photo2) {
+        MyTrace.entry("HtmlGenerator", "generatePhoto2Code()");
         StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/movie");
-        st.setAttribute("movie", movie);
-        MyTrace.exit("HtmlGenerator", "generateMovieCode()");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/photo2");
+        st.setAttribute("photo", photo2);
+        MyTrace.exit("HtmlGenerator", "generatePhoto2Code()");
 
         return st.toString();
 

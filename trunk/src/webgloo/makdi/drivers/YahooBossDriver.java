@@ -1,22 +1,8 @@
 package webgloo.makdi.drivers;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.data.Post;
-import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
 
 /**
@@ -24,162 +10,119 @@ import webgloo.makdi.logging.MyTrace;
  * @author rajeevj
  *
  */
-public class YahooBossDriver implements IDriver {
+public abstract class YahooBossDriver {
 
     public final static String BOSS_APPLICATION_ID = "dDGV1CbV34FpBSGBFMZXtX4x1I5GYdcJskAxZzjND3O3ZeYN4j4CPzfSROgc";
-    public final static String BOSS_WEB_URI = "http://boss.yahooapis.com/ysearch/web/v1/";
-    public final static String BOSS_ARGUMENT = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&format=xml";
     //BOSS is no limits API right now
     // but again lets play it safe!
-
-    //Max result size is 50
-    public final static int MAX_RESULTS = 10;
     private int maxResults;
-    private int start ;
-    
+    private int startIndex;
     private String[] siteNames = null;
-    private Transformer transformer ;
-    
-    public YahooBossDriver(String[] siteNames, int maxResults) {
+    private Transformer transformer;
+
+    public YahooBossDriver(String[] siteNames,int startIndex, int maxResults) {
         this.transformer = new Transformer();
         this.maxResults = maxResults;
-        this.start = 0;
+        this.startIndex = startIndex;
         this.siteNames = siteNames;
-
     }
-        
+
     public YahooBossDriver(
             Transformer transformer,
             String[] siteNames,
-            int start,
+            int startIndex,
             int maxResults) {
-        
-        this.transformer = transformer ;
+            
+        this.transformer = transformer;
         this.maxResults = maxResults;
-        this.start = start ;
+        this.startIndex = startIndex;
         this.siteNames = siteNames;
     }
 
-    @Override
-    public String getName() {
-        return IDriver.YAHOO_BOSS_DRIVER;
-    }
+    // concrete implementations will overwrite this method
+    public abstract List<IData> getResults(String address) throws Exception;
     
-    @Override
     public long getDelay() {
-        return 3000 ;
+        return 3000;
     }
-    
-    @Override
-    public List<IData> run(String tag) throws Exception {
+
+    public List<IData> run(String endpointURI, String arguments, String token) throws Exception {
+
         MyTrace.entry("YahooBossDriver", "run()");
+        token = this.transformer.transform(token);
+        token = java.net.URLEncoder.encode(token, "UTF-8");
+        List<IData> items;
 
-        if(this.siteNames == null ) {
-            throw new Exception("No site names have been supplied to Yahoo BOSS");
+        if (this.siteNames != null) {
+            items = this.getAllSitesItems(endpointURI, arguments, token);
+        } else {
+            items = this.getAllItems(endpointURI, arguments, token);
         }
-        
-        tag = this.transformer.transform(tag);
-        tag = java.net.URLEncoder.encode(tag, "UTF-8");
-        List<IData> items = new ArrayList<IData>();
 
-        for(String siteName : siteNames){
-            List<IData> posts = this.getPosts(siteName,tag);
+        MyTrace.exit("YahooBossDriver", "run()");
+        return items;
+
+    }
+
+    private List<IData> getAllSitesItems(String endpointURI, String arguments, String token) throws Exception {
+
+        List<IData> items = new ArrayList<IData>();
+        //search specific sites
+        for (String siteName : this.siteNames) {
+            String address = createAddress(endpointURI, arguments, siteName, token);
+            MyTrace.debug("sending BOSS request to :: " + address);
+            List<IData> posts = this.getResults(address);
             for (IData post : posts) {
                 items.add(post);
             }
         }
 
-        MyTrace.exit("YahooBossDriver", "run()");
         return items;
-
     }
 
-    public List<IData> getPosts(String siteName,String tag) throws Exception {
-        
-        MyTrace.entry("YahooBossDriver", "run()");
+    private List<IData> getAllItems(String endpointURI, String arguments, String token) throws Exception {
+
         List<IData> items = new ArrayList<IData>();
 
-        //create address
-        String address = createAddress(siteName,tag);
-        MyTrace.debug("sending request to :: " + address);
-                 
-        String response = URLReader.read(address);
-        
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        InputStream is = new ByteArrayInputStream(response.getBytes("UTF-8"));
-        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-        //domFactory.setNamespaceAware(true);
-        DocumentBuilder builder = domFactory.newDocumentBuilder();
-        //Document doc = builder.parse("sample.xml");
-        Document doc = builder.parse(is);
-        XPathExpression expr = xpath.compile("//ysearchresponse/resultset_web/result");
-        
-        NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-
-        for (int i = 0; i < nodes.getLength(); i++) {
-
-            Node node = nodes.item(i);
-
-            String title = (String) xpath.evaluate("title", node, XPathConstants.STRING);
-            String link = (String) xpath.evaluate("url", node, XPathConstants.STRING);
-            String description = (String) xpath.evaluate("abstract", node, XPathConstants.STRING);
-            String size = (String) xpath.evaluate("size", node, XPathConstants.STRING);
-
-            //create SearchResult
-            Post item = new Post();
-            item.setDescription(description);
-            item.setLink(link);
-            item.setSize(size);
-            item.setTitle(title);
-
-            items.add(item);
-
+        String address = createAddress(endpointURI, arguments, token);
+        List<IData> posts = this.getResults(address);
+        for (IData post : posts) {
+            items.add(post);
         }
-
-        is.close();
-        MyTrace.exit("YahooBossDriver", "run()");
+        
         return items;
     }
 
-    private String createAddress(String siteName, String tag) {
+    private String createAddress(String endpointURI, String arguments, String siteName, String token) {
 
         //substitute token
-        String args = YahooBossDriver.BOSS_ARGUMENT.replace("{token}", tag);
+        arguments = arguments.replace("{token}", token);
         //substitute application id
-        args = args.replace("{applicationId}", YahooBossDriver.BOSS_APPLICATION_ID);
+        arguments = arguments.replace("{applicationId}", YahooBossDriver.BOSS_APPLICATION_ID);
         //substitute site and count
-        String site =  "+site:" + siteName ;
-        int count = (this.maxResults <= 0) ? MAX_RESULTS : this.maxResults;
-        args = args.replace("{site}", site);
-        args = args.replace("{count}", "" + count);
-        args = args.replace("{start}", "" + this.start);
-
-        String address = YahooBossDriver.BOSS_WEB_URI + args;
+        String site = "+site:" + siteName;
+        int count = (this.maxResults <= 0) ? 10 : this.maxResults;
+        arguments = arguments.replace("{site}", site);
+        arguments = arguments.replace("{count}", "" + count);
+        arguments = arguments.replace("{start}", "" + this.startIndex);
+        String address = endpointURI + arguments;
         return address;
 
     }
 
-     public static void main(String[] args) throws Exception {
+    public String createAddress(String endpointURI, String arguments, String token) {
 
-        String[] siteNames = new String[] {"www.classicgamesarcade.com"} ;
-        
-        YahooBossDriver driver = new YahooBossDriver(
-                new Transformer(),
-                siteNames,
-                110,
-                10);
-        String tag = " ";
-        List<IData> items = driver.run(tag);
-        for (IData item : items) {
-            Post post = (Post) item ;
-            String link = post.getLink();
-            int pos1 = link.lastIndexOf('/');
-            int pos2 = link.indexOf(".html", pos1);
-            if(pos1 != -1 && pos2 != -1 )
-                System.out.println(link.substring(pos1+1,pos2));
-            
-        }
+        //substitute token
+        arguments = arguments.replace("{token}", token);
+        //substitute application id
+        arguments = arguments.replace("{applicationId}", YahooBossDriver.BOSS_APPLICATION_ID);
+        //No site name -- replace with empty
+        arguments = arguments.replace("{site}", "");
+        int count = (this.maxResults <= 0) ? 10 : this.maxResults;
+        arguments = arguments.replace("{count}", "" + count);
+        arguments = arguments.replace("{start}", "" + this.startIndex);
+        String address = endpointURI + arguments;
+        return address;
 
     }
-
 }

@@ -3,6 +3,7 @@ package webgloo.makdi.io;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import webgloo.makdi.logging.MyTrace;
@@ -40,5 +41,23 @@ public class URLReader {
         
         return response ;
     }
-    
+
+    public static int getCode(String address) throws Exception{
+        HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
+        int code = connection.getResponseCode();
+        return code ;
+    }
+
+     public static boolean isValidURI(String address) throws Exception{
+        HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
+        int code = connection.getResponseCode();
+        boolean flag = (code == 200) ? true : false ;
+        return flag ;
+        
+    }
+
+    public static void main(String[] args) throws Exception{
+        String address = "http://www.moomoogames.com/rajeev";
+        System.out.println(URLReader.isValidURI(address));
+    }
 }

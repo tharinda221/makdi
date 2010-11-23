@@ -13,10 +13,16 @@ import webgloo.makdi.logging.MyTrace;
  */
 public class ArticleBaseLinks {
 
+    private int size ;
+
+    public ArticleBaseLinks(int size) {
+        this.size = size ;
+    }
+
     public List<String> getRecords(String keyword) throws Exception {
         
         String[] siteNames = new String[]{"www.articlesbase.com"};
-        YahooBossWebDriver driver = new YahooBossWebDriver(siteNames,0,10);
+        YahooBossWebDriver driver = new YahooBossWebDriver(siteNames,0,this.size);
 
         List<IData> items = driver.run(keyword);
         List<String> links = new ArrayList<String>();
@@ -28,11 +34,21 @@ public class ArticleBaseLinks {
                 MyTrace.info("Ignored article link " + link);
             } else {
                 links.add(link);
+                MyTrace.debug("scraper found link :: " + link);
             }
 
         }
         
         return links;
         
+    }
+
+    public static void main(String[] args) throws Exception{
+        ArticleBaseLinks base = new ArticleBaseLinks(10);
+        List<String> links = base.getRecords("meditation chairs") ;
+        for(String link: links) {
+            System.out.println(link);
+        }
+
     }
 }

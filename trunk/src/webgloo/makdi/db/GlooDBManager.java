@@ -13,11 +13,13 @@ import webgloo.makdi.util.MyUtils;
  */
 public class GlooDBManager {
 
+    //@todo - check if content is more than what can fit into column
     public static void addAutoPostKeyword(java.sql.Connection connection,
             String orgId,
             String token,
             String createdOn) throws Exception {
 
+        
         //with ignore we do not insert the duplicate tokens
         String INSERT_SQL =
                 " insert ignore into gloo_auto_keyword(org_id,token,seo_key,created_on) "

@@ -15,6 +15,42 @@ public class Photo implements IData{
     private String description ;
     private String imageLink ;
     
+    private int height ;
+    private int width ;
+    private String alignment ;
+
+    public static String ALIGN_CENTER = "aligncenter";
+    public static String ALIGN_LEFT = "alignleft";
+    public static String ALIGN_RIGHT = "alignright";
+
+    public Photo() {
+        this.alignment = Photo.ALIGN_CENTER ;
+    }
+    
+    public String getAlignment() {
+        return alignment;
+    }
+
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    
     public String getDescription() {
         return description;
     }
