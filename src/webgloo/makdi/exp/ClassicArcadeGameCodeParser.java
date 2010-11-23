@@ -6,7 +6,7 @@ import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Post;
 import webgloo.makdi.drivers.IDriver;
 import webgloo.makdi.drivers.Transformer;
-import webgloo.makdi.drivers.YahooBossDriver;
+import webgloo.makdi.drivers.YahooBossWebDriver;
 import webgloo.makdi.io.URLReader;
 
 /**
@@ -27,7 +27,7 @@ public class ClassicArcadeGameCodeParser {
 
     public void run(String tag) throws Exception {
         String[] siteNames = new String[] {"classicgamesarcade.com"} ;
-        IDriver bossDriver = new YahooBossDriver(
+        IDriver bossDriver = new YahooBossWebDriver(
                 new Transformer(null,null),
                 siteNames,
                 0,

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Post;
-import webgloo.makdi.drivers.YahooBossDriver;
+import webgloo.makdi.drivers.YahooBossWebDriver;
 import webgloo.makdi.logging.MyTrace;
 
 /**
@@ -16,8 +16,7 @@ public class ArticleBaseLinks {
     public List<String> getRecords(String keyword) throws Exception {
         
         String[] siteNames = new String[]{"www.articlesbase.com"};
-
-        YahooBossDriver driver = new YahooBossDriver(siteNames, 10);
+        YahooBossWebDriver driver = new YahooBossWebDriver(siteNames,0,10);
 
         List<IData> items = driver.run(keyword);
         List<String> links = new ArrayList<String>();

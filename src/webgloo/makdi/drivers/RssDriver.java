@@ -27,9 +27,7 @@ public class RssDriver implements IDriver {
     public static final int GOOGLE_NEWS = 1 ;
     public static final int GOOGLE_BASE = 2;
 
-    public static final int MAX_RESULTS = 10;
-
-
+    
     private String feedURI;
     private int maxResults;
     private int source ;
@@ -45,7 +43,7 @@ public class RssDriver implements IDriver {
 
     public RssDriver(String feedURI,int maxResults) {
         this.feedURI = feedURI;
-        this.maxResults = MAX_RESULTS ;
+        this.maxResults = maxResults ;
         this.transformer = new Transformer();
         this.isExternal = true ;
         

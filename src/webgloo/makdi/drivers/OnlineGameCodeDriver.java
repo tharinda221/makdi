@@ -17,7 +17,7 @@ public class OnlineGameCodeDriver implements IDriver {
     
     @Override
     public String getName() {
-        return "TEST_DRIVER";
+        return IDriver.ONLINE_GAME_CODE_DRIVER;
     }
 
     @Override

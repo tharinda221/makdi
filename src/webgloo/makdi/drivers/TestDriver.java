@@ -12,15 +12,7 @@ import webgloo.makdi.data.TestData;
  */
 public class TestDriver implements IDriver {
 
-   
-    public final static int MAX_RESULTS = 10;
-
     private int maxResults ;
-    
-    public TestDriver() {
-        this.maxResults = MAX_RESULTS ;
-        
-    }
     
     public TestDriver(int maxResults){
         this.maxResults = maxResults ;

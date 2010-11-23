@@ -39,7 +39,7 @@ public class GlooDBManager {
             java.sql.Connection connection,
             String orgId) throws Exception {
 
-        MyTrace.entry("AutoPostManager", "loadKeywords()");
+        MyTrace.entry("GlooDBManager", "getUnprocessedAutoKeywords()");
         //store keyword is not there already
         List<Keyword> keywords = new ArrayList<Keyword>();
 
@@ -63,7 +63,7 @@ public class GlooDBManager {
         stmt.close();
         rs.close();
 
-        MyTrace.exit("AutoPostManager", "loadKeywords()");
+        MyTrace.exit("GlooDBManager", "getUnprocessedAutoKeywords()");
 
         return keywords;
 

@@ -26,21 +26,24 @@ import webgloo.makdi.logging.MyTrace;
  */
 public class YahooAnswerDriver implements IDriver {
 
-    public final static int MAX_RESULTS = 10;
+    
     public final static String YAHOO_YQL_URI = "http://query.yahooapis.com/v1/public/yql?q=";
-    public final static String YAHOO_ANSWER_YQL = "select * from answers.search(0,{endIndex}) where query=\"{token}\" and search_in=\"question\" ";
-
-
+    public final static String YAHOO_ANSWER_YQL = "select * from answers.search({startIndex},{endIndex}) where query=\"{token}\" and search_in=\"question\" ";
+    
     private int maxResults;
+    private int startIndex ;
+    
     private Transformer transformer ;
 
-    public YahooAnswerDriver(int maxResults) {
+    public YahooAnswerDriver(int startIndex,int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = new Transformer() ;
     }
 
-    public YahooAnswerDriver(Transformer transformer, int maxResults) {
+    public YahooAnswerDriver(Transformer transformer, int startIndex,int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = transformer ;
     }
 
@@ -61,7 +64,10 @@ public class YahooAnswerDriver implements IDriver {
         tag = this.transformer.transform(tag);
         
         String query = YAHOO_ANSWER_YQL.replace("{token}", tag);
+
+        query = query.replace("{startIndex}", "" + this.startIndex);
         query = query.replace("{endIndex}", "" + this.maxResults);
+        
         //url encode the full query
         query = java.net.URLEncoder.encode(query, "UTF-8");
         
@@ -70,8 +76,7 @@ public class YahooAnswerDriver implements IDriver {
         //fetch response
         MyTrace.debug("sending request to :: " + address);
         String response = URLReader.read(address);
-        //MyWriter.toConsole("response :: " + response);
-        
+                
         List<IData> items = new ArrayList<IData>();
         items = parseResponse(response);
         
@@ -122,7 +127,7 @@ public class YahooAnswerDriver implements IDriver {
     }
 
     public static void main(String[] args) throws Exception {
-        YahooAnswerDriver driver = new YahooAnswerDriver(new Transformer(null, " + movie + book"),4);
+        YahooAnswerDriver driver = new YahooAnswerDriver(new Transformer(null, " + movie + book"),0,4);
         String tag = "a clockwork orange ";
         List<IData> items = driver.run(tag);
         for(IData item : items) {

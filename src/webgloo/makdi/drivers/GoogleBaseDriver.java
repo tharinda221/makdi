@@ -20,19 +20,21 @@ public class GoogleBaseDriver implements IDriver {
 
     //public snippets feed
     public static final String SNIPPETS_FEED = "http://base.google.com/base/feeds/snippets";
-    public static final int MAX_RESULTS = 10;
     
-
     private int maxResults;
+    private int startIndex ;
+    
     private Transformer transformer;
 
-    public GoogleBaseDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer;
+    public GoogleBaseDriver(int startIndex, int maxResults) {
+        this.maxResults = maxResults;
+        this.startIndex = startIndex ;
+        this.transformer = new Transformer();
     }
 
-    public GoogleBaseDriver(Transformer transformer,int maxResults) {
+    public GoogleBaseDriver(Transformer transformer,int startIndex, int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = transformer;
     }
 
@@ -60,7 +62,7 @@ public class GoogleBaseDriver implements IDriver {
         URL feedUrl = new URL(SNIPPETS_FEED);
         // Create a query URL from the given arguments
         GoogleBaseQuery query = new GoogleBaseQuery(feedUrl);
-
+        query.setStartIndex(this.startIndex);
         //strict query
         //query.setGoogleBaseQuery(QUERY);
 
