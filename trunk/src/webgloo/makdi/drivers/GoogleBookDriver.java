@@ -20,22 +20,23 @@ import webgloo.makdi.logging.MyTrace;
  *
  */
 public class GoogleBookDriver implements IDriver {
-
     
-    public static final int MAX_RESULTS = 5;
     public static final String FEED_URL = "http://www.google.com/books/feeds/volumes";
 
     private int maxResults;
+    private int startIndex ;
     private Transformer transformer ;
 
 
-    public GoogleBookDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer ;
+    public GoogleBookDriver(int startIndex, int maxResults) {
+        this.maxResults = maxResults;
+        this.startIndex = startIndex ;
+        this.transformer = new Transformer() ;
     }
 
-    public GoogleBookDriver(Transformer transformer,int maxResults) {
+    public GoogleBookDriver(Transformer transformer,int startIndex, int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = transformer ;
     }
 
@@ -64,6 +65,8 @@ public class GoogleBookDriver implements IDriver {
         VolumeQuery query = new VolumeQuery(new URL(FEED_URL));
         query.setMaxResults(this.maxResults);
         query.setFullTextQuery(tag);
+        query.setStartIndex(this.startIndex);
+        
         query.setMinViewability(VolumeQuery.MinViewability.NONE);
         //query.setMinViewability(VolumeQuery.MinViewability.PARTIAL);
         MyTrace.debug("Sending request to: " + query.getUrl());

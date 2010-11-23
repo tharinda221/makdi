@@ -50,9 +50,9 @@ public class ArcadeGamesProfile implements IContentProfile {
         List<IDriver> drivers = new ArrayList<IDriver>();
         
         drivers.add(new WikipediaDriver(new Transformer(null, "game")));
-        drivers.add(new YoutubeDriver(new Transformer(null, "game"),1));
+        drivers.add(new YoutubeDriver(new Transformer(null, "game"),0,1));
         drivers.add(new OnlineGameCodeDriver());
-        drivers.add(new YahooAnswerDriver(new Transformer(null, " game"),6));
+        drivers.add(new YahooAnswerDriver(new Transformer(null, " game"),0,6));
         MyTrace.exit("ArcadeGameProfile", "getDrivers()");
         
         return drivers;
@@ -61,9 +61,9 @@ public class ArcadeGamesProfile implements IContentProfile {
     @Override
     public List<IDriver> getFrontPageDrivers() {
         List<IDriver> drivers = new ArrayList<IDriver>();
-        Transformer transformer = new Transformer(null, "game");
-        drivers.add(new WikipediaDriver(transformer));
-        drivers.add(new YoutubeDriver(new Transformer(),1));
+        
+        drivers.add(new WikipediaDriver(new Transformer(null, "game")));
+        drivers.add(new YoutubeDriver(new Transformer(null, "game"),0,1));
         return drivers;
     }
 

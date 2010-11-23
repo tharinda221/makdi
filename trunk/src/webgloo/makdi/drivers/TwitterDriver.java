@@ -16,8 +16,6 @@ import webgloo.makdi.logging.MyTrace;
  *
  */
 public class TwitterDriver implements IDriver {
-
-    public final static int MAX_RESULTS = 20;
     
     private int maxResults;
     private Transformer transformer;
@@ -49,29 +47,26 @@ public class TwitterDriver implements IDriver {
         MyTrace.entry("TwitterDriver", "run()");
 
         tag = this.transformer.transform(tag);
-        //Urlencode the tag
-        //tag = java.net.URLEncoder.encode(tag, "UTF-8");
-
+        
         //use twitter4J library
         Twitter client = new TwitterFactory().getInstance();
+
         //wrap in quotes
         Query q = new Query("\"" + tag + "\"");
         q.setRpp(this.maxResults);
         MyTrace.debug("sending twitter request :: " + q.getQuery());
-
+        
         List<Tweet> tweets = new ArrayList<Tweet>();
-        boolean doWait = false;
-
+        
         try {
             tweets = client.search(q).getTweets();
-            doWait = true;
-        } catch (Exception ex) {
-            MyTrace.error("Error in twitter client ..");
-            doWait = false;
 
+        } catch (Exception ex) {
+            MyTrace.error("Error in twitter client ..",ex);
+            
         }
 
-
+        
         VanillaList list = new VanillaList("Tweets");
 
         //collect data from all feeds and populate one list

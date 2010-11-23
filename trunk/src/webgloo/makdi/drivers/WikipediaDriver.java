@@ -43,7 +43,7 @@ public class WikipediaDriver implements IDriver {
 
         //Transformer is for YAHOO BOSS driver
         //YAHOO BOSS will do its own encoding 
-        YahooBossDriver boss = new YahooBossDriver(
+        YahooBossWebDriver boss = new YahooBossWebDriver(
                 this.transformer,
                 new String[]{"wikipedia.org"},
                 0,

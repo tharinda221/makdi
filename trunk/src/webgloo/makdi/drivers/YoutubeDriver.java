@@ -21,20 +21,23 @@ import webgloo.makdi.logging.MyTrace;
 public class YoutubeDriver implements IDriver {
 
     //public final static String YOUTUBE_DEVELOPER_KEY = "AI39si4lE6Zol7L6lMp8ZbmMGLZPnpmGj0JBMvWqYBHE8CYKUS_hoqZXxgv4QqK4WKyIwAWdV8giymWfXe2Ne5Gyy3Xs2f5FeA";
-    public final static int MAX_RESULTS = 10;
+    
     public final static String YOUTUBE_VIDEO_URI = "http://gdata.youtube.com/feeds/api/videos";
-    
-    
+        
     private int maxResults;
+    private int startIndex ;
+
     private Transformer transformer;
 
-    public YoutubeDriver(int maxResults) {
+    public YoutubeDriver(int startIndex, int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = new Transformer();
     }
     
-    public YoutubeDriver(Transformer transformer, int maxResults) {
+    public YoutubeDriver(Transformer transformer, int startIndex, int maxResults) {
         this.maxResults = maxResults;
+        this.startIndex = startIndex ;
         this.transformer = transformer;
     }
 
@@ -58,6 +61,7 @@ public class YoutubeDriver implements IDriver {
 
         YouTubeService service = new YouTubeService("indigloo-makdi-1.0");
         YouTubeQuery query = new YouTubeQuery(new URL(YoutubeDriver.YOUTUBE_VIDEO_URI));
+        query.setStartIndex(this.startIndex);
         // use default ordering
         // query.setOrderBy(YouTubeQuery.OrderBy.VIEW_COUNT);
         query.setMaxResults(this.maxResults);
@@ -110,7 +114,7 @@ public class YoutubeDriver implements IDriver {
 
     public static void main(String[] args) throws Exception {
 
-        YoutubeDriver driver = new YoutubeDriver(new Transformer(), 2);
+        YoutubeDriver driver = new YoutubeDriver(new Transformer(),0, 2);
         String tag = "inception";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
