@@ -1,6 +1,5 @@
 package webgloo.makdi.drivers;
 
-import com.google.gdata.util.common.base.StringUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Movie;
 import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.util.MyUtils;
 
 /**
  *
@@ -124,10 +124,10 @@ public class TmdbDriver implements IDriver {
                     String imageHeight = (String) xpath.evaluate("@height", imageNode,XPathConstants.STRING);
                     movie.setImageLink(imageUrl);
 
-                    int[] xy = getScaledDimensions(imageWidth,imageHeight,400.0f);
-                    movie.setImageWidth(xy[0]);
-                    movie.setImageHeight( xy[1]);
-                   
+                    int[] xy = MyUtils.getScaledDimensions(imageWidth,imageHeight,400.0f);
+                    movie.setWidth(xy[0]);
+                    movie.setHeight( xy[1]);
+                    
                 }
 
 
@@ -137,58 +137,13 @@ public class TmdbDriver implements IDriver {
         return movie;
     }
 
-    /**
-     *
-     * @param width
-     * @param height
-     * @param boxHeight (maximum height of target box)
-     * @return
-     * @throws Exception
-     */
-    private int[] getScaledDimensions(String width, String height, float boxHeight) throws Exception {
-
-        if (StringUtil.isEmpty(width) || StringUtil.isEmpty(height)) {
-            throw new Exception("Bad image width and height supplied for scaling");
-        }
-
-        double originalx = Integer.parseInt(width) * 1.0f;
-        double originaly = Integer.parseInt(height) * 1.0f;
-
-        double boxWidth = (originalx / originaly) * boxHeight;
-
-        //first try original dimensions
-        double newHeight = originaly;
-        double newWidth = originalx;
-
-        if (newHeight > boxHeight) {
-            double ratio = (boxHeight / newHeight);
-            newHeight = ratio * newHeight;
-            newWidth = ratio * newWidth;
-        }
-
-        if (newWidth > boxWidth) {
-            double ratio = boxWidth / newWidth;
-            newHeight = ratio * newHeight;
-            newWidth = ratio * newWidth;
-        }
-
-        //Round up to nearest integer
-        newWidth = Math.floor(newWidth);
-        newHeight = Math.floor(newHeight);
-
-
-        int[] xy = new int[2];
-        xy[0] = (int) newWidth;
-        xy[1] = (int) newHeight;
-        return xy;
-
-    }
-
+  
     public static void main(String[] args) throws Exception {
         IDriver driver = new TmdbDriver(new Transformer());
-        driver.run("the godfather");
-        //TmdbDriver driver = new TmdbDriver(new BaseTransformer());
-        //int[] xy = driver.getScaledDimensions("500", "750", 400);
-        //System.out.println(" x=>" + xy[0] + " y=>" + xy[1]);
+        List<IData> items = driver.run("the godfather");
+        for(IData item: items) {
+            System.out.println(item.toHtml());
+        }
+       
     }
 }

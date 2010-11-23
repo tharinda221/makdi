@@ -60,7 +60,7 @@ public class ArcadeGamesProcessor extends AutoPostProcessor{
                     //use video title and description
                     // use alignment center
                     title.append(item.getTitle());
-                    content = HtmlGenerator.generateArcadeVideoCode(video);
+                    content = HtmlGenerator.generateYoutubeCode(video);
                     flag = true ;
                 } else {
                     //Use wikipedia title and description
@@ -68,10 +68,9 @@ public class ArcadeGamesProcessor extends AutoPostProcessor{
                     video.setDescription(content);
                     video.setAlignment(Video.ALIGN_LEFT);
                     //generate new content
-                    content = HtmlGenerator.generateArcadeVideoCode(video);
+                    content = HtmlGenerator.generateYoutubeCode(video);
                 }
-                
-               
+                               
                 break;
 
             }

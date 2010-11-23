@@ -1,5 +1,6 @@
 package webgloo.makdi.util;
 
+import com.google.gdata.util.common.base.StringUtil;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import org.apache.commons.lang.WordUtils;
@@ -92,6 +93,53 @@ public class MyUtils {
         cal.add(Calendar.SECOND, delay);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(cal.getTime());
+
+    }
+
+       /**
+     *
+     * @param width
+     * @param height
+     * @param boxHeight (maximum height of target box)
+     * @return
+     * @throws Exception
+     */
+    public static int[] getScaledDimensions(String width, String height, float boxHeight) throws Exception {
+
+        if (StringUtil.isEmpty(width) || StringUtil.isEmpty(height)) {
+            throw new Exception("Bad image width and height supplied for scaling");
+        }
+        
+        double originalx = Integer.parseInt(width) * 1.0f;
+        double originaly = Integer.parseInt(height) * 1.0f;
+
+        double boxWidth = (originalx / originaly) * boxHeight;
+
+        //first try original dimensions
+        double newHeight = originaly;
+        double newWidth = originalx;
+
+        if (newHeight > boxHeight) {
+            double ratio = (boxHeight / newHeight);
+            newHeight = ratio * newHeight;
+            newWidth = ratio * newWidth;
+        }
+
+        if (newWidth > boxWidth) {
+            double ratio = boxWidth / newWidth;
+            newHeight = ratio * newHeight;
+            newWidth = ratio * newWidth;
+        }
+
+        //Round up to nearest integer
+        newWidth = Math.floor(newWidth);
+        newHeight = Math.floor(newHeight);
+
+
+        int[] xy = new int[2];
+        xy[0] = (int) newWidth;
+        xy[1] = (int) newHeight;
+        return xy;
 
     }
 

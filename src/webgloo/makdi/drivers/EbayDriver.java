@@ -35,14 +35,12 @@ public class EbayDriver implements IDriver{
     public static final String OPERATION_NAME = "findItemsByKeywords";
     public static final String GLOBAL_ID = "EBAY-US";
     
-    public final static int MAX_RESULTS = 10;
-
     private int maxResults;
     private Transformer transformer;
 
-    public EbayDriver(Transformer transformer) {
-        this.maxResults = MAX_RESULTS;
-        this.transformer = transformer ;
+    public EbayDriver(int maxResults) {
+        this.maxResults = maxResults;
+        this.transformer = new Transformer();
 
     }
 
@@ -155,9 +153,12 @@ public class EbayDriver implements IDriver{
 
    
     public static void main(String[] args) throws Exception {
-        EbayDriver driver = new EbayDriver(new Transformer(),2);
+        EbayDriver driver = new EbayDriver(4);
         String tag = "ipod";
-        driver.run(tag);
+        List<IData> items = driver.run(tag);
+        for(IData item: items) {
+            System.out.println(item.toHtml());
+        }
 
     }
 }
