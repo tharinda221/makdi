@@ -70,6 +70,7 @@ public class WikipediaDriver implements IDriver {
             String address = WikipediaDriver.WIKIPEDIA_PRINT_URI + token;
             //Now fetch content from printUrl
             MyTrace.debug("sending request to :: " + address);
+            
 
             //Read response back from WIKIpedia
             String htmlResponse = URLReader.read(address);
@@ -81,7 +82,11 @@ public class WikipediaDriver implements IDriver {
             int pos2 = htmlResponse.indexOf("</p>", pos1);
 
             String paragraph = htmlResponse.substring(pos1 + 3, pos2);
+
+            //@todo fix the regex
+            // we need to substitute wiki paragraph links with full links
             
+            paragraph = paragraph.replaceAll("a href=\"/wiki","a href=\"http://en.wikipedia.org/wiki");
             /*
             if (paragraph.length() <= 25) {
                 StringReader reader = new StringReader(htmlResponse);
@@ -121,8 +126,8 @@ public class WikipediaDriver implements IDriver {
     }
 
     public static void main(String[] args) throws Exception {
-        WikipediaDriver driver = new WikipediaDriver(new Transformer(null, "arcade game"));
-        String tag = "Balloon Bomber";
+        WikipediaDriver driver = new WikipediaDriver(new Transformer(null, "game"));
+        String tag = "chinese checkers";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
             System.out.println(item.toHtml());

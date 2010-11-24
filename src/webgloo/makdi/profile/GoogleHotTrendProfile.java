@@ -48,8 +48,8 @@ public class GoogleHotTrendProfile implements IContentProfile {
         //Google news is 1 
         drivers.add(new RssDriver(new Transformer(),1,4));
         drivers.add(new TwitterDriver(10));
-        drivers.add(new YoutubeDriver(0,4));
-        drivers.add(new YahooAnswerDriver(0,4));
+        drivers.add(new YoutubeDriver(1,4));
+        drivers.add(new YahooAnswerDriver(1,4));
         
         MyTrace.exit("GoogleHotTrendProfile", "getDrivers()");
         

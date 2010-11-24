@@ -59,7 +59,7 @@ public class MyUtils {
     }
 
     public static String convertPageNameToId(String pageName) {
-        //replace incoming dashes with space
+        //remove non alphanumeric
         pageName = removeNonAlphaNumeric(pageName);
         //squeeze spaces
         pageName = squeeze(pageName);
@@ -145,8 +145,8 @@ public class MyUtils {
 
     public static void main(String[] args) {
         String s = "   Meditation Chairs: -  The Benefits Of Having One   ";
-        System.out.println(MyUtils.removeNonAlphaNumeric(s));
-        System.out.println(MyUtils.convertPageNameToId(s));
+        System.out.println(MyUtils.now(20));
+         
         
     }
 }
