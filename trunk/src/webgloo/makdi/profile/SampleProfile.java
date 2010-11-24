@@ -40,8 +40,8 @@ public class SampleProfile implements IContentProfile {
         List<IDriver> drivers = new ArrayList<IDriver>();
        
         drivers.add(new EbayDriver(new Transformer(),5));
-        drivers.add(new GoogleBaseDriver(0,4));
-        drivers.add(new GoogleBookDriver(new Transformer(null,"+book"),0, 2));
+        drivers.add(new GoogleBaseDriver(1,4));
+        drivers.add(new GoogleBookDriver(new Transformer(null,"+book"),1, 2));
         drivers.add(new GoogleCseDriver(new Transformer(), "008055205579233425318:vepvl6ivmpu"));
         drivers.add(new GoogleSearchControlDriver(new Transformer()));
         drivers.add(new RssDriver("http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml",10));
@@ -50,15 +50,15 @@ public class SampleProfile implements IContentProfile {
         drivers.add(new TmdbDriver(new Transformer()));
         drivers.add(new TwitterDriver(new Transformer("watched", null), 8));
         drivers.add(new WikipediaDriver());
-        drivers.add(new YoutubeDriver(new Transformer(null, "trailer"),0,1));
-        drivers.add(new YahooAnswerDriver(new Transformer("movie",null),0,2));
-        drivers.add(new YahooAnswerDriver(new Transformer("intitle:","+book"),0,2));
+        drivers.add(new YoutubeDriver(new Transformer(null, "trailer"),1,1));
+        drivers.add(new YahooAnswerDriver(new Transformer("movie",null),1,2));
+        drivers.add(new YahooAnswerDriver(new Transformer("intitle:","+book"),1,2));
         
         String[] siteNames = new String[] {"rottentomatoes.com","flickr.com" } ;
         drivers.add(new YahooBossWebDriver(
                 new Transformer("intitle:","+book"),
                 siteNames,
-                0,
+                1,
                 2));
         return drivers;
     }

@@ -9,15 +9,25 @@
       <transformer/>
       <isExternal>false</isExternal>
     </webgloo.makdi.drivers.RssDriver>
-    <webgloo.makdi.drivers.YoutubeDriver>
-      <maxResults>4</maxResults>
+
+     <webgloo.makdi.drivers.YoutubeDriver>
+      <maxResults>3</maxResults>
+      <startIndex>1</startIndex>
       <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
+
+    <webgloo.makdi.drivers.TwitterDriver>
+      <maxResults>10</maxResults>
+      <transformer/>
+    </webgloo.makdi.drivers.TwitterDriver>
+   
     <webgloo.makdi.drivers.YahooAnswerDriver>
-      <maxResults>4</maxResults>
+      <maxResults>6</maxResults>
+      <startIndex>1</startIndex>
       <transformer/>
     </webgloo.makdi.drivers.YahooAnswerDriver>
   </drivers>
+
   <frontPageDrivers>
     <webgloo.makdi.drivers.RssDriver>
       <maxResults>2</maxResults>
@@ -26,9 +36,10 @@
       <isExternal>false</isExternal>
     </webgloo.makdi.drivers.RssDriver>
   </frontPageDrivers>
+
   <action>STORE</action>
   <keywords>
-    <string>Britney spears </string>
+    <string>Britney spears</string>
     <string>Lindsey Lohan</string>
   </keywords>
   <name>GOOGLE_HOT_TRENDS</name>

@@ -42,13 +42,13 @@ public class MovieBookProfile implements IContentProfile {
         //You need this searchId for adding google custom search box
         drivers.add(new GoogleCseDriver(new Transformer(), "008055205579233425318:vepvl6ivmpu"));
         drivers.add(new TmdbDriver(new Transformer()));
-        drivers.add(new GoogleBookDriver(0, 2));
+        drivers.add(new GoogleBookDriver(1, 2));
         drivers.add(new WikipediaDriver(new Transformer()));
-        drivers.add(new YoutubeDriver(new Transformer(null, "trailer"),0,1));
+        drivers.add(new YoutubeDriver(new Transformer(null, "trailer"),1,1));
         drivers.add(new TwitterDriver(new Transformer("watched", null), 8));
         drivers.add(new TwitterDriver(new Transformer("saw", null), 8));
-        drivers.add(new YahooAnswerDriver(new Transformer("movie",null),0,3));
-        drivers.add(new YahooAnswerDriver(new Transformer("book",null),0,3));
+        drivers.add(new YahooAnswerDriver(new Transformer("movie",null),1,3));
+        drivers.add(new YahooAnswerDriver(new Transformer("book",null),1,3));
 
         return drivers;
     }

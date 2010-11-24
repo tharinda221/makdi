@@ -44,27 +44,7 @@ public class CSVReader extends MyFileReader{
     }
     
     public static void main(String[] args) throws Exception{
-        CSVReader reader = new CSVReader("keywords-2.csv");
-        
-        String orgId = "1179" ;
-        int count = 1 ;
-        int modulo ;
-        
-        for(String[] tokens : reader.getLines()) {
-            int divisor = 20 ;
-            String SQL = " insert ignore into gloo_auto_keyword (org_id, token, seo_key, created_on)";
-            SQL +=  " values (" ;
-            SQL += "'" + orgId +"', '" + tokens[0] + "', '" ;
-            SQL += MyUtils.convertPageNameToId(tokens[0]) + "', '" ;
-            //for same token keep adding the delays
-            modulo = count % divisor ;
-            
-            SQL += tokens[1] + " " + MyUtils.now(modulo) + "' );";
-            
-            System.out.println(SQL + "\n");
-            count++ ;
-        }
-
+       
     }
 
 

@@ -30,6 +30,7 @@ public class YoutubeDriver implements IDriver {
     private Transformer transformer;
 
     public YoutubeDriver(int startIndex, int maxResults) {
+        //@todo start index and maxResults should be +ve
         this.maxResults = maxResults;
         this.startIndex = startIndex ;
         this.transformer = new Transformer();

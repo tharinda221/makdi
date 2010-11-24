@@ -1,0 +1,40 @@
+<profile>
+  <siteDomain>www.abcd.com</siteDomain>
+  <siteName>ABCD site</siteName>
+  <siteGuid>1175</siteGuid>
+  <drivers>
+    <webgloo.makdi.drivers.OnlineGameCodeDriver/>
+    <webgloo.makdi.drivers.WikipediaDriver>
+      <transformer>
+        <suffix>game</suffix>
+      </transformer>
+    </webgloo.makdi.drivers.WikipediaDriver>
+    <webgloo.makdi.drivers.YahooAnswerDriver>
+      <maxResults>6</maxResults>
+      <startIndex>1</startIndex>
+      <transformer>
+        <suffix> game</suffix>
+      </transformer>
+    </webgloo.makdi.drivers.YahooAnswerDriver>
+  </drivers>
+  <frontPageDrivers>
+    <webgloo.makdi.drivers.WikipediaDriver>
+      <transformer>
+        <suffix>game</suffix>
+      </transformer>
+    </webgloo.makdi.drivers.WikipediaDriver>
+    <webgloo.makdi.drivers.YoutubeDriver>
+      <maxResults>1</maxResults>
+      <startIndex>1</startIndex>
+      <transformer>
+        <suffix>game</suffix>
+      </transformer>
+    </webgloo.makdi.drivers.YoutubeDriver>
+  </frontPageDrivers>
+  <action>STORE</action>
+  <keywords>
+    <string>pacman</string>
+    <string>minesweeper</string>
+  </keywords>
+  <name>ARCADE_GAMES</name>
+</profile>
