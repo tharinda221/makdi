@@ -1,7 +1,7 @@
 <profile>
   <siteDomain>www.abcd.com</siteDomain>
   <siteName>ABCD site</siteName>
-  <siteGuid>1175</siteGuid>
+  <siteGuid>1180</siteGuid>
   <drivers>
     <webgloo.makdi.drivers.OnlineGameCodeDriver/>
     <webgloo.makdi.drivers.WikipediaDriver>
