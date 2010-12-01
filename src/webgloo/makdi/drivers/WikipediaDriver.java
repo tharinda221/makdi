@@ -87,17 +87,6 @@ public class WikipediaDriver implements IDriver {
             // we need to substitute wiki paragraph links with full links
             
             paragraph = paragraph.replaceAll("a href=\"/wiki","a href=\"http://en.wikipedia.org/wiki");
-            /*
-            if (paragraph.length() <= 25) {
-                StringReader reader = new StringReader(htmlResponse);
-                HtmlToText parser = new HtmlToText();
-                parser.parse(reader);
-                reader.close();
-                paragraph = parser.getText();
-                //Below method is not very efficient at stripping
-                //String response = com.google.gdata.util.common.html.HtmlToText.htmlToPlainText(htmlResponse);
-
-            }*/
             
             //create a new post
             Post wikipost = new Post();

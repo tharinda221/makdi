@@ -148,18 +148,6 @@ public class HtmlGenerator {
 
     }
     
-    public static String generateAutoPostNews(News news) {
-        MyTrace.entry("HtmlGenerator", "generateAutoPostNews()");
-        StringTemplateGroup group = new StringTemplateGroup("mygroup");
-        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/autopost-news");
-        st.setAttribute("title", news.getTitle());
-        st.setAttribute("description", news.getDescription());
-        MyTrace.exit("HtmlGenerator", "generateAutoPostNews()");
-
-        return st.toString();
-
-    }
-
     public static String generatePhotoCode(Photo photo) {
 
         MyTrace.entry("HtmlGenerator", "generatePhotoCode()");
@@ -190,6 +178,17 @@ public class HtmlGenerator {
         StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/book");
         st.setAttribute("book", book);
         MyTrace.exit("HtmlGenerator", "generateBookCode()");
+
+        return st.toString();
+
+    }
+
+     public static String wrapInDiv(String content) {
+        MyTrace.entry("HtmlGenerator", "wrapInDiv()");
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/div");
+        st.setAttribute("content", content);
+        MyTrace.exit("HtmlGenerator", "wrapInDiv()");
 
         return st.toString();
 

@@ -17,9 +17,9 @@ public class ArcadeGamesProcessor extends AutoPostProcessor{
 
 
     public ArcadeGamesProcessor() {
-
+         super.setIsSummaryInContent(false);
     }
-
+    
     //methods specific to arcade games
     public List<Keyword> loadNewKeywords() throws Exception {
         return null ;
