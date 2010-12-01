@@ -11,6 +11,21 @@ public class Keyword {
     private String createdOn;
     private String seoKey ;
 
+    public Keyword() { }
+    
+    /**
+     * 
+     * @param token
+     * @param date in format 2010-11-29 or YYYY-MM-DD
+     * MySQL date format is also YYYY-MM-DD
+     * 
+     */
+    
+    public Keyword(String token, String date) {
+        this.token = token ;
+        this.date = date ;
+
+    }
     public String getSeoKey() {
         return seoKey;
     }
@@ -27,7 +42,6 @@ public class Keyword {
     public void setCreatedOn(String createdOn) {
         this.createdOn = createdOn;
     }
-
     
     public String getDate() {
         return date;

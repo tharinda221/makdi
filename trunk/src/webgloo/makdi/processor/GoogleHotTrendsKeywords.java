@@ -24,7 +24,7 @@ import webgloo.makdi.logging.MyTrace;
  * @author rajeevj
  *
  */
-public class GoogleHotTrendKeywords {
+public class GoogleHotTrendsKeywords {
 
     public static List<Keyword> loadNewKeywords() throws Exception {
 

@@ -11,6 +11,9 @@ import java.util.List;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.News;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.rss.GoogleNewsRssSource;
+import webgloo.makdi.rss.IRssSource;
+import webgloo.makdi.util.HtmlToText;
 
 /**
  *
@@ -18,68 +21,31 @@ import webgloo.makdi.logging.MyTrace;
  */
 public class RssDriver implements IDriver {
 
-    
-    public final static String GOOGLE_NEWS_URI = "http://news.google.co.in/news?pz=1&cf=all&ned=us&hl=en&cf=all&output=rss";
-    public static final String GOOGLE_BASE_URI = "http://base.google.com/base/feeds/snippets?alt=atom";
-    
-    //known sources
-    
-    public static final int GOOGLE_NEWS = 1 ;
-    public static final int GOOGLE_BASE = 2;
+    private int maxResults ;
+    private Transformer transformer ;
+    private IRssSource source ;
 
-    
-    private String feedURI;
-    private int maxResults;
-    private int source ;
-    private Transformer transformer;
-    private boolean isExternal = false ;
-    
-    /**
-     *
-     * @param feedURI is complete feedURI including start-index and max-results etc.
-     * The automatic appending of query etc only works for known URL
-     * 
-     */
-
-    public RssDriver(String feedURI,int maxResults) {
-        this.feedURI = feedURI;
+    public RssDriver(Transformer transformer,int maxResults,IRssSource command) {
         this.maxResults = maxResults ;
-        this.transformer = new Transformer();
-        this.isExternal = true ;
+        this.transformer = transformer ;
+        this.source = command ;
         
     }
 
-    public RssDriver(Transformer transformer,String feedURI, int maxResults) {
-        this.feedURI = feedURI;
+    public RssDriver(int maxResults,IRssSource command) {
         this.maxResults = maxResults ;
-        this.transformer = transformer;
-        this.isExternal = true ;
-
+        this.transformer = new Transformer() ;
+        this.source  = command ;
     }
     
-    public RssDriver(int source,int maxResults) {
-        this.feedURI = null ;
-        this.source = source ;
-        this.maxResults = maxResults ;
-        this.transformer = new Transformer();
-    }
-    
-    public RssDriver(Transformer transformer,int source , int maxResults) {
-        this.feedURI = null ;
-        this.source = source ;
-        this.maxResults = maxResults;
-        this.transformer = transformer;
-    }
-
     @Override
     public String getName() {
-        return IDriver.RSS_DRIVER ;
+        return IDriver.RSS_DRIVER;
     }
-
 
     @Override
     public long getDelay() {
-        return 3000 ;
+        return 3000;
     }
 
     @Override
@@ -87,15 +53,7 @@ public class RssDriver implements IDriver {
         MyTrace.entry("RssDriver", "run()");
 
         tag = this.transformer.transform(tag);
-        
-        String feedSource = this.feedURI ;
-        // create feed URI for internal sources
-        if(!this.isExternal) {
-            //create final feed URI based on source, tag and max-results
-            //Urlencode the tag
-            tag = java.net.URLEncoder.encode(tag, "UTF-8");
-            feedSource = createRssFeedURI(this.source,this.maxResults,tag);
-        }
+        String feedSource = this.source.invoke(this.maxResults, tag);
         
         //For every tag and every source fetch required feeds
         List<IData> feeds = new ArrayList<IData>();
@@ -113,28 +71,11 @@ public class RssDriver implements IDriver {
             feeds.add(createNews(entry));
 
         }
-        
+
         MyTrace.exit("RssDriver", "run()");
-         
+
         return feeds;
 
-    }
-
-    private String createRssFeedURI(int source, int maxResults, String tag) throws Exception{
-        String feedAddress = null ;
-
-        switch(source) {
-            case GOOGLE_NEWS :
-                feedAddress = GOOGLE_NEWS_URI + "&num=" + maxResults + "&q=" + tag;
-                break;
-            case GOOGLE_BASE :
-                feedAddress = GOOGLE_BASE_URI + "&max-results=" + maxResults + "&q=" + tag;
-                break;
-            default :
-                throw new Exception ("Unknown source for RSS Driver");
-        }
-
-        return feedAddress ;
     }
     
     private News createNews(SyndEntry entry) {
@@ -145,12 +86,21 @@ public class RssDriver implements IDriver {
         if (entry.getDescription() != null) {
             news.setDescription(entry.getDescription().getValue());
         }
-        /*
-        MyWriter.toConsole(news.toString());
-        MyWriter.toConsole(news.getDescription());
-        MyWriter.toConsole("\n\n");
-         */
+
         return news;
 
+    }
+
+    public static void main(String[] args) throws Exception{
+        IDriver driver = new RssDriver(2,new GoogleNewsRssSource());
+        String tag = "alessandra ambrosio";
+        List<IData> items = driver.run(tag);
+        for(IData item : items) {
+            News news = (News) item ;
+            System.out.println(news.getTitle());
+            System.out.println(HtmlToText.extractUsingSwingKit(news.getDescription()));
+
+            
+        }
     }
 }

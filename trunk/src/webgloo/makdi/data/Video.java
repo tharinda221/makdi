@@ -21,7 +21,7 @@ public class Video implements IData{
     public static String ALIGN_RIGHT = "alignright";
 
     public Video() {
-        this.alignment = Video.ALIGN_CENTER;
+        this.alignment = Video.ALIGN_LEFT;
     }
     
     public String getAlignment() {

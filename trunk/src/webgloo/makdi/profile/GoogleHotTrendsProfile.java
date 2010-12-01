@@ -3,15 +3,15 @@ package webgloo.makdi.profile;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.*;
-import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.rss.GoogleNewsRssSource;
 
 /**
  *
  * @author rajeevj
  */
 
-public class GoogleHotTrendProfile implements IContentProfile {
+public class GoogleHotTrendsProfile implements IContentProfile {
 
     public String getName() {
         return IContentProfile.GOOGLE_HOT_TRENDS;
@@ -44,13 +44,11 @@ public class GoogleHotTrendProfile implements IContentProfile {
         MyTrace.entry("GoogleHotTrendProfile", "getDrivers()");
         //Decide on what drivers to load
         List<IDriver> drivers = new ArrayList<IDriver>();
-        
-        //Google news is 1 
-        drivers.add(new RssDriver(new Transformer(),1,4));
-        drivers.add(new TwitterDriver(10));
-        drivers.add(new YoutubeDriver(1,4));
+        //first video is already added - so start from 2
+        // pull one more video 
+        drivers.add(new YoutubeDriver(2,1));
         drivers.add(new YahooAnswerDriver(1,4));
-        
+                
         MyTrace.exit("GoogleHotTrendProfile", "getDrivers()");
         
         return drivers;
@@ -60,8 +58,10 @@ public class GoogleHotTrendProfile implements IContentProfile {
     public List<IDriver> getFrontPageDrivers() {
         List<IDriver> drivers = new ArrayList<IDriver>();
         //return google news driver
-        IDriver driver1 =  new RssDriver(1,2);
+        IDriver driver1 =  new RssDriver(1,new GoogleNewsRssSource());
         drivers.add(driver1);
+        drivers.add(new YoutubeDriver(1,1));
+
         return drivers;
     }
 

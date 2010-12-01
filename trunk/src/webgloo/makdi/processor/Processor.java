@@ -13,7 +13,7 @@ import webgloo.makdi.profile.IContentProfile;
  * @author rajeevj
  */
 public abstract class Processor {
-
+    
     public void invoke(IContentProfile profileBean) throws Exception {
         if (profileBean.getAction().equals(IContentProfile.ACTION_STORE)) {
             this.storeContent(profileBean);

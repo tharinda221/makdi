@@ -1,26 +1,24 @@
-
 package webgloo.makdi.data;
 
 import webgloo.makdi.html.HtmlGenerator;
+import webgloo.makdi.util.HtmlToText;
 
 /**
  *
  * @author rajeevj
  */
-public class News implements IData{
+public class News implements IData {
 
-    private String title ;
-    private String newsId ;
-    private String source ;
-    private String description ;
-    private String link ;
-    private String author ;
+    private String title;
+    private String newsId;
+    private String source;
+    private String description;
+    private String link;
+    private String author;
 
-  
-    public News(){
-        
+    public News() {
     }
-        
+
     public String getAuthor() {
         return author;
     }
@@ -44,11 +42,11 @@ public class News implements IData{
     public void setLink(String link) {
         this.link = link;
     }
-  
+
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
@@ -70,8 +68,6 @@ public class News implements IData{
         this.title = title;
     }
 
-    
-
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
@@ -84,8 +80,6 @@ public class News implements IData{
 
     @Override
     public String toHtml() throws Exception {
-         return HtmlGenerator.generateNewsCode(this);
+        return HtmlGenerator.generateNewsCode(this);
     }
-    
-    
 }

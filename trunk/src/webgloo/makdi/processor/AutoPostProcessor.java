@@ -16,6 +16,16 @@ import webgloo.makdi.util.MyUtils;
  */
 public abstract class AutoPostProcessor extends Processor {
 
+    private boolean isSummaryInContent = false;
+
+    public boolean isIsSummaryInContent() {
+        return isSummaryInContent;
+    }
+    
+    public void setIsSummaryInContent(boolean isSummaryInContent) {
+        this.isSummaryInContent = isSummaryInContent;
+    }
+    
     public abstract List<Keyword> loadNewKeywords() throws Exception;
 
     public abstract boolean getPageSummary(
@@ -38,7 +48,7 @@ public abstract class AutoPostProcessor extends Processor {
 
                 //artificial createdOn values
                 String createdOn = keyword.getDate() + " " + MyUtils.now();
-
+                
                 GlooDBManager.addAutoPostKeyword(
                         connection,
                         profileBean.getSiteGuid(),
@@ -72,7 +82,13 @@ public abstract class AutoPostProcessor extends Processor {
 
 
             if (this.getPageSummary(profileBean, token, title, summary)) {
-                this.getPageContent(profileBean, token, content);
+                //Add existing summary to  content
+                // depending on flag
+                if(this.isSummaryInContent) {
+                    content.append(summary.toString());
+                }
+                
+                this.getPageContent(profileBean,token, content);
 
                 //1. create a new gloo_page
                 String pageIdentKey = MyUtils.getUUID();
