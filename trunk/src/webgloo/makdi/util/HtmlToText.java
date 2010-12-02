@@ -31,7 +31,7 @@ public class HtmlToText {
 
             @Override
             public void handleText(final char[] data, final int pos) {
-                sb.append(data);
+                sb.append(data).append(" ");
             }
 
             @Override

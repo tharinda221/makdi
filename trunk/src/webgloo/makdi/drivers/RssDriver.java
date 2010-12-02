@@ -98,6 +98,8 @@ public class RssDriver implements IDriver {
         for(IData item : items) {
             News news = (News) item ;
             System.out.println(news.getTitle());
+            System.out.println(news.getDescription());
+            System.out.println("\n\n");
             System.out.println(HtmlToText.extractUsingSwingKit(news.getDescription()));
 
             

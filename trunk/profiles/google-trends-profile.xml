@@ -1,46 +1,35 @@
 <profile>
   <siteDomain>www.abcd.com</siteDomain>
   <siteName>ABCD site</siteName>
-  <siteGuid>1178</siteGuid>
+  <siteGuid>1169</siteGuid>
   <drivers>
-    <webgloo.makdi.drivers.RssDriver>
-      <maxResults>4</maxResults>
-      <source>1</source>
-      <transformer/>
-      <isExternal>false</isExternal>
-    </webgloo.makdi.drivers.RssDriver>
-
-     <webgloo.makdi.drivers.YoutubeDriver>
-      <maxResults>3</maxResults>
-      <startIndex>1</startIndex>
+    <webgloo.makdi.drivers.YoutubeDriver>
+      <maxResults>1</maxResults>
+      <startIndex>2</startIndex>
       <transformer/>
     </webgloo.makdi.drivers.YoutubeDriver>
-
-    <webgloo.makdi.drivers.TwitterDriver>
-      <maxResults>10</maxResults>
-      <transformer/>
-    </webgloo.makdi.drivers.TwitterDriver>
-   
     <webgloo.makdi.drivers.YahooAnswerDriver>
-      <maxResults>6</maxResults>
+      <maxResults>4</maxResults>
       <startIndex>1</startIndex>
       <transformer/>
     </webgloo.makdi.drivers.YahooAnswerDriver>
   </drivers>
-
   <frontPageDrivers>
-    <webgloo.makdi.drivers.RssDriver>
-      <maxResults>2</maxResults>
-      <source>1</source>
+    <webgloo.makdi.drivers.YahooBossNewsDriver>
+      <maxResults>10</maxResults>
+      <startIndex>0</startIndex>
       <transformer/>
-      <isExternal>false</isExternal>
-    </webgloo.makdi.drivers.RssDriver>
+    </webgloo.makdi.drivers.YahooBossNewsDriver>
+    <webgloo.makdi.drivers.YoutubeDriver>
+      <maxResults>1</maxResults>
+      <startIndex>1</startIndex>
+      <transformer/>
+    </webgloo.makdi.drivers.YoutubeDriver>
   </frontPageDrivers>
-
   <action>STORE</action>
   <keywords>
-    <string>Britney spears</string>
-    <string>Lindsey Lohan</string>
+    <string>keyword1</string>
+    <string>keyword2</string>
   </keywords>
   <name>GOOGLE_HOT_TRENDS</name>
 </profile>
