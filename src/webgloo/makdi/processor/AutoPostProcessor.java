@@ -114,6 +114,8 @@ public abstract class AutoPostProcessor extends Processor {
 
                 //3. store summary in gloo_auto_post table
                 // get right date string
+                // Trigger will take care of updating
+                // gloo_auto_keyword is_processed flag
 
                 GlooDBManager.addAutoPost(connection,
                         profileBean.getSiteGuid(),
@@ -127,7 +129,12 @@ public abstract class AutoPostProcessor extends Processor {
 
             } else {
                 MyTrace.info("\n No summary for :: " + token);
-                GlooDBManager.updateAutoKeyword(connection, profileBean.getSiteGuid(), keyword);
+                //set is_processed flag to 2
+                GlooDBManager.updateAutoKeyword(
+                        connection,
+                        profileBean.getSiteGuid(),
+                        keyword,
+                        2);
             }
 
             Thread.sleep(1000);
