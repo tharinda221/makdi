@@ -58,7 +58,7 @@ public class GoogleHotTrendsProfile implements IContentProfile {
     public List<IDriver> getFrontPageDrivers() {
         List<IDriver> drivers = new ArrayList<IDriver>();
         //return google news driver
-        IDriver driver1 =  new RssDriver(1,new GoogleNewsRssSource());
+        IDriver driver1 =  new YahooBossNewsDriver(null,0,10);
         drivers.add(driver1);
         drivers.add(new YoutubeDriver(1,1));
 
