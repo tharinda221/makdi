@@ -42,7 +42,7 @@ public class GlooDBManager {
         if (rows == 0) {
 
             MyTrace.info("Adding new keyword :: " + token);
-            
+
             String INSERT_SQL =
                     " insert into gloo_auto_keyword(org_id,token,seo_key,created_on) "
                     + " values (?,?,?,?) ";
@@ -56,7 +56,7 @@ public class GlooDBManager {
             pstmt.executeUpdate();
             pstmt.close();
         }
-        
+
     }
 
     public static List<Keyword> getUnprocessedAutoKeywords(
@@ -206,16 +206,18 @@ public class GlooDBManager {
 
     public static void updateAutoKeyword(java.sql.Connection connection,
             String orgId,
-            Keyword keyword) throws Exception {
+            Keyword keyword,
+            int value) throws Exception {
 
         String pageSeoKey = MyUtils.convertPageNameToId(keyword.getToken());
 
         String GLOO_AUTO_KEYWORD_UPADTE_SQL =
-                "update gloo_auto_keyword set is_processed = 1 where org_id = ? and seo_key = ? ";
+                "update gloo_auto_keyword set is_processed = ? where org_id = ? and seo_key = ? ";
 
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_AUTO_KEYWORD_UPADTE_SQL);
-        pstmt.setString(1, orgId);
-        pstmt.setString(2, pageSeoKey);
+        pstmt.setInt(1, value);
+        pstmt.setString(2, orgId);
+        pstmt.setString(3, pageSeoKey);
 
 
         pstmt.executeUpdate();
