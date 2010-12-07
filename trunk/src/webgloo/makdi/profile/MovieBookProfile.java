@@ -43,7 +43,7 @@ public class MovieBookProfile implements IContentProfile {
         drivers.add(new GoogleCseDriver(new Transformer(), "008055205579233425318:vepvl6ivmpu"));
         drivers.add(new TmdbDriver(new Transformer()));
         drivers.add(new GoogleBookDriver(1, 2));
-        drivers.add(new WikipediaDriver(new Transformer()));
+        drivers.add(new WikipediaDriver(new Transformer(),2));
         drivers.add(new YoutubeDriver(new Transformer(null, "trailer"), 1, 1));
         drivers.add(new TwitterDriver(new Transformer("watched", null), 8));
         drivers.add(new TwitterDriver(new Transformer("saw", null), 8));

@@ -67,7 +67,7 @@ public class TwitterDriver implements IDriver {
         }
 
         
-        VanillaList list = new VanillaList("Tweets");
+        VanillaList list = new VanillaList("tweets for "+ tag);
 
         //collect data from all feeds and populate one list
         for (Tweet tweet : tweets) {

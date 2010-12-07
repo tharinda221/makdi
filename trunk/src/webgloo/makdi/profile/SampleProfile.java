@@ -14,15 +14,19 @@ import webgloo.makdi.rss.VanillaRssSource;
 public class SampleProfile implements IContentProfile {
 
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return "sample";
     }
 
     public String getAction() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return IContentProfile.ACTION_TEST;
     }
 
     public List<String> getKeywords() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<String> keywords = new ArrayList<String>();
+        keywords.add("keyword1");
+        keywords.add("keyword2");
+
+        return keywords;
     }
 
     @Override
@@ -43,24 +47,26 @@ public class SampleProfile implements IContentProfile {
         drivers.add(new EbayDriver(new Transformer(), 5));
         drivers.add(new GoogleBaseDriver(1, 4));
         drivers.add(new GoogleBookDriver(new Transformer(null, "+book"), 1, 2));
-        drivers.add(new GoogleCseDriver(new Transformer(), "008055205579233425318:vepvl6ivmpu"));
+
+
         drivers.add(new GoogleSearchControlDriver(new Transformer()));
         drivers.add(new RssDriver(10, new VanillaRssSource("http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml")));
-        //Google news is 1 
         drivers.add(new RssDriver(5, new GoogleNewsRssSource()));
+
         drivers.add(new TmdbDriver(new Transformer()));
         drivers.add(new TwitterDriver(new Transformer("watched", null), 8));
-        drivers.add(new WikipediaDriver());
+        drivers.add(new WikipediaDriver(1));
         drivers.add(new YoutubeDriver(new Transformer(null, "trailer"), 1, 1));
         drivers.add(new YahooAnswerDriver(new Transformer("movie", null), 1, 2));
-        drivers.add(new YahooAnswerDriver(new Transformer("intitle:", "+book"), 1, 2));
+
 
         String[] siteNames = new String[]{"rottentomatoes.com", "flickr.com"};
-        drivers.add(new YahooBossWebDriver(
-                new Transformer("intitle:", "+book"),
-                siteNames,
-                1,
-                2));
+        drivers.add(
+                new YahooBossWebDriver(
+                new Transformer("intitle:", "+book"), siteNames, 1, 2));
+        drivers.add(new YahooBossNewsDriver(null, 0, 5));
+        drivers.add(new YahooBossImageDriver(null, 0, 5));
+
         return drivers;
     }
 

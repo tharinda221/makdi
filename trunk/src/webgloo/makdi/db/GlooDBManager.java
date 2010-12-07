@@ -1,5 +1,6 @@
 package webgloo.makdi.db;
 
+import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.Keyword;
@@ -20,42 +21,16 @@ public class GlooDBManager {
             String createdOn) throws Exception {
 
         String pageSeoKey = MyUtils.convertPageNameToId(token);
-        // update created_on to now() for already existing keywords
-        // we just bump up the order rather than regenerating the content
-        // Otherwise insert a new one
 
-        String GLOO_OLD_KEYWORD_UPADTE_SQL =
-                "update gloo_auto_keyword set created_on = ?  where org_id = ? and seo_key = ? ";
+        CallableStatement cs = connection.prepareCall("{ call addAutoPostKeyword(?,?,?,?) }");
+        cs.setString(1, orgId);
+        cs.setString(2, token);
+        cs.setString(3, pageSeoKey);
+        cs.setString(4, createdOn);
 
-        int rows = 0;
-
-        java.sql.PreparedStatement pstmt1 = connection.prepareStatement(GLOO_OLD_KEYWORD_UPADTE_SQL);
-
-        pstmt1.setString(1, createdOn);
-        pstmt1.setString(2, orgId);
-        pstmt1.setString(3, pageSeoKey);
-
-        rows = pstmt1.executeUpdate();
-
-        pstmt1.close();
-
-        if (rows == 0) {
-
-            MyTrace.info("Adding new keyword :: " + token);
-
-            String INSERT_SQL =
-                    " insert into gloo_auto_keyword(org_id,token,seo_key,created_on) "
-                    + " values (?,?,?,?) ";
-
-            java.sql.PreparedStatement pstmt = connection.prepareStatement(INSERT_SQL);
-            pstmt.setString(1, orgId);
-            pstmt.setString(2, token);
-            pstmt.setString(3, pageSeoKey);
-            pstmt.setString(4, createdOn);
-
-            pstmt.executeUpdate();
-            pstmt.close();
-        }
+        cs.executeUpdate();
+        cs.close();
+      
 
     }
 

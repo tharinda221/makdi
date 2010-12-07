@@ -32,6 +32,8 @@ public interface IDriver {
     String TMDB_DRIVER = "TMDB_DRIVER" ;
     String AMAZON_WIDGET_DRIVER = "AMAZON_WIDGET_DRIVER" ;
     String ONLINE_GAME_CODE_DRIVER = "ONLINE_GAME_CODE_DRIVER" ;
-    
+
+    String DELICIOUS_DRIVER = "DELICIOUS_DRIVER" ;
+
     
 }
