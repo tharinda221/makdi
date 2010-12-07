@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.*;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.rss.GoogleNewsRssSource;
 
 /**
  *

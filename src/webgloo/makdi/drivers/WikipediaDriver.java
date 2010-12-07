@@ -17,16 +17,18 @@ public class WikipediaDriver implements IDriver {
 
     public static final String WIKIPEDIA_PRINT_URI = "http://en.wikipedia.org/w/index.php?printable=yes&title=";
     private Transformer transformer;
+    private int numberOfParagraphs ;
 
-
-    public WikipediaDriver(Transformer transformer) {
+    public WikipediaDriver(Transformer transformer, int numberOfParagraphs) {
         this.transformer = transformer;
+        this.numberOfParagraphs = numberOfParagraphs ;
     }
 
-    public WikipediaDriver() {
+    public WikipediaDriver(int numberOfParagraphs) {
         this.transformer = new Transformer();
+        this.numberOfParagraphs = numberOfParagraphs ;
     }
-
+    
     @Override
     public String getName() {
         return IDriver.WIKIPEDIA_DRIVER;
@@ -74,24 +76,31 @@ public class WikipediaDriver implements IDriver {
 
             //Read response back from WIKIpedia
             String htmlResponse = URLReader.read(address);
+
+            int lastParagraphIndex = 1 ;
+            StringBuilder sb = new StringBuilder();
+
             //try to extract the first paragraph from wikipedia entry
-            // this is strange but so far this is the only effective method
-            // i.e. look for first paragraph!!
-
-            int pos1 = htmlResponse.indexOf("<p>");
-            int pos2 = htmlResponse.indexOf("</p>", pos1);
-
-            String paragraph = htmlResponse.substring(pos1 + 3, pos2);
-
-            //@todo fix the regex
-            // we need to substitute wiki paragraph links with full links
+            // this is strange but so far this heuristics is the only effective
+            // method. we simply look for <p> and </p> tags
             
-            paragraph = paragraph.replaceAll("a href=\"/wiki","a href=\"http://en.wikipedia.org/wiki");
-            
+            for(int i = 1 ; i <= this.numberOfParagraphs ; i++ ) {
+                int pos1  = htmlResponse.indexOf("<p>",lastParagraphIndex);
+                int pos2 = htmlResponse.indexOf("</p>",pos1);
+                String paragraph = htmlResponse.substring(pos1 +3, pos2);
+                paragraph = paragraph.replaceAll("a href=\"/wiki","a href=\"http://en.wikipedia.org/wiki");
+                sb.append(paragraph).append("\n <br> <br>");
+
+                //set for next iteration
+                lastParagraphIndex = pos2 + 4 ;
+
+
+            }
+                        
             //create a new post
             Post wikipost = new Post();
             wikipost.setTitle(tag);
-            wikipost.setDescription(paragraph);
+            wikipost.setDescription(sb.toString());
             wikipost.setLink(originalUrl);
             items.add(wikipost);
 
@@ -115,8 +124,8 @@ public class WikipediaDriver implements IDriver {
     }
 
     public static void main(String[] args) throws Exception {
-        WikipediaDriver driver = new WikipediaDriver(new Transformer(null, "game"));
-        String tag = "chinese checkers";
+        WikipediaDriver driver = new WikipediaDriver(new Transformer(null, "movie"),3);
+        String tag = "a clockwork orange";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
             System.out.println(item.toHtml());

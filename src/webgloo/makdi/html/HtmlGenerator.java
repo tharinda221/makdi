@@ -194,5 +194,13 @@ public class HtmlGenerator {
 
     }
 
+     public static String generateLinkHtml(String title, String link) {
+       String template = "<a href=\"{link}\"> {title} </a> " ;
+       template = template.replace("{title}", title);
+       template = template.replace("{link}", link);
+       return template ;
+
+    }
+
     
 }
