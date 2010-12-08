@@ -1,4 +1,4 @@
-package webgloo.makdi.drivers;
+package webgloo.makdi.drivers.google;
 
 import com.google.gdata.client.books.BooksService;
 import com.google.gdata.client.books.VolumeQuery;
@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.Book;
 import webgloo.makdi.data.IData;
+import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
 
 /**

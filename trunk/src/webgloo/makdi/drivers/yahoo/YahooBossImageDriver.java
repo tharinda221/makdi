@@ -1,4 +1,4 @@
-package webgloo.makdi.drivers;
+package webgloo.makdi.drivers.yahoo;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,25 +15,29 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.IData;
-import webgloo.makdi.data.Post;
+import webgloo.makdi.data.Photo;
+import webgloo.makdi.data.Photo2;
+import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
+import webgloo.makdi.util.MyUtils;
 
 /**
  *
  * @author rajeevj
  *
  */
-public class YahooBossWebDriver extends YahooBossDriver implements IDriver {
+public class YahooBossImageDriver extends YahooBossDriver implements IDriver {
 
-    public final static String ENDPOINT_URI = "http://boss.yahooapis.com/ysearch/web/v1/";
-    public final static String API_ARGUMENTS = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&format=xml";
+    public final static String ENDPOINT_URI = "http://boss.yahooapis.com/ysearch/images/v1/";
+    public final static String API_ARGUMENTS = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&dimensions=medium&format=xml";
 
-    public YahooBossWebDriver(String[] siteNames, int startIndex, int maxResults) {
+    public YahooBossImageDriver(String[] siteNames, int startIndex, int maxResults) {
         super(siteNames, startIndex, maxResults);
     }
 
-    public YahooBossWebDriver(Transformer transformer, String[] siteNames, int startIndex, int maxResults) {
+    public YahooBossImageDriver(Transformer transformer, String[] siteNames, int startIndex, int maxResults) {
         super(transformer, siteNames, startIndex, maxResults);
     }
 
@@ -46,24 +50,23 @@ public class YahooBossWebDriver extends YahooBossDriver implements IDriver {
     public long getDelay() {
         return super.getDelay();
     }
-
+    
     @Override
     public List<IData> run(String tag) throws Exception {
-        MyTrace.entry("YahooBossWebDriver", "run()");
-        
+        MyTrace.entry("YahooBossImageDriver", "run()");
         List<IData> items = super.run(
-                YahooBossWebDriver.ENDPOINT_URI,
-                YahooBossWebDriver.API_ARGUMENTS,
+                YahooBossImageDriver.ENDPOINT_URI,
+                YahooBossImageDriver.API_ARGUMENTS,
                 tag);
 
-        MyTrace.exit("YahooBossWebDriver", "run()");
+        MyTrace.exit("YahooBossImageDriver", "run()");
         return items;
 
     }
 
     public List<IData> getResults(String address) throws Exception {
 
-        MyTrace.entry("YahooBossWebDriver", "run()");
+        MyTrace.entry("YahooBossImageDriver", "getResults()");
         List<IData> items = new ArrayList<IData>();
 
         MyTrace.debug("sending request to :: " + address);
@@ -73,11 +76,10 @@ public class YahooBossWebDriver extends YahooBossDriver implements IDriver {
         XPath xpath = XPathFactory.newInstance().newXPath();
         InputStream is = new ByteArrayInputStream(response.getBytes("UTF-8"));
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
-        //domFactory.setNamespaceAware(true);
+
         DocumentBuilder builder = domFactory.newDocumentBuilder();
-        //Document doc = builder.parse("sample.xml");
         Document doc = builder.parse(is);
-        XPathExpression expr = xpath.compile("//ysearchresponse/resultset_web/result");
+        XPathExpression expr = xpath.compile("//ysearchresponse/resultset_images/result");
 
         NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
@@ -87,37 +89,47 @@ public class YahooBossWebDriver extends YahooBossDriver implements IDriver {
 
             String title = (String) xpath.evaluate("title", node, XPathConstants.STRING);
             String link = (String) xpath.evaluate("url", node, XPathConstants.STRING);
+            String height = (String) xpath.evaluate("height", node, XPathConstants.STRING);
+            String width = (String) xpath.evaluate("width", node, XPathConstants.STRING);
             String description = (String) xpath.evaluate("abstract", node, XPathConstants.STRING);
-            String size = (String) xpath.evaluate("size", node, XPathConstants.STRING);
 
-            //create SearchResult
-            Post item = new Post();
-            item.setDescription(description);
-            item.setLink(link);
-            item.setSize(size);
-            item.setTitle(title);
+            //add only the valid links
+            if (URLReader.isValidURI(link)) {
+                Photo2 item = new Photo2();
+                item.setDescription(description);
+                item.setLink(link);
+                item.setTitle(title);
+                item.setImageLink(link);
+                item.setAlignment(Photo.ALIGN_LEFT);
+                
+                //@todo box height should be supplied from outside
+                int[] xy = MyUtils.getScaledDimensions(width, height, 300.0f);
+                item.setWidth(xy[0]);
+                item.setHeight(xy[1]);
 
-            items.add(item);
+                items.add(item);
+            }
 
         }
 
         is.close();
-        MyTrace.exit("YahooBossWebDriver", "run()");
+        MyTrace.exit("YahooBossImageDriver", "getResults()");
         return items;
     }
 
     public static void main(String[] args) throws Exception {
-        
-        YahooBossWebDriver driver = new YahooBossWebDriver(
+
+        YahooBossImageDriver driver = new YahooBossImageDriver(
                 new Transformer(),
                 null,
-                10,
-                10);
-        String tag = "britney spears";
+                0,
+                5);
+        String tag = "Ginger jar lamps";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
-            System.out.println(item.getTitle());
-         }
+
+            System.out.println(item.toHtml());
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 package webgloo.makdi.drivers;
 
+import webgloo.makdi.drivers.yahoo.YahooBossWebDriver;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;

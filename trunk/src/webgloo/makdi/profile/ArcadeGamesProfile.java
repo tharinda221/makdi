@@ -1,5 +1,6 @@
 package webgloo.makdi.profile;
 
+import webgloo.makdi.drivers.yahoo.YahooAnswerDriver;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.*;

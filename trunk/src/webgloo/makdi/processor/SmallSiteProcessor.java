@@ -6,7 +6,7 @@ import webgloo.makdi.data.IData;
 import webgloo.makdi.db.GlooDBConnection;
 import webgloo.makdi.db.GlooDBManager;
 import webgloo.makdi.drivers.IDriver;
-import webgloo.makdi.drivers.YahooBossImageDriver;
+import webgloo.makdi.drivers.yahoo.YahooBossImageDriver;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.profile.IContentProfile;
 import webgloo.makdi.scraper.ArticleBaseLinks;

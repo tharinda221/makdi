@@ -1,9 +1,11 @@
-package webgloo.makdi.drivers;
+package webgloo.makdi.drivers.google;
 
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.GoogleSearchControl;
 import webgloo.makdi.data.IData;
+import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
 
 /**

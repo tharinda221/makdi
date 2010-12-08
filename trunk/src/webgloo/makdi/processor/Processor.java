@@ -72,7 +72,7 @@ public abstract class Processor {
 
         } //loop: drivers
     }
-
+    
     public abstract void storeContent(IContentProfile profileBean) throws Exception ;
     
 }
