@@ -4,7 +4,7 @@ package webgloo.makdi.io;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.IDriver;
-import webgloo.makdi.profile.IContentProfile;
+import webgloo.makdi.plugin.IPlugin;
 
 
 /**
@@ -12,7 +12,7 @@ import webgloo.makdi.profile.IContentProfile;
  * @author rajeevj
  */
 
-public class ProfileXmlObject implements IContentProfile{
+public class PluginXmlObject implements IPlugin{
 
 
     private String siteDomain;
@@ -27,7 +27,7 @@ public class ProfileXmlObject implements IContentProfile{
     private String name ;
     
     //default constrcutor
-    public ProfileXmlObject() {
+    public PluginXmlObject() {
         this.drivers = new ArrayList<IDriver>();
         this.frontPageDrivers = new ArrayList<IDriver>();
     }
