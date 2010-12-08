@@ -123,8 +123,8 @@ public class YahooBossImageDriver extends YahooBossDriver implements IDriver {
                 new Transformer(),
                 null,
                 0,
-                5);
-        String tag = "Ginger jar lamps";
+                1);
+        String tag = "Donna D Errico";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
 
