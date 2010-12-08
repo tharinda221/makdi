@@ -3,7 +3,7 @@ package webgloo.makdi.main;
 import jargs.gnu.CmdLineParser;
 import org.apache.commons.lang.StringUtils;
 import webgloo.makdi.logging.MyTrace;
-import webgloo.makdi.profile.ProfileManager;
+import webgloo.makdi.plugin.PluginManager;
 import webgloo.makdi.util.MyUtils;
 
 /**
@@ -16,14 +16,14 @@ public class Main {
     public static void main(String[] args) {
 
         CmdLineParser parser = new CmdLineParser();
-        CmdLineParser.Option profileOption = parser.addStringOption('p', "profile");
+        CmdLineParser.Option profileOption = parser.addStringOption('p', "plugin");
       
         try {
             parser.parse(args);
-            String profileValue = (String) parser.getOptionValue(profileOption);
-            checkForEmpty("profile", profileValue);
+            String pluginValue = (String) parser.getOptionValue(profileOption);
+            checkForEmpty("plugin", pluginValue);
             showMessage();
-            ProfileManager.process(profileValue);
+            PluginManager.process(pluginValue);
 
         } catch (Exception ex) {
             MyTrace.error("Error during processing : check logs for details");
@@ -54,7 +54,7 @@ public class Main {
         MyTrace.error(
                 "\nUsage: java -jar makdi.jar [options] ... \n"
                 + " where options are \n"
-                + " -p, --profile \t profile.xml containg drivers and meta information \n\n");
+                + " -p, --plugin \t  plugin.xml containg drivers and meta information \n\n");
 
 
     }
