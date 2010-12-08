@@ -1,4 +1,4 @@
-package webgloo.makdi.drivers;
+package webgloo.makdi.drivers.yahoo;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -16,6 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import webgloo.makdi.data.Answer;
 import webgloo.makdi.data.IData;
+import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.io.URLReader;
 import webgloo.makdi.logging.MyTrace;
 

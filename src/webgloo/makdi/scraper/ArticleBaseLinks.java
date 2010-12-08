@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Post;
-import webgloo.makdi.drivers.YahooBossWebDriver;
+import webgloo.makdi.drivers.yahoo.YahooBossWebDriver;
 import webgloo.makdi.logging.MyTrace;
 
 /**

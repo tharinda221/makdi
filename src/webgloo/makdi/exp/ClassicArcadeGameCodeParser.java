@@ -6,7 +6,7 @@ import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Post;
 import webgloo.makdi.drivers.IDriver;
 import webgloo.makdi.drivers.Transformer;
-import webgloo.makdi.drivers.YahooBossWebDriver;
+import webgloo.makdi.drivers.yahoo.YahooBossWebDriver;
 import webgloo.makdi.io.URLReader;
 
 /**

@@ -1,4 +1,4 @@
-package webgloo.makdi.drivers;
+package webgloo.makdi.drivers.google;
 
 import com.google.api.gbase.client.GoogleBaseEntry;
 import com.google.api.gbase.client.GoogleBaseFeed;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.data.IData;
 import webgloo.makdi.data.Photo;
+import webgloo.makdi.drivers.IDriver;
+import webgloo.makdi.drivers.Transformer;
 import webgloo.makdi.logging.MyTrace;
 
 /**

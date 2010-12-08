@@ -24,7 +24,7 @@ public class Photo implements IData{
     public static String ALIGN_RIGHT = "alignright";
 
     public Photo() {
-        this.alignment = Photo.ALIGN_CENTER ;
+        this.alignment = Photo.ALIGN_LEFT ;
     }
     
     public String getAlignment() {

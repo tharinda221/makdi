@@ -1,8 +1,11 @@
 package webgloo.makdi.profile;
 
+import webgloo.makdi.drivers.yahoo.YahooBossNewsDriver;
+import webgloo.makdi.drivers.yahoo.YahooAnswerDriver;
 import java.util.ArrayList;
 import java.util.List;
 import webgloo.makdi.drivers.*;
+import webgloo.makdi.drivers.yahoo.YahooBossImageDriver;
 import webgloo.makdi.logging.MyTrace;
 
 /**
@@ -45,21 +48,21 @@ public class GoogleHotTrendsProfile implements IContentProfile {
         List<IDriver> drivers = new ArrayList<IDriver>();
         //first video is already added - so start from 2
         // pull one more video 
-        drivers.add(new YoutubeDriver(2,1));
+        drivers.add(new YoutubeDriver(new Transformer(null, "news"),1,1));
         drivers.add(new YahooAnswerDriver(1,4));
                 
         MyTrace.exit("GoogleHotTrendProfile", "getDrivers()");
         
         return drivers;
     }
-
+    
     @Override
     public List<IDriver> getFrontPageDrivers() {
         List<IDriver> drivers = new ArrayList<IDriver>();
-        //return google news driver
-        IDriver driver1 =  new YahooBossNewsDriver(null,0,10);
+        //return yahoo boss news driver
+        IDriver driver1 =  new YahooBossNewsDriver(null,0,5);
         drivers.add(driver1);
-        drivers.add(new YoutubeDriver(1,1));
+        drivers.add(new YahooBossImageDriver(new Transformer(null, "news"),null,0,1));
 
         return drivers;
     }
