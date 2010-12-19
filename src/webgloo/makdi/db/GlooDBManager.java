@@ -72,13 +72,12 @@ public class GlooDBManager {
             String orgId,
             String pageName,
             StringBuilder title,
-            StringBuilder summary,
-            String createdOn) throws Exception {
+            StringBuilder summary) throws Exception {
 
 
         String GLOO_AUTO_POST_INSERT_SQL =
                 "INSERT  INTO gloo_auto_post(org_id,ident_key,seo_key,title,content,created_on,updated_on)"
-                + " VALUES(?,?,?,?,?,?,now()) ";
+                + " VALUES(?,?,?,?,?,now(),now()) ";
 
         String identKey = MyUtils.getUUID();
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_AUTO_POST_INSERT_SQL);
@@ -89,8 +88,7 @@ public class GlooDBManager {
 
         pstmt.setString(4, title.toString());
         pstmt.setString(5, summary.toString());
-        pstmt.setString(6, createdOn);
-
+        
         pstmt.executeUpdate();
         pstmt.close();
 

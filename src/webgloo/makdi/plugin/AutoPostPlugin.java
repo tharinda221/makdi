@@ -93,9 +93,7 @@ public abstract class AutoPostPlugin extends BasePlugin {
                 String pageIdentKey = MyUtils.getUUID();
                 String pageName = keyword.getToken();
                 //mySQL timestamps are in form 2010-10-22 21:14:45
-                String createdOn = keyword.getCreatedOn();
-
-
+                
                 GlooDBManager.addPage(
                         connection,
                         pluginBean.getSiteGuid(),
@@ -120,8 +118,7 @@ public abstract class AutoPostPlugin extends BasePlugin {
                         pluginBean.getSiteGuid(),
                         pageName,
                         title,
-                        summary,
-                        createdOn);
+                        summary);
 
 
                 MyTrace.info("\n stored info for keyword :: " + keyword.getToken());
