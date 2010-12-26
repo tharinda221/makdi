@@ -62,7 +62,7 @@ public class URLReader {
     }
 
     public static void main(String[] args) throws Exception {
-        String address = "http://www.moomoogames.com/rajeev";
+        String address = "http://www.soundtrackcollector.com/images/cd/large/My_cousin_Vinny_CVS5364.jpg";
         System.out.println(URLReader.isValidURI(address));
     }
 }

@@ -17,7 +17,7 @@ public class MicroSitePluginBean implements IPlugin {
     }
     
     public String getName() {
-        return IPlugin.SMALL_SITE;
+        return IPlugin.MICRO_SITE;
     }
     
     public String getAction() {

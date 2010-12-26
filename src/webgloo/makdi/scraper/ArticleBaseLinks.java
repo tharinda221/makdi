@@ -44,8 +44,8 @@ public class ArticleBaseLinks {
     }
 
     public static void main(String[] args) throws Exception{
-        ArticleBaseLinks base = new ArticleBaseLinks(10);
-        List<String> links = base.getRecords("meditation chairs") ;
+        ArticleBaseLinks base = new ArticleBaseLinks(2);
+        List<String> links = base.getRecords("liquid protein diet") ;
         for(String link: links) {
             System.out.println(link);
         }

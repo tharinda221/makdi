@@ -13,7 +13,7 @@ public interface IPlugin {
 
     String GOOGLE_HOT_TRENDS = "GOOGLE_HOT_TRENDS";
     String ARCADE_GAMES = "ARCADE_GAMES";
-    String SMALL_SITE = "SMALL_SITE";
+    String MICRO_SITE = "MICRO_SITE";
     
     String getSiteGuid() ;
     List<IDriver> getDrivers();

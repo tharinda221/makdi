@@ -22,10 +22,10 @@ public class GoogleHotTrendsPlugin extends AutoPostPlugin {
 
     //methods specific to google hot trends keywords
     public List<Keyword> loadNewKeywords() throws Exception {
-        //return GoogleHotTrendsKeywords.loadNewKeywords();
-        List<Keyword> list = new java.util.ArrayList<Keyword>();
-        list.add(new Keyword("Donna D Errico", "2010-12-09"));
-        return list;
+        return GoogleHotTrendsKeywords.loadNewKeywords();
+        //List<Keyword> list = new java.util.ArrayList<Keyword>();
+        //list.add(new Keyword("Donna D Errico", "2010-12-09"));
+        //return list;
     }
     
     public boolean getPageSummary(
@@ -65,7 +65,9 @@ public class GoogleHotTrendsPlugin extends AutoPostPlugin {
         
         if(flag) {
             Thread.sleep(newsDriver.getDelay());
+            
             for (IData item : imageDriver.run(token)) {
+                
                 Photo2 photo2 = (Photo2) item ;
                 //No title for this photo
                 photo2.setTitle("");

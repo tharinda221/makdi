@@ -1,16 +1,13 @@
 package webgloo.makdi.plugin.microsite;
 
-import java.util.ArrayList;
 import java.util.List;
-import webgloo.makdi.data.IData;
 import webgloo.makdi.db.GlooDBConnection;
 import webgloo.makdi.db.GlooDBManager;
-import webgloo.makdi.drivers.IDriver;
-import webgloo.makdi.drivers.yahoo.YahooBossImageDriver;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.plugin.IPlugin;
 import webgloo.makdi.scraper.ArticleBaseLinks;
 import webgloo.makdi.scraper.ArticleBaseScraper;
+import webgloo.makdi.util.HtmlToText;
 import webgloo.makdi.util.MyUtils;
 
 /**
@@ -20,94 +17,88 @@ import webgloo.makdi.util.MyUtils;
 public class MicroSitePlugin {
 
     public void invoke(IPlugin profileBean) throws Exception {
-            //get keywords from profileBean
-            List<String> keywords = profileBean.getKeywords();
-            String orgId = profileBean.getSiteGuid();
-            
-            for(String keyword: keywords) {
-                this.createSite(orgId, keyword,10);
-            }
-            
-    }
-    
-    public void createSite(String orgId, String keyword, int numberOfPages) throws Exception {
+        //get keywords from profileBean
+        List<String> keywords = profileBean.getKeywords();
+        String orgId = profileBean.getSiteGuid();
 
-        java.sql.Connection connection = GlooDBConnection.getConnection();
-        String typeOfWidget = "AUTO_POST";
-        String widgetXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <widget> <type>AUTO_POST</type> </widget>";
-        
-        //first fetch a list of articlebase.com links
-        List<String> links = new ArticleBaseLinks(numberOfPages).getRecords(keyword);
-        
-        ArticleBaseScraper scraper;
-        int index = 0;
-        String title ;
-        
-        List<IData> images = new ArrayList<IData>();
-
-        //fetch images for a page
-        if (links.size() > 0) {
-            MyTrace.debug("fetch images :" + links.size());
-            IDriver driver = new YahooBossImageDriver(null, 0, links.size());
-            images = driver.run(keyword);
-
+        for (String keyword : keywords) {
+            MyTrace.info("creating pages for keyword :: " + keyword);
+            this.createSitePages(orgId, keyword, 20);
         }
 
+    }
+    
+    public void createSitePages(String orgId, String keyword, int numberOfPages) throws Exception {
+
+        java.sql.Connection connection = GlooDBConnection.getConnection();
+        String typeOfWidget = "TEXT_ONLY";
+        String widgetXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <widget> <type>TEXT_ONLY</type> <markdown>NO</markdown></widget>";
+
+        //first fetch a list of articlebase.com links
+        ArticleBaseLinks linksObj = new ArticleBaseLinks(numberOfPages);
+        List<String> links = linksObj.getRecords(keyword);
+
+
+        ArticleBaseScraper scraper;
+
+
         for (String link : links) {
+            //is this link already in Database?
+            //create MD5 digest of incoming link and compare with the
+            // md5 digest stored in DB
+            String digest = MyUtils.MD5(link);
+
+            if (GlooDBManager.isExistingPage(connection, orgId, digest)) {
+                //page exists - try next link
+                MyTrace.info(link + " :: with digest :: " + digest + " already exists");
+                continue;
+            }
+
+            //scrape the link and store as a page!
             scraper = new ArticleBaseScraper();
             scraper.run(link);
 
             if (scraper.getTitle() != null) {
 
-                //create a new gloo page
-                String pageIdentKey = (index == 0) ? "home" : MyUtils.getUUID();
+                //Create summary for Autopost
+                // Run HTML through a kit to convert to text otherwise
+                // we will chop html tags in middle and all alignments will
+                // go for a toss
+                String content = HtmlToText.extractUsingSwingKit(scraper.getContent().toString());
+                //150 chars should be about 30 words..
+                StringBuilder summary = new StringBuilder(content.substring(0, 150));
+                summary.append("....");
+                
+                //Add a new page
+                GlooDBManager.addPage(
+                        connection,
+                        orgId,
+                        digest,
+                        scraper.getTitle().toString());
 
-                if (!pageIdentKey.equals("home")) {
-                    //Home is already created when an organization is created
-                    // so do not add a gloo page for home
-                    GlooDBManager.addPage(
-                            connection,
-                            orgId,
-                            pageIdentKey,
-                            scraper.getTitle().toString());
-                }
-
-                //Add article base content
+                //Add articles base content
                 GlooDBManager.addPageContent(connection,
                         orgId,
-                        pageIdentKey,
+                        digest,
                         typeOfWidget,
                         widgetXml,
                         scraper.getTitle(),
                         scraper.getContent());
-                
-                //Add image
-                // second widget will get ui_order = 2 and hence
-                // will come out on top of other widget
-                
-                if (index < images.size()) {
-                    //Add image data
-                    GlooDBManager.addPageContent(connection,
-                            orgId,
-                            pageIdentKey,
-                            typeOfWidget,
-                            widgetXml,
-                            new StringBuilder(images.get(index).getTitle()),
-                            new StringBuilder(images.get(index).toHtml()));
-                }
 
-                MyTrace.info("created page for site :: " +scraper.getTitle().toString() );
+                
+                //Add auto post
+                GlooDBManager.addAutoPost(connection,
+                    orgId,
+                    scraper.getTitle().toString(),
+                    scraper.getTitle(),
+                    summary);
+
             }
-                       
-            index++;
-            //sleep for some time after processing one link
-            Thread.sleep(5000);
             
+            Thread.sleep(5000);
+
         } //loop:links
 
     }
-
-    public static void main(String[] args) throws Exception {
-        new MicroSitePlugin().createSite("1174", "meditation chairs",20);
-    }
+    
 }

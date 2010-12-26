@@ -29,9 +29,7 @@
     <webgloo.makdi.drivers.yahoo.YahooBossImageDriver>
       <maxResults>5</maxResults>
       <startIndex>0</startIndex>
-      <transformer>
-        <suffix>news</suffix>
-      </transformer>
+      <transformer/>
     </webgloo.makdi.drivers.yahoo.YahooBossImageDriver>
   </frontPageDrivers>
   <action>STORE</action>

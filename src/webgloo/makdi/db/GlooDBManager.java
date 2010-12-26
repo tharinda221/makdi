@@ -68,6 +68,31 @@ public class GlooDBManager {
 
     }
 
+    public static boolean isExistingPage(java.sql.Connection connection,
+            String orgId,
+            String pageIdentKey) throws Exception{
+
+        
+         String SQL =
+                " select count(id) as count from gloo_page where org_id = "
+                + orgId + " and ident_key = '" + pageIdentKey + "' ";
+
+        java.sql.Statement stmt = connection.createStatement();
+        java.sql.ResultSet rs = stmt.executeQuery(SQL);
+        int count = 0 ;
+
+        while (rs.next()) {
+            count = rs.getInt("count");
+        }
+
+        stmt.close();
+        rs.close();
+
+        boolean flag = (count > 0 ) ? true : false ;
+        return flag ;
+        
+    }
+
     public static void addAutoPost(java.sql.Connection connection,
             String orgId,
             String pageName,

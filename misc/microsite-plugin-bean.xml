@@ -1,0 +1,13 @@
+<plugin>
+  <siteDomain>www.abcd.com</siteDomain>
+  <siteName>ABCD site</siteName>
+  <siteGuid>1174</siteGuid>
+  <drivers/>
+  <frontPageDrivers/>
+  <action>STORE</action>
+  <keywords>
+    <string>liquid protein diet</string>
+    <string>liquid protein supplements</string>
+  </keywords>
+  <name>MICRO_SITE</name>
+</plugin>

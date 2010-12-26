@@ -41,7 +41,7 @@ public class PluginManager {
             new GoogleHotTrendsPlugin().invoke(pluginBean);
         } else if (pluginBean.getName().equals(IPlugin.ARCADE_GAMES)) {
             new ArcadeGamesPlugin().invoke(pluginBean);
-        } else if (pluginBean.getName().equals(IPlugin.SMALL_SITE)) {
+        } else if (pluginBean.getName().equals(IPlugin.MICRO_SITE)) {
             new MicroSitePlugin().invoke(pluginBean);
         } else {
             throw new Exception(pluginBean.getName() + " plugin not found ");

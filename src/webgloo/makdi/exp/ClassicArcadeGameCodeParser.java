@@ -46,7 +46,7 @@ public class ClassicArcadeGameCodeParser {
             int pos1 = content.indexOf("<embed", pos);
             int pos2 = content.indexOf("</embed>",pos);
             String embedCode = content.substring(pos1, pos2+8);
-            System.out.println(embedCode);
+            
         }
         
     }
