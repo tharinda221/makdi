@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import webgloo.makdi.io.URLReader;
+import webgloo.makdi.logging.MyTrace;
 
 /**
  *
@@ -12,28 +14,19 @@ import java.net.URLConnection;
 public class ArticleBaseScraper {
 
     private StringBuilder buffer1;
-    private StringBuilder buffer2;
-
     private StringBuilder title ;
     private StringBuilder content ;
-    
-    private boolean isSyndicate;
-    private boolean isContainer;
+   
     private boolean isContent;
-    private boolean isKonaBody;
+
   
 
     public ArticleBaseScraper() {
         this.buffer1 = new StringBuilder();
-        this.buffer2 = new StringBuilder();
-
         this.title = null;
         this.content = null;
-        
-        this.isSyndicate = false;
-        this.isContainer = false;
         this.isContent = false;
-        this.isKonaBody = false;
+    
     }
 
     public StringBuilder getContent() {
@@ -43,8 +36,36 @@ public class ArticleBaseScraper {
     public StringBuilder getTitle() {
         return title;
     }
-    
+
+    private String getEzineLink(String link) {
+        //create syndicated content ezine link now
+        String ezineCode = null ;
+        String ezineLink = null ;
+
+        if(link != null) {
+            int pos1 = link.lastIndexOf('-');
+            int pos2 = link.lastIndexOf('.');
+            if(pos1 != -1 && pos2 != -1) {
+                ezineCode = link.substring(pos1+1, pos2);
+                ezineLink = "http://www.articlesbase.com/ezine/" + ezineCode ;
+            }
+
+        }
+
+        return   ezineLink;
+
+    }
+
     public void run(String address) throws Exception {
+        address = this.getEzineLink(address);
+        //get out if address is null
+        // get out if address is not valid
+        if(address == null || !URLReader.isValidURI(address)) {
+            return ;
+        }
+        
+        MyTrace.info(" scraping information from address :: " + address);
+        
         //go to this address and fetch syndicated content
         URL url = new URL(address);
         URLConnection connection = url.openConnection();
@@ -55,30 +76,21 @@ public class ArticleBaseScraper {
 
         //@todo parse tags w/o dependency on spaces
         //@todo we need SAX parsing on bad html
-        String SYNDICATE_DIV = "<div id=\"syndicate\"";
-        String END_DIV = "</div>";
-        String CONTAINER_DIV = "<div class=\"container\">";
-        String KONA_BODY = "<div class=\"KonaBody\">";
+        String START_CONTENT = "<textarea id=\"ezine_html\"";
+        String END_CONTENT = "</textarea>";
+        
 
         while ((line = reader.readLine()) != null) {
 
             //look for syndicated DIV
-            if (line.contains(SYNDICATE_DIV)) {
-                handleSyndicateDivTag();
+            if (line.contains(START_CONTENT)) {
+                handleStartContent(line);
             }
 
-            if (line.contains(CONTAINER_DIV)) {
-                handleContainerDivTag();
+            if (line.contains(END_CONTENT)) {
+                handleEndContent(line);
             }
-
-            if (line.contains(END_DIV)) {
-                handleEndDivTag(line);
-            }
-
-            if (line.contains(KONA_BODY)) {
-                handleKonaBodyDivTag();
-            }
-
+            
             handleContent(line);
 
         }
@@ -86,69 +98,41 @@ public class ArticleBaseScraper {
         //strip unwanted tags from buffer 1
         int pos1 = this.buffer1.indexOf("<h1>");
         int pos2 = this.buffer1.indexOf("</h1>", pos1);
-        int pos3 = this.buffer1.lastIndexOf("</textarea>");
+        //break at first </textarea..
+        int pos3 = this.buffer1.indexOf("</textarea>");
         
         if ((pos1 != -1) && (pos2 != -1) && (pos3 != -1)) {
             this.title = new StringBuilder(this.buffer1.subSequence(pos1 + 4, pos2));
             this.content = new StringBuilder(this.buffer1.subSequence(pos1, pos3));
-            //replace <!--articlecontent--> with buffer2
-            String finalContent = this.content.toString().replace("<!--articlecontent-->", this.buffer2.toString());
-            this.content = new StringBuilder(finalContent);
-
+            
         }
 
                
     }
 
-    private void handleSyndicateDivTag() {
-        //System.out.println("handleSyndicateDivTag");
-        this.isSyndicate = true;
+    private void handleStartContent(String line) {
+        this.isContent = true;
+        //@todo - the collection should start from <textarea ..
+        this.buffer1.append(line);
+        
     }
 
-    private void handleKonaBodyDivTag() {
-        this.isKonaBody = true;
+    private void handleEndContent(String line) {
+       //@todo the collection should stop @ </textarea ...
+       this.buffer1.append(line);
+       this.isContent = false;
     }
-
-    private void handleContainerDivTag() {
-        //System.out.println("handleContainerDivTag");
-        if (this.isSyndicate) {
-            this.isContainer = true;
-            this.isContent = true;
-        }
-
-    }
-
-    private void handleEndDivTag(String line) {
-        //System.out.println("handleEndDivTag");
-        if (this.isContainer) {
-            this.isContainer = false;
-            this.isContent = false;
-            this.isSyndicate = false;
-
-            this.buffer1.append(line);
-        }
-
-        if (this.isKonaBody) {
-            this.isKonaBody = false;
-            this.buffer2.append(line);
-        }
-
-    }
-
+    
     private void handleContent(String line) {
 
-        if (this.isContainer && this.isContent) {
+        if (this.isContent) {
             this.buffer1.append(line);
         }
-
-        if (this.isKonaBody) {
-            this.buffer2.append(line);
-        }
-
+        
     }
-
+    
     public static void main(String[] args) throws Exception {
-        String address = "http://www.articlesbase.com/ecommerce-articles/how-to-choose-a-quality-animal-print-rug-26786.html";
+        String address = "http://www.articlesbase.com/nutrition-articles/liquid-protein-diet-the-pros-and-cons-3726418.html";
         ArticleBaseScraper scrapper = new ArticleBaseScraper();
         scrapper.run(address);
         //scrapper.getContent("http://www.articlesbase.com/marketing-articles/bulk-sms-api-2791138.html");

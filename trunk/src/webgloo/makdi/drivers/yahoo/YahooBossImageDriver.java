@@ -124,7 +124,7 @@ public class YahooBossImageDriver extends YahooBossDriver implements IDriver {
                 null,
                 0,
                 1);
-        String tag = "Donna D Errico";
+        String tag = "Christopher Tierney";
         List<IData> items = driver.run(tag);
         for (IData item : items) {
 
