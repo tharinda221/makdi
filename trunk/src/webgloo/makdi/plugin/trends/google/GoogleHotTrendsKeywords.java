@@ -56,15 +56,23 @@ public class GoogleHotTrendsKeywords {
         List<Keyword> keywords = new ArrayList<Keyword>();
         
         while(m.find()) {
+
             String link = m.group(1) ;
+            //link is
+            // http://www.google.com/trends/hottrends?q=adam+vinatieri&date=2011-1-8&sa=X
             int pos1 = link.indexOf("?q=");
             link = link.substring(pos1+3);
+            // Now link is
+            // adam+vinatieri&date=2011-1-8&sa=X
+            
             int pos2 = link.indexOf("&date=");
+            int pos3 = link.indexOf("&sa=", pos2);
+            
             Keyword keyword = new Keyword();
             String token = link.substring(0, pos2);
             //Google hot trend keywords are url encoded
             keyword.setToken(java.net.URLDecoder.decode(token, "UTF-8"));
-            keyword.setDate(link.substring(pos2+6, pos2+16));
+            keyword.setDate(link.substring(pos2+6, pos3));
             keywords.add(keyword);
         }
 

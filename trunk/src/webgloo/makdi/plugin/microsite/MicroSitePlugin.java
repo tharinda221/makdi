@@ -100,5 +100,13 @@ public class MicroSitePlugin {
         } //loop:links
 
     }
+
+    public static void main(String[] args) throws Exception{
+        String keyword  = "ginger jar lamps" ;
+        String orgId = "1174" ;
+        MicroSitePlugin plugin = new MicroSitePlugin();
+        plugin.createSitePages(orgId, keyword, 10);
+        
+    }
     
 }
