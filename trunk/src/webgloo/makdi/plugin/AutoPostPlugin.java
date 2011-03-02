@@ -98,7 +98,8 @@ public abstract class AutoPostPlugin extends BasePlugin {
                         connection,
                         pluginBean.getSiteGuid(),
                         pageIdentKey,
-                        pageName);
+                        pageName,
+                        title.toString());
 
                 //2. store content in newly created page
                 GlooDBManager.addPageContent(connection,
