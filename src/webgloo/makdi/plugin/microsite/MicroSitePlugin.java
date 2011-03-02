@@ -74,6 +74,7 @@ public class MicroSitePlugin {
                         connection,
                         orgId,
                         digest,
+                        scraper.getTitle().toString(),
                         scraper.getTitle().toString());
 
                 //Add articles base content

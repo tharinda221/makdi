@@ -92,7 +92,7 @@ public class GlooDBManager {
         return flag ;
         
     }
-
+    
     public static void addAutoPost(java.sql.Connection connection,
             String orgId,
             String pageName,
@@ -165,7 +165,8 @@ public class GlooDBManager {
     public static void addPage(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
-            String pageName) throws Exception {
+            String pageName,
+            String title) throws Exception {
 
         String seoKey = MyUtils.convertPageNameToId(pageName);
         //page name should also be cured
@@ -187,15 +188,19 @@ public class GlooDBManager {
         stmt.close();
 
         String GLOO_PAGE_INSERT_SQL =
-                "INSERT  INTO gloo_page(org_id,ident_key,seo_key,page_name,created_on,updated_on)"
-                + " VALUES(?,?,?,?,now(),now()) ";
+                "INSERT  INTO gloo_page(org_id,ident_key,seo_key,page_name,created_on,updated_on, meta_tags)"
+                + " VALUES(?,?,?,?,now(),now(), ?) ";
 
+
+        //create a description meta tag out of page title
+        String metaTags = "<meta name=\"description\" content=\"" +  title + " \" />" ;
 
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_PAGE_INSERT_SQL);
         pstmt.setString(1, orgId);
         pstmt.setString(2, pageIdentKey);
         pstmt.setString(3, seoKey);
         pstmt.setString(4, pageName);
+        pstmt.setString(5, metaTags);
 
         pstmt.executeUpdate();
         pstmt.close();
