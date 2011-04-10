@@ -15,23 +15,28 @@ import webgloo.makdi.util.MyUtils;
  */
 public abstract class AutoPostPlugin extends BasePlugin {
 
-    private boolean isSummaryInContent = false;
-
-    public boolean isIsSummaryInContent() {
-        return isSummaryInContent;
-    }
+    //The autopost plugin fetches summary of post and other post content
+    // we may decide not to show post summary on actual post page (like for ARCADE games)
+    // and in other cases we may want to show summary also on post page.
     
-    public void setIsSummaryInContent(boolean isSummaryInContent) {
-        this.isSummaryInContent = isSummaryInContent;
+    private boolean includeSummaryInPost = false;
+
+    public boolean isIncludeSummaryInPost() {
+        return includeSummaryInPost;
+    }
+
+    public void setIncludeSummaryInPost(boolean includeSummaryInPost) {
+        this.includeSummaryInPost = includeSummaryInPost;
     }
     
     public abstract List<Keyword> loadNewKeywords() throws Exception;
 
-    public abstract boolean getPageSummary(
+    public abstract boolean getPostSummary(
             IPlugin profileBean,
             String token,
             StringBuilder title,
-            StringBuilder summary) throws Exception;
+            StringBuilder summaryInHtml,
+            StringBuilder summaryInText) throws Exception;
 
     public void storeContent(IPlugin pluginBean) throws Exception {
 
@@ -77,14 +82,21 @@ public abstract class AutoPostPlugin extends BasePlugin {
             //buffers to hold data
             StringBuilder content = new StringBuilder();
             StringBuilder title = new StringBuilder();
-            StringBuilder summary = new StringBuilder();
+            StringBuilder summaryInHtml = new StringBuilder();
+            StringBuilder summaryInText = new StringBuilder();
 
-
-            if (this.getPageSummary(pluginBean, token, title, summary)) {
-                //Add existing summary to  content
+            boolean postHasSummary = this.getPostSummary(
+                                                    pluginBean,
+                                                    token,
+                                                    title,
+                                                    summaryInHtml,
+                                                    summaryInText);
+            
+            if (postHasSummary) {
+                // Add existing post summary to  full post content
                 // depending on flag
-                if(this.isSummaryInContent) {
-                    content.append(summary.toString());
+                if(this.includeSummaryInPost) {
+                    content.append(summaryInHtml.toString());
                 }
                 
                 this.getPageContent(pluginBean,token, content);
@@ -94,15 +106,17 @@ public abstract class AutoPostPlugin extends BasePlugin {
                 String pageName = keyword.getToken();
                 //mySQL timestamps are in form 2010-10-22 21:14:45
                 
-                GlooDBManager.addPage(
+                GlooDBManager.addPageMetaData(
                         connection,
                         pluginBean.getSiteGuid(),
                         pageIdentKey,
                         pageName,
-                        title.toString());
+                        title.toString(),
+                        summaryInText.toString());
 
                 //2. store content in newly created page
-                GlooDBManager.addPageContent(connection,
+                GlooDBManager.addPageContentToBlock(
+                        connection,
                         pluginBean.getSiteGuid(),
                         pageIdentKey,
                         typeOfWidget,
@@ -119,7 +133,7 @@ public abstract class AutoPostPlugin extends BasePlugin {
                         pluginBean.getSiteGuid(),
                         pageName,
                         title,
-                        summary);
+                        summaryInHtml);
 
 
                 MyTrace.info("\n stored info for keyword :: " + keyword.getToken());

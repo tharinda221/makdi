@@ -17,7 +17,7 @@ import webgloo.makdi.plugin.IPlugin;
 public class GoogleHotTrendsPlugin extends AutoPostPlugin {
 
     public GoogleHotTrendsPlugin() {
-        super.setIsSummaryInContent(true);
+        super.setIncludeSummaryInPost(true);
     }
 
     //methods specific to google hot trends keywords
@@ -28,11 +28,12 @@ public class GoogleHotTrendsPlugin extends AutoPostPlugin {
         //return list;
     }
     
-    public boolean getPageSummary(
+    public boolean getPostSummary(
             IPlugin profileBean,
             String token,
             StringBuilder title,
-            StringBuilder summary) throws Exception {
+            StringBuilder summaryInHtml,
+            StringBuilder summaryInText) throws Exception {
 
         boolean flag = false;
         //get summary using front page drivers
@@ -59,6 +60,8 @@ public class GoogleHotTrendsPlugin extends AutoPostPlugin {
         if(biggestNews != null) {
             title.append(biggestNews.getTitle());
             content = biggestNews.getDescription();
+            summaryInText.append(biggestNews.getDescription());
+            
             flag = true ;
             Thread.sleep(newsDriver.getDelay());
         }
@@ -80,7 +83,7 @@ public class GoogleHotTrendsPlugin extends AutoPostPlugin {
         }
         
         //right content is set!
-        summary.append(content);
+        summaryInHtml.append(content);
 
         return flag;
     }

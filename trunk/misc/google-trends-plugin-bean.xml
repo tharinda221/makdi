@@ -1,7 +1,7 @@
 <plugin>
   <siteDomain>www.abcd.com</siteDomain>
   <siteName>ABCD site</siteName>
-  <siteGuid>1169</siteGuid>
+  <siteGuid>1178</siteGuid>
   <drivers>
     <webgloo.makdi.drivers.YoutubeDriver>
       <maxResults>1</maxResults>

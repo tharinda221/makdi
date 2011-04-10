@@ -30,7 +30,6 @@ public class GlooDBManager {
 
         cs.executeUpdate();
         cs.close();
-      
 
     }
 
@@ -70,16 +69,16 @@ public class GlooDBManager {
 
     public static boolean isExistingPage(java.sql.Connection connection,
             String orgId,
-            String pageIdentKey) throws Exception{
+            String pageIdentKey) throws Exception {
 
-        
-         String SQL =
+
+        String SQL =
                 " select count(id) as count from gloo_page where org_id = "
                 + orgId + " and ident_key = '" + pageIdentKey + "' ";
 
         java.sql.Statement stmt = connection.createStatement();
         java.sql.ResultSet rs = stmt.executeQuery(SQL);
-        int count = 0 ;
+        int count = 0;
 
         while (rs.next()) {
             count = rs.getInt("count");
@@ -88,16 +87,16 @@ public class GlooDBManager {
         stmt.close();
         rs.close();
 
-        boolean flag = (count > 0 ) ? true : false ;
-        return flag ;
-        
+        boolean flag = (count > 0) ? true : false;
+        return flag;
+
     }
-    
+
     public static void addAutoPost(java.sql.Connection connection,
             String orgId,
             String pageName,
             StringBuilder title,
-            StringBuilder summary) throws Exception {
+            StringBuilder summaryInHtml) throws Exception {
 
 
         String GLOO_AUTO_POST_INSERT_SQL =
@@ -112,21 +111,24 @@ public class GlooDBManager {
         pstmt.setString(3, MyUtils.convertPageNameToId(pageName));
 
         pstmt.setString(4, title.toString());
-        pstmt.setString(5, summary.toString());
-        
+        pstmt.setString(5, summaryInHtml.toString());
+
         pstmt.executeUpdate();
         pstmt.close();
 
     }
 
-    public static void addPageContent(java.sql.Connection connection,
+    public static void addPageContentToBlock(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
             String typeOfWidget,
             String widgetXml,
             StringBuilder title,
-            StringBuilder widgetHtml) throws Exception {
+            StringBuilder content) throws Exception {
 
+        //System.out.println(content.toString());
+        //System.out.println("\n\n");
+        
         String identKey = MyUtils.getUUID();
 
         //Magic block of Type II
@@ -147,7 +149,7 @@ public class GlooDBManager {
 
         pstmt.setString(5, title.toString());
         pstmt.setString(6, widgetXml);
-        pstmt.setString(7, widgetHtml.toString());
+        pstmt.setString(7, content.toString());
 
         pstmt.setInt(8, blockNumber);
         pstmt.setInt(9, typeofBlock);
@@ -162,11 +164,12 @@ public class GlooDBManager {
      * @param pageName - human readable page name like "The mystery continues"
      * @throws Exception
      */
-    public static void addPage(java.sql.Connection connection,
+    public static void addPageMetaData(java.sql.Connection connection,
             String orgId,
             String pageIdentKey,
             String pageName,
-            String title) throws Exception {
+            String title,
+            String summaryInText) throws Exception {
 
         String seoKey = MyUtils.convertPageNameToId(pageName);
         //page name should also be cured
@@ -188,19 +191,23 @@ public class GlooDBManager {
         stmt.close();
 
         String GLOO_PAGE_INSERT_SQL =
-                "INSERT  INTO gloo_page(org_id,ident_key,seo_key,page_name,created_on,updated_on, meta_tags)"
-                + " VALUES(?,?,?,?,now(),now(), ?) ";
+                "INSERT  INTO gloo_page(org_id,ident_key,seo_key,page_name,created_on,updated_on, meta_tags,title)"
+                + " VALUES(?,?,?,?,now(),now(), ?,?) ";
 
 
-        //create a description meta tag out of page title
-        String metaTags = "<meta name=\"description\" content=\"" +  title + " \" />" ;
+        //create a description meta tag out of post summary
+
+        int end = summaryInText.length() > 200 ? 190 : summaryInText.length();
+        String metaTags = "<meta name=\"description\" content=\"" + summaryInText.substring(0,end) + " \" />";
 
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_PAGE_INSERT_SQL);
         pstmt.setString(1, orgId);
         pstmt.setString(2, pageIdentKey);
         pstmt.setString(3, seoKey);
+
         pstmt.setString(4, pageName);
         pstmt.setString(5, metaTags);
+        pstmt.setString(6, title );
 
         pstmt.executeUpdate();
         pstmt.close();

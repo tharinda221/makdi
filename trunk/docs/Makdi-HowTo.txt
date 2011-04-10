@@ -37,35 +37,10 @@ cd to above folder and type
 
 This will print usage
 
-Usage: java -jar makdi.jar [options] ...
- where options are
- -k, --keywords          a file containing source keywords
- -a, --action    select action, one of [test|store|generate]
-         action: generate        generate html pages from DB
-         action: store   store results in db
-         action: test    generate test html pages
- -p, --profile   profile.xml containg drivers and meta information
+Makdi needs a plugin file to operate. Plugin file contains all the necessary information to fetch and store data.
+C:\code\makdi\trunk>java -jar .\dist\makdi-trunk.jar   -p .\misc\google-trends-p lugin-bean.xml
 
 
-Makdi needs a keywords file to process (obviously!) , one profle file (that tells it what drivers to load)
-and an action. Like for beginners you can test your installation by typing in something like
-
-/>java -jar .\dist\makdi.jar  -k <keywords file> -a test -p <profile file>
-
-where keywords file is your keyword file name and profile file is your profile file name.
-
-/>java -jar .\dist\makdi.jar  -k test.keywords -a test -p my-profile.xml
-
-keywords are created one on a line, see sample test.keywords file for example.
-profile file contains information on what drivers to load and what transformations should be done on keywords.
-
-Ruuning your profile file
-===========================
-To start exploration of web with makdi, you can make a copy of all-profile.xml file. Remember this is just to get you started 
-and you have to tune your profile file according to your needs.
-
-/> copy all-profile.xml my-profile.xml
-/>java -jar .\dist\makdi.jar  -k test.keywords -a test -p my-profile.xml
 
 
 
@@ -95,60 +70,34 @@ C) Prefix and suffix both
   </transformer>
 
 
-1)
-Google CSE driver : searchId is google custom search Id for your site and this will vary from site to site.
 
-2) RSS driver : external source (full URL)
-
-<webgloo.makdi.drivers.RssDriver>
-  <feedURI>http://www.nytimes.com/services/xml/rss/nyt/HomePage.xml</feedURI> 
-  <maxResults>10</maxResults> 
-  <source>0</source> 
-  <transformer /> 
-  <isExternal>true</isExternal> 
-  </webgloo.makdi.drivers.RssDriver>
-
-RSS driver : use our tags, internal sources
-
-<webgloo.makdi.drivers.RssDriver>
-  <maxResults>5</maxResults> 
-  <source>1</source> 
-  <transformer /> 
-  <isExternal>false</isExternal> 
-  </webgloo.makdi.drivers.RssDriver>
-
-where internal sources are 
-
-1 - Google News
+JDBC error
+==========
+If you get JDBC error related to stored procedure execution then you need to grant following rights to 
+your database user.
 
 
-3) YAHOO BOSS driver (search in Yahoo web) - siteNames are mandatory
+mysql> grant select on mysql.proc to 'gloo'@'localhost' ;
+Query OK, 0 rows affected (0.09 sec)
 
-<webgloo.makdi.drivers.YahooBossDriver>
-  <maxResults>2</maxResults> 
- <siteNames>
-  <string>rottentomatoes.com</string> 
-  <string>flickr.com</string> 
-  </siteNames>
- <transformer>
-  <prefix>intitle:</prefix> 
-  <suffix>+book</suffix> 
-  </transformer>
-  </webgloo.makdi.drivers.YahooBossDriver>
+mysql> grant insert  on mysql.proc to 'gloo'@'localhost' ;
+Query OK, 0 rows affected (0.00 sec)
 
- 
-
-Results
-=========
-
-All results are stored in makdi-output folder.
-For test runs, the results are stored in makdi-output\test.com folder
-HTML is created according to driver order listed in profile xml file.
-You can repeat drivers in any manner in profile xml file (even duplicates are fine..)
+mysql> grant update  on mysql.proc to 'gloo'@'localhost' ;
+Query OK, 0 rows affected (0.00 sec)
 
 
-ENJOY!
+Running on server
+=================
+To create a jar out of source tarball
+ ~/sw/ant-1.8.1/bin/ant  jar
 
+rjha@indigloo-auto1:~/svn/makdi/trunk$ cat run-trends.sh
+cd /home/rjha/svn/makdi/trunk
+CLASSPATH=./lib/activation.jar:./lib/antlr-2.7.7.jar:./lib/commons-lang-2.5.jar:./lib/gdata-base-1.0.jar:./lib/gdata-books-1.0.jar:./lib/gdata-books-meta-1.0.jar:./lib/gdata-client-1.0.jar:./lib/gdata-client-meta-1.0.jar:./lib/gdata-core-1.0.jar:./lib/gdata-media-1.0.jar:./lib/gdata-youtube-2.0.jar:./lib/gdata-youtube-meta-2.0.jar:./lib/google-collect-1.0-rc1.jar:./lib/jargs.jar:./lib/jdom.jar:./lib/mail.jar:./lib/mailapi.jar:./lib/mysql-connector-java-5.1.13-bin.jar:./lib/rome-1.0.jar:./lib/stringtemplate-3.2.1.jar:./lib/twitter4j-core-2.1.3.jar:./lib/xstream-1.3.1.jar:./dist/makdi-trunk.jar
+
+export CLASSPATH
+java -cp $CLASSPATH -Xmx128M -Xms64M  webgloo.makdi.main.Main  -p ./misc/google-trends-plugin-bean.xml
 
 
 
