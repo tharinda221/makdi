@@ -16,7 +16,8 @@ public class ArticleBaseScraper {
     private StringBuilder buffer1;
     private StringBuilder title ;
     private StringBuilder content ;
-   
+    //private String summaryInText ;
+
     private boolean isContent;
 
   
@@ -28,6 +29,29 @@ public class ArticleBaseScraper {
         this.isContent = false;
     
     }
+
+    //@todo - summary and name Needs to be fixed!
+    public String getName() {
+        return this.title.toString();
+    }
+
+    public String getSummaryInText() {
+        return this.title.toString();
+    }
+
+    /*
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+    */
+   
+
+    
+
 
     public StringBuilder getContent() {
         return content;

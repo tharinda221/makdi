@@ -1,7 +1,6 @@
 package webgloo.makdi.data;
 
 import webgloo.makdi.html.HtmlGenerator;
-import webgloo.makdi.util.HtmlToText;
 
 /**
  *
@@ -70,10 +69,10 @@ public class News implements IData {
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("title = " + this.title + "\n");
-        buffer.append("link = " + this.link + "\n");
-        buffer.append("source= " + this.source + "\n");
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("title = ").append(this.title).append("\n");
+        buffer.append("link = ").append(this.link).append("\n");
+        buffer.append("source= ").append(this.source).append("\n");
         return buffer.toString();
 
     }

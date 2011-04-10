@@ -18,7 +18,7 @@ public class ArcadeGamesPlugin extends AutoPostPlugin{
 
 
     public ArcadeGamesPlugin() {
-         super.setIsSummaryInContent(false);
+         super.setIncludeSummaryInPost(false);
     }
     
     //methods specific to arcade games
@@ -26,11 +26,12 @@ public class ArcadeGamesPlugin extends AutoPostPlugin{
         return null ;
     }
     
-    public  boolean getPageSummary(
+    public  boolean getPostSummary(
             IPlugin profileBean,
             String token,
             StringBuilder title,
-            StringBuilder summary) throws Exception {
+            StringBuilder summaryInHtml,
+            StringBuilder summaryInText) throws Exception {
 
         boolean flag = false ;
         
@@ -77,7 +78,7 @@ public class ArcadeGamesPlugin extends AutoPostPlugin{
             }
 
             //right content has been set
-            summary.append(content);
+            summaryInHtml.append(content);
             
         }
         

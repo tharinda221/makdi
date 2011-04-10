@@ -70,15 +70,16 @@ public class MicroSitePlugin {
                 summary.append("....");
                 
                 //Add a new page
-                GlooDBManager.addPage(
+                GlooDBManager.addPageMetaData(
                         connection,
                         orgId,
                         digest,
+                        scraper.getName(),
                         scraper.getTitle().toString(),
-                        scraper.getTitle().toString());
+                        scraper.getSummaryInText());
 
                 //Add articles base content
-                GlooDBManager.addPageContent(connection,
+                GlooDBManager.addPageContentToBlock(connection,
                         orgId,
                         digest,
                         typeOfWidget,
