@@ -3,6 +3,7 @@ package webgloo.makdi.db;
 import java.sql.CallableStatement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import webgloo.makdi.data.Keyword;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.util.MyUtils;
@@ -126,9 +127,7 @@ public class GlooDBManager {
             StringBuilder title,
             StringBuilder content) throws Exception {
 
-        //System.out.println(content.toString());
-        //System.out.println("\n\n");
-        
+
         String identKey = MyUtils.getUUID();
 
         //Magic block of Type II
@@ -141,21 +140,25 @@ public class GlooDBManager {
                 + " created_on,block_no,block_type) "
                 + " VALUES(?,?,?,?,?,?,?,now(),?,?) ";
 
-        java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_BLOCK_INSERT_SQL);
-        pstmt.setString(1, identKey);
-        pstmt.setString(2, orgId);
-        pstmt.setString(3, pageIdentKey);
-        pstmt.setString(4, typeOfWidget);
+        
+            java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_BLOCK_INSERT_SQL);
+            pstmt.setString(1, identKey);
+            pstmt.setString(2, orgId);
+            pstmt.setString(3, pageIdentKey);
+            pstmt.setString(4, typeOfWidget);
 
-        pstmt.setString(5, title.toString());
-        pstmt.setString(6, widgetXml);
-        pstmt.setString(7, content.toString());
+            pstmt.setString(5, title.toString());
+            pstmt.setString(6, widgetXml);
+            pstmt.setString(7, content.toString());
 
-        pstmt.setInt(8, blockNumber);
-        pstmt.setInt(9, typeofBlock);
+            pstmt.setInt(8, blockNumber);
+            pstmt.setInt(9, typeofBlock);
 
-        pstmt.executeUpdate();
-        pstmt.close();
+
+            pstmt.executeUpdate();
+            pstmt.close();
+            
+        
 
     }
 
@@ -197,8 +200,7 @@ public class GlooDBManager {
 
         //create a description meta tag out of post summary
 
-        int end = summaryInText.length() > 200 ? 190 : summaryInText.length();
-        String metaTags = "<meta name=\"description\" content=\"" + summaryInText.substring(0,end) + " \" />";
+        String metaTags = "<meta name=\"description\" content=\"" + StringUtils.abbreviate(summaryInText, 300) + " \" />";
 
         java.sql.PreparedStatement pstmt = connection.prepareStatement(GLOO_PAGE_INSERT_SQL);
         pstmt.setString(1, orgId);
@@ -207,7 +209,7 @@ public class GlooDBManager {
 
         pstmt.setString(4, pageName);
         pstmt.setString(5, metaTags);
-        pstmt.setString(6, title );
+        pstmt.setString(6, title);
 
         pstmt.executeUpdate();
         pstmt.close();
