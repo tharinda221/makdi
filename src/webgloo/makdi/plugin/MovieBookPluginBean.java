@@ -1,6 +1,5 @@
 package webgloo.makdi.plugin;
 
-import webgloo.makdi.plugin.IPlugin;
 import webgloo.makdi.drivers.yahoo.YahooAnswerDriver;
 import webgloo.makdi.drivers.google.GoogleBookDriver;
 import webgloo.makdi.drivers.google.GoogleCseDriver;

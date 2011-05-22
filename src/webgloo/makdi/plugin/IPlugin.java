@@ -14,6 +14,7 @@ public interface IPlugin {
     String GOOGLE_HOT_TRENDS = "GOOGLE_HOT_TRENDS";
     String ARCADE_GAMES = "ARCADE_GAMES";
     String MICRO_SITE = "MICRO_SITE";
+    String LIFE_STYLE = "LIFE_STYLE";
     
     String getSiteGuid() ;
     List<IDriver> getDrivers();

@@ -87,10 +87,11 @@ public class Photo implements IData{
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("title = " + this.title + "\n");
-        buffer.append("link = " + this.link + "\n");
-        buffer.append("image link = " + this.imageLink + "\n");
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("title = ").append(this.title).append("\n");
+        buffer.append("link = ").append(this.link).append("\n");
+        buffer.append("image URI = ").append(this.imageLink).append("\n");
+        
         return buffer.toString();
 
     }
