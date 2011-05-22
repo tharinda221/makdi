@@ -161,6 +161,19 @@ public class HtmlGenerator {
 
     }
 
+    public static String generateLifeStyleCode(Photo photo) {
+
+        MyTrace.entry("HtmlGenerator", "generateLifeStyleCode()");
+        StringTemplateGroup group = new StringTemplateGroup("mygroup");
+        StringTemplate st = group.getInstanceOf("webgloo/makdi/data/templates/lifestyle");
+        st.setAttribute("photo", photo);
+
+        MyTrace.exit("HtmlGenerator", "generateLifeStyleCode()");
+
+        return st.toString();
+
+    }
+
     public static String generatePhoto2Code(Photo2 photo2) {
         MyTrace.entry("HtmlGenerator", "generatePhoto2Code()");
         StringTemplateGroup group = new StringTemplateGroup("mygroup");

@@ -1,0 +1,12 @@
+<plugin>
+  <siteDomain>www.abcd.com</siteDomain>
+  <siteName>ABCD site</siteName>
+  <siteGuid>1019</siteGuid>
+  <drivers/>
+  <frontPageDrivers/>
+  <action>TEST</action>
+  <keywords/>
+  <name>LIFE_STYLE</name>
+</plugin>
+
+

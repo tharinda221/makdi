@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.plugin.IPlugin;
-import webgloo.makdi.plugin.microsite.MicroSitePluginBean;
+import webgloo.makdi.plugin.lifestyle.LifestylePluginBean;
 
 /**
  *
@@ -64,7 +64,7 @@ public class ObjectXmlBridge {
     public static void main(String[] args) throws Exception {
 
         ObjectXmlBridge objxml = new ObjectXmlBridge();
-        String xml = objxml.encodeXStreamXml(new MicroSitePluginBean());
+        String xml = objxml.encodeXStreamXml(new LifestylePluginBean());
         System.out.println(xml);
                 
     }

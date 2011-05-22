@@ -4,6 +4,7 @@ import webgloo.makdi.io.ObjectXmlBridge;
 import webgloo.makdi.io.PluginXmlObject;
 import webgloo.makdi.logging.MyTrace;
 import webgloo.makdi.plugin.arcade.ArcadeGamesPlugin;
+import webgloo.makdi.plugin.lifestyle.LifestylePlugin;
 import webgloo.makdi.plugin.trends.google.GoogleHotTrendsPlugin;
 import webgloo.makdi.plugin.microsite.MicroSitePlugin;
 import webgloo.makdi.util.MyUtils;
@@ -43,6 +44,8 @@ public class PluginManager {
             new ArcadeGamesPlugin().invoke(pluginBean);
         } else if (pluginBean.getName().equals(IPlugin.MICRO_SITE)) {
             new MicroSitePlugin().invoke(pluginBean);
+        } else if (pluginBean.getName().equals(IPlugin.LIFE_STYLE)) {
+            new LifestylePlugin().invoke(pluginBean);
         } else {
             throw new Exception(pluginBean.getName() + " plugin not found ");
         }

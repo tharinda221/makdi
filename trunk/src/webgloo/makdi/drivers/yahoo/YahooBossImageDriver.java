@@ -32,6 +32,7 @@ public class YahooBossImageDriver extends YahooBossDriver implements IDriver {
 
     public final static String ENDPOINT_URI = "http://boss.yahooapis.com/ysearch/images/v1/";
     public final static String API_ARGUMENTS = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&dimensions=medium&format=xml";
+    //public final static String API_ARGUMENTS = "\"{token}\"{site}?appid={applicationId}&start={start}&count={count}&format=xml";
 
     public YahooBossImageDriver(String[] siteNames, int startIndex, int maxResults) {
         super(siteNames, startIndex, maxResults);
